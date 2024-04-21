@@ -1,4 +1,4 @@
-# etracker Analytics for Contao CMS (inofficial extension)
+# etracker für Contao CMS (inoffizielles Plugin)
 
 Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden
 
@@ -12,8 +12,6 @@ Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden
 * Setzen der Variable et_pagename je Seite oder automatische Erkennung
 * Setzen der Variable et_areas je Seite oder automatische Ermittlung über die Seitenstruktur
 * Tracking der Formular-Interaktionen (muss in den Formular-Einstellungen aktiviert und konfiguriert werden)
-
-Inspiration: https://www.drupal.org/project/etracker
 
 ## Einschränkungen
 
@@ -29,17 +27,11 @@ Inspiration: https://www.drupal.org/project/etracker
 * deaktivierung Cookie-less tracking
 * Segmente: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
 
-## eigene Notizen
-* Basis: https://github.com/contao/skeleton-bundle
-* daraus abgeleitet ein eigenes (internes) Bundle
-* https://docs.contao.org/dev/getting-started/extension/
-
 ## Voraussetzzungen
 
 * Contao 4.13 oder neuer
 * PHP 8.1 oder höher
 * etracker Konto (kostenpflichtig)
-
 
 ## Installation
 
@@ -47,8 +39,10 @@ Entweder über den Contao Manager oder über composer
 
 ```
 Header set Content-Security-Policy "script-src 'self' https://*.etracker.com https://*.etracker.de 'unsafe-inline'; connect-src https://*.etracker.de"
+```
 
 Bei Verwendung der Scrollmap sollte zudem noch das Einbetten in einen iframe erlaubt werden:
 
+```
 Header set Content-Security-Policy "frame-ancestors https://*.etracker.com; script-src 'self' https://*.etracker.com https://*.etracker.de 'unsafe-inline'; connect-src https://*.etracker.de"
 ```
