@@ -1,0 +1,18 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+<input type="checkbox" data-tld="{{ etracker_tld }}" id="trackingAllowed" value="true"/>
+<span>Tracking erlauben</span>
+<script type="text/javascript" nonce="{{ csp_nonce('script') }}">
+    function initTrackingCheckBox(id) {
+        const checkBox = document.getElementById(id);
+        checkBox.checked = _etracker.isTrackingEnabled();
+        checkBox.onclick = function () {
+            const tld = this.getAttribute('data-tld');
+            this.checked ? _etracker.enableTracking(tld) : _etracker.disableTracking(tld);
+        };
+    }
+
+    initTrackingCheckBox('trackingAllowed');
+</script>
+<?php $this->endblock(); ?>

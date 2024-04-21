@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autoconfigure: true
+    autowire: true
+
+  Xenbyte\ContaoEtracker\EventListener\:
+    resource: ../src/EventListener/*
+    public: true
+#  Xenbyte\ContaoEtracker\Controller\:
+#    resource: ../src/Controller/*
+#    public: true

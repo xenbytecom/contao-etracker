@@ -1,0 +1,60 @@
+{
+    "name": "xenbytecom/contao-etracker",
+    "description": "etracker plugin for Contao Open Source CMS",
+    "keywords": ["etracker", "contao"],
+    "license": "LGPL-3.0-or-later",
+    "type": "contao-bundle",
+    "authors": [
+        {
+            "name": "Xenbyte",
+            "homepage": "https://github.com/xenbytecom"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/xenbytecom/contao-etracker/issues",
+        "source": "https://github.com/xenbytecom/contao-etracker"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-dom": "*",
+        "contao/core-bundle": "^4.13 || ^5.0",
+        "contao/manager-bundle": "^4.13 || ^5.0"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "php-http/discovery": false
+        }
+    },
+    "require-dev": {
+        "contao/easy-coding-standard": "^6.13",
+        "contao/manager-plugin": "^2.0",
+        "contao/test-case": "^4.13 || ^5.0",
+        "phpunit/phpunit": "^9.3",
+        "symfony/phpunit-bridge": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xenbyte\\ContaoEtracker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Xenbyte\\ContaoEtracker\\Tests\\": "tests/"
+        }
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "extra": {
+        "contao-manager-plugin": "Xenbyte\\ContaoEtracker\\ContaoManager\\Plugin"
+    },
+    "scripts": {
+        "ecs": "@php vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
+        "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze src --ansi",
+        "unit-tests": "@php vendor/bin/phpunit --colors=always"
+    }
+}

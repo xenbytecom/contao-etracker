@@ -1,0 +1,202 @@
+<?php
+
+/*
+ * etracker plugin for Contao
+ *
+ * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Xenbyte\ContaoEtracker\EventListener;
+
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\FrontendTemplate;
+use Contao\LayoutModel;
+use Contao\PageModel;
+use Contao\PageRegular;
+use Contao\System;
+use Contao\User;
+
+#[AsHook('generatePage')]
+class GeneratePageListener
+{
+    public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
+    {
+        /** @var PageModel $rootPage */
+        $rootPage = PageModel::findById($pageModel->rootId);
+
+        // TODO: Komplette Struktur ermitteln und durchlaufen siehe
+        // https://github.com/trilobit-gmbh/contao-headerfootercode-bundle/blob/main/src/EventListener/ParseTemplateListener.php
+        // et_cdi könnte für Frontend-User genutzt werden; muss gehasht werden und
+        // explizit aktiviert werden Stichwort Geräteübergreifende
+        // Besucher-Zusammenführung (Cross-Device Tracking) für eingeloggte
+        // Frontend-Benutzer Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
+        if (self::isTrackingEnabled()) {
+            $objTemplate = new FrontendTemplate('analytics_etracker');
+
+            $objTemplate->{'et_script'} = $this->getScriptCode($rootPage);
+            $objTemplate->{'et_params'} = $this->getParameters($rootPage, $pageModel);
+
+            $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+        }
+    }
+
+    /**
+     * Baut das Script-Element via PHP zusammen.
+     *
+     * @throws \DOMException
+     */
+    public function getScriptCode(PageModel $rootPage): string
+    {
+        $document = new \DOMDocument();
+        $script = $document->createElement('script');
+        $script->setAttribute('type', 'text/javascript');
+        $script->setAttribute('charset', 'UTF-8');
+        $script->setAttribute('id', '_etLoader');
+
+        // @see
+        // https://www.etracker.com/docs/faq/eu-dsgvo/cookie-less-cookies/wie-setze-ich-etracker-ohne-cookies-ein/
+        // @see
+        // https://www.etracker.com/docs/faq/eu-dsgvo/cookie-less-cookies/wie-aktiviere-ich-cookies/
+        $script->setAttribute('data-block-cookies', 'true');
+
+        //        $script->setAttribute('data-cookie-lifetime', '24'); // standard:
+        // 24 = 24 Monate        $script->setAttribute('data-cookie-upgrade-url',
+        // htmlspecialchars($cookieUpgradeURL)); @see
+        // https://www.etracker.com/tipp-der-woche-do-not-track/
+        if (true === (bool) $rootPage->{'et_donottrack'}) {
+            $script->setAttribute('data-respect-dnt', 'true');
+        }
+
+        // @see
+        // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#Standardintegration
+        $script->setAttribute('data-secure-code', $rootPage->{'et_account_key'});
+
+        if (true === (bool) $rootPage->{'et_optimiser'}) {
+            $script->setAttribute('data-enable-eo', 'true');
+        }
+
+        // Mozilla Observatory complains protocol-relative URLs, if Subresource Integrity
+        // (SRI) is not implemented
+        $host = $rootPage->{'et_domain'} ?: 'code.etracker.com';
+        $src = '//'.$host.'/code/e.js';
+        if ($rootPage->rootUseSSL && !str_starts_with($src, 'http')) {
+            $src = 'https:'.$src;
+        }
+
+        $script->setAttribute('src', $src);
+        $script->setAttribute('async', '');
+        $document->append($script);
+        $document->normalize();
+
+        return $document->saveHTML();
+    }
+
+    /**
+     * Ermitteln den JavaScript-Inhalt mit den etracker-Parametern.
+     */
+    public function getParameters(PageModel $rootPage, PageModel $currentPage): string
+    {
+        $paramCode = '';
+
+        // Seitenname @see
+        // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
+        $pagename = $this->getPagename($currentPage);
+        if ('' !== $pagename) {
+            $paramCode .= 'var et_pagename = "'.rawurlencode(trim($pagename)).'";'.PHP_EOL;
+        }
+
+        // Bereiche
+        $areas = $this->getParentAreas($currentPage);
+        if (\count($areas) > 0) {
+            $paramCode .= 'var et_areas = "'.implode('/', $areas).'";'.PHP_EOL;
+            //            $paramCode .= 'var et_areas = "' . rawurlencode(implode('/',
+            // $areas)) . '";' . PHP_EOL;
+        }
+
+        // Debug-Modus
+        if ('enabled' === $rootPage->{'et_debug'} || ('backend-user' === $rootPage->{'et_debug'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
+            $paramCode .= 'var _etr = { debugMode: true };';
+        }
+
+        // Frontend-User-Information für Cross-Device-Tracking übergeben @see
+        // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
+        $feUser = System::getContainer()->get('security.helper')?->getUser();
+        if ($feUser instanceof User && '1' === $rootPage->{'et_cdi_feuser'}) {
+            $paramCode .= 'var et_cdi = "'.md5($feUser->getUserIdentifier()).'";'.PHP_EOL;
+        }
+
+        // @see
+        // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
+        // $feUser->gender könnte als eigenes Segment genutzt werden weitere denkbare
+        // Segmente: Benutzersprache, Seitensprache, Benutzergruppe (geht aber nur eine),
+        // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
+        // [Dropdown], Segment 2: [Dropdown], ...
+
+        $paramCode .= 'var _etrackerOnReady = [];';
+
+        if (\is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
+            $jumpToId = $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['JUMPTO'];
+
+            if ($jumpToId === $currentPage->id) {
+                // @see
+                // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
+                $paramCode .= 'etForm.sendEvent("formConversion", '.$_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['NAME'].');';
+
+                // FORM_DATA zurücksetzen, damit das Event kein zweites Mal getriggert wird
+                unset($_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']);
+            }
+        }
+
+        return $paramCode;
+    }
+
+    /**
+     * Ermittelt, ob das Tracking für die aktuelle Root-Page erlaubt/aktiviert ist.
+     */
+    public static function isTrackingEnabled(): bool
+    {
+        $rootPage = PageModel::findById($GLOBALS['objPage']->rootId);
+        if (!$rootPage instanceof PageModel) {
+            return false;
+        }
+
+        // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
+        $beHide = $rootPage->{'et_exclude_beuser'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser();
+        $feHide = $rootPage->{'et_exclude_feuser'} && System::getContainer()->get('security.helper')?->getUser() instanceof User;
+
+        return $rootPage->{'et_active'} && '' !== $rootPage->{'et_account_key'} && false === $beHide && false === $feHide;
+    }
+
+    private function getPagename(PageModel $page): string
+    {
+        return trim((string) $page->{'et_pagename'}) ?: $page->{'pageTitle'} ?: $page->{'title'};
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getParentAreas(PageModel $page): array
+    {
+        $areas = [];
+        $parentPages = PageModel::findParentsById($page->id);
+
+        foreach ($parentPages as $parent) {
+            if ($parent->id === $page->id) {
+                continue;
+            }
+
+            if ('root' === $parent->type && '' === $parent->{'et_area'}) {
+                continue;
+            }
+
+            $areas[] = trim((string) $parent->{'et_area'}) ?: $this->getPagename($parent);
+        }
+
+        return array_reverse($areas);
+    }
+}

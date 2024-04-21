@@ -1,0 +1,46 @@
+name: CI
+
+on: [push]
+
+jobs:
+    ecs:
+        name: ECS
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.1
+                    extensions: dom
+                    coverage: none
+
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Install the dependencies
+                run: composer install --no-interaction --no-progress
+
+            -   name: Run ECS
+                run: composer run check-cs
+
+    phpunit:
+        runs-on: ${{ matrix.operating-system }}
+        strategy:
+            matrix:
+                operating-system: [ 'ubuntu-latest', 'windows-latest', 'macos-latest' ]
+                php-versions: [ '8.1', '8.2', '8.3' ]
+                phpunit-versions: [ 'latest' ]
+                include:
+                    -   operating-system: 'ubuntu-latest'
+                        php-versions: '8.0'
+                        phpunit-versions: 9
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-versions }}
+                    extensions: dom
+                    coverage: xdebug
+                    tools: phpunit:${{ matrix.phpunit-versions }}
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
