@@ -15,6 +15,7 @@ declare(strict_types=1);
 $GLOBALS['TL_LANG']['tl_page']['etracker_legend'] = 'etracker';
 
 // fields
+$GLOBALS['TL_LANG']['tl_page']['etrackerEnable'] = ['enable etracker', 'enables the etracker integration'];
 $GLOBALS['TL_LANG']['tl_page']['et_rootpage_area'] = ['Bereich-Name', 'optionaler Name der obersten Ebene, z. B. Länder-Code für mehrsprachige Seite'];
 $GLOBALS['TL_LANG']['tl_page']['et_areas'] = ['Bereiche', 'durch "/" getrennte Bereiche, max. 5 Ebenen'];
 $GLOBALS['TL_LANG']['tl_page']['et_debug'] = ['Debug mode', 'enables debug mode'];

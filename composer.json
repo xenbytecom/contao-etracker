@@ -54,7 +54,7 @@
     },
     "scripts": {
         "ecs": "@php vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
-        "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze src --ansi",
+        "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze --ansi --no-progress",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
     }
 }

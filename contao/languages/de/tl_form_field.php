@@ -15,5 +15,5 @@ declare(strict_types=1);
 $GLOBALS['TL_LANG']['tl_form_field']['etracker_legend'] = 'etracker';
 
 // fields
-$GLOBALS['TL_LANG']['tl_form_field']['et_form_fieldname'] = ['abweichender Name', 'Name des Formularfeldes (sonst Feldbezeichnung oder Feldname)'];
-$GLOBALS['TL_LANG']['tl_form_field']['et_form_section'] = ['Name der "Sektion"', '(Standard: "Standard")'];
+$GLOBALS['TL_LANG']['tl_form_field']['etrackerFieldname'] = ['abweichender Name', 'Name des Formularfeldes (sonst Feldbezeichnung oder Feldname)'];
+$GLOBALS['TL_LANG']['tl_form_field']['etrackerFormSection'] = ['Name der "Sektion"', '(Standard: "Standard")'];

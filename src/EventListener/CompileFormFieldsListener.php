@@ -35,7 +35,8 @@ class CompileFormFieldsListener
         // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist TODO: Am besten
         // wäre es, wenn die Events nicht erzeugt werden, wenn das Formular schon ohne
         // HTML5 validiert wurde. Sonst doppelte Read-Ereignisse
-        if ($trackingEnabled && 1 === $form->{'et_form_tracking'}) {
+        $formTracking = (bool) $form->{'etrackerFormTracking'};
+        if ($trackingEnabled && $formTracking) {
             $objTemplate = new FrontendTemplate('analytics_etracker_events');
 
             $objTemplate->{'et_event_script'} = $this->getScript($fields, $form);
@@ -44,6 +45,7 @@ class CompileFormFieldsListener
         }
 
         foreach ($fields as $field) {
+            // etracker field name as data attribute
             $field->{'data-et-name'} = $this->getFieldName($field);
         }
 
@@ -57,10 +59,10 @@ class CompileFormFieldsListener
     {
         $script = 'let etFormObjects = [];'.PHP_EOL;
         $etFormFields = [];
-        $formName = $form->{'et_form_name'} ?: $form->title;
-        //        $formIds = []; Informationen zum Formular in die Session schreiben, um
-        // bei der Validierung und nach dem erfolgreichen Abseden darauf zurückgreifen
-        // zu können
+        $formName = $form->{'etrackerFormName'} ?: $form->title;
+        $sectionName = $form->{'etrackerSectionName'} ?: 'Standard';
+        // Informationen zum Formular in die Session schreiben, um bei der Validierung und
+        // nach dem erfolgreichen Abseden darauf zurückgreifen zu können
         $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA'] = [
             'NAME' => $formName,
             'JUMPTO' => $form->jumpTo,
@@ -68,7 +70,7 @@ class CompileFormFieldsListener
         ];
 
         foreach ($fields as $field) {
-            if (1 === $field->{'et_field_ignore'} || \in_array($field->type, ['hidden', 'captcha', 'fieldsetStart', 'fieldsetStop'], true)) {
+            if (1 === $field->{'etrackerIgnoreField'} || \in_array($field->type, ['hidden', 'captcha', 'fieldsetStart', 'fieldsetStop'], true)) {
                 continue;
             }
 
@@ -83,15 +85,12 @@ class CompileFormFieldsListener
                 'type' => $field->type,
             ];
 
-            //            $formIds[] = "document.getElementById('ctrl_" . $field->id . "')";
             $script .= "etFormObjects.push(document.getElementById('ctrl_".$field->id."'));";
         }
 
-        // geht so nicht, weil document... als string hinzugefügt wird $script .= 'let
-        // etFormObjects = '.json_encode($formIds, JSON_THROW_ON_ERROR).';' . PHP_EOL;
-        $script .= '_etracker.sendEvent(new et_UserDefinedEvent('.$formName.", 'Formular', 'Formular aufgerufen'));";
+        $script .= "_etracker.sendEvent(new et_UserDefinedEvent('".$formName."', 'Formular', 'Formular aufgerufen'));";
         $script .= "etFormObjects.forEach(formField => formField.addEventListener('change', (evt) => {".
-             "etForm.sendEvent('formFieldInteraction', ".$formName.', {'."'sectionName': 'Standard',".
+             "etForm.sendEvent('formFieldInteraction', '".$formName."', {'sectionName': '".$sectionName."',".
              "'sectionField': { 'name': evt.target.getAttribute(\"data-et-name\"), 'type': evt.target.type }".'});'.
                    '}));';
         $script .= "etForm.sendEvent('formFieldsView', '"

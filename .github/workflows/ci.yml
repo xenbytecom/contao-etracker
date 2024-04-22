@@ -1,6 +1,8 @@
 name: CI
 
-on: [push]
+on:
+    pull_request: ~
+    push: ~
 
 jobs:
     ecs:
@@ -10,9 +12,11 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1
+                    php-version: 8.3
                     extensions: dom
                     coverage: none
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Checkout
                 uses: actions/checkout@v3
@@ -22,6 +26,30 @@ jobs:
 
             -   name: Run ECS
                 run: composer run ecs
+
+    phpstan:
+        name: PHPStan
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.3
+                    extensions: dom
+                    coverage: none
+
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Install the dependencies
+                run: |
+                    composer install --no-interaction --no-progress
+                    cd tools/phpstan
+                    composer install --no-interaction --no-progress
+                    cd ../..
+
+            -   name: Run PHPStan
+                run: composer phpstan
 
     phpunit:
         runs-on: ${{ matrix.operating-system }}

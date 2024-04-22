@@ -29,12 +29,6 @@ class GeneratePageListener
         /** @var PageModel $rootPage */
         $rootPage = PageModel::findById($pageModel->rootId);
 
-        // TODO: Komplette Struktur ermitteln und durchlaufen siehe
-        // https://github.com/trilobit-gmbh/contao-headerfootercode-bundle/blob/main/src/EventListener/ParseTemplateListener.php
-        // et_cdi könnte für Frontend-User genutzt werden; muss gehasht werden und
-        // explizit aktiviert werden Stichwort Geräteübergreifende
-        // Besucher-Zusammenführung (Cross-Device Tracking) für eingeloggte
-        // Frontend-Benutzer Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
         if (self::isTrackingEnabled()) {
             $objTemplate = new FrontendTemplate('analytics_etracker');
 
@@ -68,21 +62,21 @@ class GeneratePageListener
         // 24 = 24 Monate        $script->setAttribute('data-cookie-upgrade-url',
         // htmlspecialchars($cookieUpgradeURL)); @see
         // https://www.etracker.com/tipp-der-woche-do-not-track/
-        if (true === (bool) $rootPage->{'et_donottrack'}) {
+        if (true === (bool) $rootPage->{'etrackerDoNotTrack'}) {
             $script->setAttribute('data-respect-dnt', 'true');
         }
 
         // @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#Standardintegration
-        $script->setAttribute('data-secure-code', $rootPage->{'et_account_key'});
+        $script->setAttribute('data-secure-code', $rootPage->{'etrackerAccountKey'});
 
-        if (true === (bool) $rootPage->{'et_optimiser'}) {
+        if (true === (bool) $rootPage->{'etrackerOptimiser'}) {
             $script->setAttribute('data-enable-eo', 'true');
         }
 
         // Mozilla Observatory complains protocol-relative URLs, if Subresource Integrity
         // (SRI) is not implemented
-        $host = $rootPage->{'et_domain'} ?: 'code.etracker.com';
+        $host = $rootPage->{'etrackerTrackingDomain'} ?: 'code.etracker.com';
         $src = '//'.$host.'/code/e.js';
         if ($rootPage->rootUseSSL && !str_starts_with($src, 'http')) {
             $src = 'https:'.$src;
@@ -119,14 +113,14 @@ class GeneratePageListener
         }
 
         // Debug-Modus
-        if ('enabled' === $rootPage->{'et_debug'} || ('backend-user' === $rootPage->{'et_debug'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
+        if ('enabled' === $rootPage->{'etrackerDebug'} || ('backend-user' === $rootPage->{'etrackerDebug'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
             $paramCode .= 'var _etr = { debugMode: true };';
         }
 
         // Frontend-User-Information für Cross-Device-Tracking übergeben @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
         $feUser = System::getContainer()->get('security.helper')?->getUser();
-        if ($feUser instanceof User && '1' === $rootPage->{'et_cdi_feuser'}) {
+        if ($feUser instanceof User && '1' === $rootPage->{'etrackerCDIFEUser'}) {
             $paramCode .= 'var et_cdi = "'.md5($feUser->getUserIdentifier()).'";'.PHP_EOL;
         }
 
@@ -165,16 +159,21 @@ class GeneratePageListener
             return false;
         }
 
-        // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
-        $beHide = $rootPage->{'et_exclude_beuser'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser();
-        $feHide = $rootPage->{'et_exclude_feuser'} && System::getContainer()->get('security.helper')?->getUser() instanceof User;
+        $enabled = (bool) $rootPage->{'etrackerEnable'};
+        $excludeBeUser = (bool) $rootPage->{'etrackerExcludeBEUser'};
+        $excludeFeUser = (bool) $rootPage->{'etrackerExcludeFEUser'};
 
-        return $rootPage->{'et_active'} && '' !== $rootPage->{'et_account_key'} && false === $beHide && false === $feHide;
+        // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
+        $beHide = $excludeBeUser && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser();
+
+        $feHide = $excludeFeUser && System::getContainer()->get('security.helper')?->getUser() instanceof User;
+
+        return $enabled && '' !== $rootPage->{'etrackerAccountKey'} && false === $beHide && false === $feHide;
     }
 
     private function getPagename(PageModel $page): string
     {
-        return trim((string) $page->{'et_pagename'}) ?: $page->{'pageTitle'} ?: $page->{'title'};
+        return trim((string) $page->{'etrackerPagename'}) ?: $page->{'pageTitle'} ?: $page->{'title'};
     }
 
     /**
@@ -190,11 +189,11 @@ class GeneratePageListener
                 continue;
             }
 
-            if ('root' === $parent->type && '' === $parent->{'et_area'}) {
+            if ('root' === $parent->type && '' === $parent->{'etrackerAreaname'}) {
                 continue;
             }
 
-            $areas[] = trim((string) $parent->{'et_area'}) ?: $this->getPagename($parent);
+            $areas[] = trim((string) $parent->{'etrackerAreaname'}) ?: $this->getPagename($parent);
         }
 
         return array_reverse($areas);

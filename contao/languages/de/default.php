@@ -12,9 +12,9 @@
 declare(strict_types=1);
 
 // label for extenion list in settings
-$GLOBALS['TL_LANG']['CTE']['etracker_optout'] = [
+$GLOBALS['TL_LANG']['CTE']['etrackerOptOut'] = [
     'etracker Optout',
     'Optout-Switch für etracker',
 ];
 
-$GLOBALS['TL_LANG']['MOD']['etracker_optout'] = ['etracker OptOut'];
+$GLOBALS['TL_LANG']['MOD']['etrackerOptOut'] = ['etracker OptOut'];

@@ -13,33 +13,50 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
+// Palettes
+$GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'etrackerEnable';
+
+$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerOptimiser,etrackerAreaname,etrackerDoNotTrack,etrackerNoJquery,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser';
+
+
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
-    ->addField(['et_active'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_optimiser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_account_key'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_debug'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_domain'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_area'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_donottrack'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_nojquery'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_exclude_feuser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_exclude_beuser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_cdi_feuser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerOptimizer'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerAccountKey'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerDebug'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerDomain'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerArea'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerDoNotTrack'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerNoJquery'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerExcludeFEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerExcludeBEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+//    ->addField(['etrackerCDIFEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('root', 'tl_page')
     ->applyToPalette('rootfallback', 'tl_page')
 ;
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
-    ->addField(['et_pagename'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_area'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_areas'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerPagename'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerAreaname'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerAreas'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('regular', 'tl_page')
 ;
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_account_key'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_account_key'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEnable'] = [
+    'exclude' => true,
+    'inputType' => 'checkbox',
+    'eval' => [
+        'tl_class' => 'w50',
+        'submitOnChange' => true,
+    ],
+    'sql' => [
+        'type' => 'boolean',
+        'default' => false,
+    ],
+];
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAccountKey'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -49,8 +66,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_account_key'] = [
     'sql' => 'varchar(16) NOT NULL default \'\'',
 ];
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_optimiser'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_optimiser'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerOptimiser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
@@ -59,8 +75,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_optimiser'] = [
     'sql' => 'char(1) NOT NULL default 0',
 ];
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_domain'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_domain'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDomain'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -69,8 +84,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_domain'] = [
     ],
     'sql' => 'varchar(50) NOT NULL default \'\'',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_tracking_domain'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_tracking_domain'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerTrackingDomain'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -79,52 +93,28 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_tracking_domain'] = [
     ],
     'sql' => 'varchar(50) NOT NULL default \'\'',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_active'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_active'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCookieless'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
         'tl_class' => 'w50',
     ],
-    'sql' => [
-        'type' => 'boolean',
-        'default' => false,
-    ],
-];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_user_id'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_user_id'],
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => [
-        'tl_class' => 'w50',
-    ],
-    'sql' => [
-        'type' => 'boolean',
-        'default' => false,
-    ],
-];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_cookieless'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_cookieless'],
-    'exclude' => true,
-    'inputType' => 'checkbox',
     'sql' => [
         'type' => 'boolean',
         'default' => true,
     ],
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_debug'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_debug'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDebug'] = [
     'exclude' => true,
     'inputType' => 'select',
     'eval' => [
         'tl_class' => 'w50',
     ],
     'options' => ['enabled', 'backend-user', 'disabled'],
-    'reference' => &$GLOBALS['TL_LANG']['tl_page']['et_debug']['options'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_page']['etrackerDebug']['options'],
     'sql' => 'varchar(15) NOT NULL default \'disabled\'',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_pagename'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_pagename'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerPagename'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -132,8 +122,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_pagename'] = [
     ],
     'sql' => 'varchar(255) NULL default NULL',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_area'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_area'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAreaname'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -141,8 +130,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_area'] = [
     ],
     'sql' => 'varchar(50) NULL default NULL',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_areas'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_areas'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAreas'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -150,39 +138,58 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['et_areas'] = [
     ],
     'sql' => 'varchar(255) NULL default NULL',
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_nojquery'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_nojquery'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerNoJquery'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
         'tl_class' => 'w50',
     ],
-    'sql' => 'char(1) NOT NULL default 0',
+    'sql' => [
+        'type' => 'boolean',
+        'default' => false,
+    ],
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_donottrack'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_donottrack'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDoNotTrack'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
         'tl_class' => 'w50',
     ],
-    'sql' => 'char(1) NOT NULL default 0',
+    'sql' => [
+        'type' => 'boolean',
+        'default' => false,
+    ],
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_exclude_feuser'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_exclude_feuser'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeFEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
         'tl_class' => 'w50',
     ],
-    'sql' => 'char(1) NOT NULL default 0',
+    'sql' => [
+        'type' => 'boolean',
+        'default' => false,
+    ],
 ];
-$GLOBALS['TL_DCA']['tl_page']['fields']['et_exclude_beuser'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['et_exclude_beuser'],
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeBEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
         'tl_class' => 'w50',
     ],
-    'sql' => 'char(1) NOT NULL default 0',
+    'sql' => [
+        'type' => 'boolean',
+        'default' => true,
+    ],
+];
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCDIFEUser'] = [
+    'exclude' => true,
+    'inputType' => 'checkbox',
+    'eval' => [
+        'tl_class' => 'w50',
+    ],
+    'sql' => [
+        'type' => 'boolean',
+        'default' => false,
+    ],
 ];

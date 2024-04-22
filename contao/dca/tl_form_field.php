@@ -15,8 +15,8 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'template_legend')
-    ->addField(['et_form_fieldname'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['et_form_section'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerFieldname'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerFormSection'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('text', 'tl_form_field')
     ->applyToPalette('textdigit', 'tl_form_field')
     ->applyToPalette('textcustom', 'tl_form_field')
@@ -32,8 +32,7 @@ PaletteManipulator::create()
     ->applyToPalette('captcha', 'tl_form_field')
 ;
 
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['et_field_ignore'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_form_field']['et_field_ignore'],
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['etrackerIgnoreField'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'sql' => [
@@ -41,8 +40,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['et_field_ignore'] = [
         'default' => false,
     ],
 ];
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['et_form_fieldname'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_form_field']['et_form_fieldname'],
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['etrackerFormFieldname'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [
@@ -51,8 +49,7 @@ $GLOBALS['TL_DCA']['tl_form_field']['fields']['et_form_fieldname'] = [
     ],
     'sql' => 'varchar(50) NOT NULL default \'\'',
 ];
-$GLOBALS['TL_DCA']['tl_form_field']['fields']['et_form_section'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_form_field']['et_form_section'],
+$GLOBALS['TL_DCA']['tl_form_field']['fields']['etrackerFormSection'] = [
     'exclude' => true,
     'inputType' => 'text',
     'eval' => [

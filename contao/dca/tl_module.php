@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['etracker_optout'] =
+$GLOBALS['TL_DCA']['tl_module']['palettes']['etrackerOptOut'] =
     '{title_legend},name,headline;etracker_tld';
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['etracker_tld'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['etracker_tld'],
+$GLOBALS['TL_DCA']['tl_module']['fields']['etrackerTLD'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_page']['etrackerTLD'],
     'inputType' => 'text',
     'eval' => [
         'size' => 50,
