@@ -2,7 +2,8 @@
 
 Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden
 
-Es handelt sich noch um eine Vorab-Version.
+Es handelt sich noch um eine Vorab-Version, die derzeit nur mit Contao 5 kompatibel ist. Eine Kompatibilität 
+zu Contao 4.13 ist geplant.
 
 ## Features
 
@@ -30,7 +31,7 @@ Es handelt sich noch um eine Vorab-Version.
 
 ## Voraussetzzungen
 
-* Contao 4.13 oder neuer
+* Contao 5.3 oder neuer
 * PHP 8.1 oder höher
 * etracker Konto (kostenpflichtig)
 

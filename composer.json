@@ -17,8 +17,8 @@
     "require": {
         "php": "^8.0",
         "ext-dom": "*",
-        "contao/core-bundle": "^4.13 || ^5.0",
-        "contao/manager-bundle": "^4.13 || ^5.0"
+        "contao/core-bundle": "^5.3",
+        "contao/manager-bundle": "^5.3"
     },
     "config": {
         "sort-packages": true,

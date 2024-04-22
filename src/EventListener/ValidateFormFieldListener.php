@@ -42,7 +42,7 @@ class ValidateFormFieldListener
 
     public function getScript(Widget $widget, Form $form): string
     {
-        if (\is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
+        if (\array_key_exists('FORM_DATA', $_SESSION) && \is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
             if ($form->id === $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['FORMID']) {
                 // @see
                 // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions

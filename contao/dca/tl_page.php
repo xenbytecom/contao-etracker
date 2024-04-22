@@ -48,7 +48,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEnable'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
         'submitOnChange' => true,
     ],
     'sql' => [
@@ -70,7 +70,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerOptimiser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => 'char(1) NOT NULL default 0',
 ];
@@ -97,7 +97,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCookieless'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -142,7 +142,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerNoJquery'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -153,7 +153,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDoNotTrack'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -164,7 +164,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeFEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -175,7 +175,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeBEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -186,7 +186,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCDIFEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50',
+        'tl_class' => 'w50 cbx m12',
     ],
     'sql' => [
         'type' => 'boolean',

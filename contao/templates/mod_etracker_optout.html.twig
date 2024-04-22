@@ -3,7 +3,7 @@
 <?php $this->block('content'); ?>
 <input type="checkbox" data-tld="{{ etracker_tld }}" id="trackingAllowed" value="true"/>
 <span>Tracking erlauben</span>
-<script type="text/javascript">
+<script type="text/javascript"{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}>
     function initTrackingCheckBox(id) {
         const checkBox = document.getElementById(id);
         checkBox.checked = _etracker.isTrackingEnabled();

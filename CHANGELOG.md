@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [0.2.1]
+
+### Changed
+
+- Re-Added CSP nonce, because CSP nonce wasn't added to the code. With this change, the plugin is currently only compatible with Contao 5.3
+
 ## [0.2.0]
 
 ### Changed
