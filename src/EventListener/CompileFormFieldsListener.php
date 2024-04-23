@@ -61,8 +61,8 @@ class CompileFormFieldsListener
         $etFormFields = [];
         $formName = $form->{'etrackerFormName'} ?: $form->title;
         $sectionName = $form->{'etrackerSectionName'} ?: 'Standard';
-        // Informationen zum Formular in die Session schreiben, um bei der Validierung und
-        // nach dem erfolgreichen Abseden darauf zurückgreifen zu können
+        // Informationen zum Formular in die Session schreiben, um bei der Validierung
+        // und nach dem erfolgreichen Abseden darauf zurückgreifen zu können
         $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA'] = [
             'NAME' => $formName,
             'JUMPTO' => $form->jumpTo,

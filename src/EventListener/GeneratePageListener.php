@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\FrontendTemplate;
 use Contao\LayoutModel;
 use Contao\PageModel;
@@ -21,7 +22,7 @@ use Contao\PageRegular;
 use Contao\System;
 use Contao\User;
 
-#[AsHook('generatePage')]
+#[AsHook('generatePage', priority: -5)]
 class GeneratePageListener
 {
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -171,9 +172,29 @@ class GeneratePageListener
         return $enabled && '' !== $rootPage->{'etrackerAccountKey'} && false === $beHide && false === $feHide;
     }
 
-    private function getPagename(PageModel $page): string
+    /**
+     * Gets the name of the page.
+     *
+     * @param bool $readHeadBag If the HtmlHeadBag should be used to detect the page name
+     */
+    private function getPagename(PageModel $page, bool $readHeadBag = true): string
     {
-        return trim((string) $page->{'etrackerPagename'}) ?: $page->{'pageTitle'} ?: $page->{'title'};
+        $etPagename = trim((string) $page->{'etrackerPagename'});
+        if ('' !== $etPagename) {
+            return $etPagename;
+        }
+
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
+        if ($readHeadBag && null !== $responseContext && $responseContext?->has(HtmlHeadBag::class)) {
+            /** @var HtmlHeadBag $htmlHeadBag */
+            $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
+
+            // Read the title from HtmlHeadBag to get the title of news, events etc. instead
+            // of the page name
+            return $htmlHeadBag->getTitle();
+        }
+
+        return $page->{'pageTitle'} ?: $page->{'title'};
     }
 
     /**
@@ -193,7 +214,7 @@ class GeneratePageListener
                 continue;
             }
 
-            $areas[] = trim((string) $parent->{'etrackerAreaname'}) ?: $this->getPagename($parent);
+            $areas[] = trim((string) $parent->{'etrackerAreaname'}) ?: $this->getPagename($parent, false);
         }
 
         return array_reverse($areas);
