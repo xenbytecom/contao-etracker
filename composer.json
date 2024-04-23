@@ -17,8 +17,7 @@
     "require": {
         "php": "^8.0",
         "ext-dom": "*",
-        "contao/core-bundle": "^5.3",
-        "contao/manager-bundle": "^5.3"
+        "contao/core-bundle": "^5.3"
     },
     "config": {
         "sort-packages": true,
@@ -26,10 +25,12 @@
             "contao-components/installer": true,
             "contao/manager-plugin": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "php-http/discovery": false
+            "php-http/discovery": false,
+            "bamarni/composer-bin-plugin": true
         }
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.5",
         "contao/easy-coding-standard": "^6.13",
         "contao/manager-plugin": "^2.0",
         "contao/test-case": "^4.13 || ^5.0",
@@ -50,10 +51,14 @@
         "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "extra": {
+        "bamarni-bin": {
+            "bin-links": false,
+            "target-directory": "tools"
+        },
         "contao-manager-plugin": "Xenbyte\\ContaoEtracker\\ContaoManager\\Plugin"
     },
     "scripts": {
-        "ecs": "@php vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
+        "ecs": "@php tools/ecs/vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
         "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze --ansi --no-progress",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
     }
