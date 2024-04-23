@@ -133,7 +133,7 @@ class GeneratePageListener
 
         $paramCode .= 'var _etrackerOnReady = [];';
 
-        if (\array_key_exists('FORM_DATA', $_SESSION) && \is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
+        if (isset($_SESSION) && \array_key_exists('FORM_DATA', $_SESSION) && \is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
             $jumpToId = $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['JUMPTO'];
 
             if ($jumpToId === $currentPage->id) {
@@ -189,7 +189,7 @@ class GeneratePageListener
                 continue;
             }
 
-            if ('root' === $parent->type && '' === $parent->{'etrackerAreaname'}) {
+            if ('root' === $parent->type && '' === (string) $parent->{'etrackerAreaname'}) {
                 continue;
             }
 
