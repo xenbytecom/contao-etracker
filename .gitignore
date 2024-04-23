@@ -1,5 +1,5 @@
 .idea
 .phpunit.result.cache
-composer.lock
+/composer.lock
 /tools/*/vendor
 /vendor
