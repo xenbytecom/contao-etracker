@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ### Added
 
 - JavaScript for optout
+- Contao 4.13 compatibility
 
 ### Changed
 
