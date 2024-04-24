@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0bdf8ad6617463c724de8f93182355a",
+    "content-hash": "696691d82850b93a57a63ce8800fa496",
     "packages": [
         {
             "name": "ausi/slug-generator",
@@ -340,16 +340,16 @@
         },
         {
             "name": "contao-components/ace",
-            "version": "1.33.0",
+            "version": "1.33.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao-components/ace.git",
-                "reference": "a0922d6fbb61dfb36d9ef67b2f703ad59024df32"
+                "reference": "7bf6e76a88816b6eac637f061ec2f1a8846613b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contao-components/ace/zipball/a0922d6fbb61dfb36d9ef67b2f703ad59024df32",
-                "reference": "a0922d6fbb61dfb36d9ef67b2f703ad59024df32",
+                "url": "https://api.github.com/repos/contao-components/ace/zipball/7bf6e76a88816b6eac637f061ec2f1a8846613b9",
+                "reference": "7bf6e76a88816b6eac637f061ec2f1a8846613b9",
                 "shasum": ""
             },
             "require": {
@@ -369,9 +369,9 @@
             "description": "ACE code editor integration for Contao Open Source CMS",
             "support": {
                 "issues": "https://github.com/contao-components/ace/issues",
-                "source": "https://github.com/contao-components/ace/tree/1.33.0"
+                "source": "https://github.com/contao-components/ace/tree/1.33.1"
             },
-            "time": "2024-04-19T10:01:46+00:00"
+            "time": "2024-04-24T07:19:34+00:00"
         },
         {
             "name": "contao-components/chosen",
@@ -952,16 +952,16 @@
         },
         {
             "name": "contao/core-bundle",
-            "version": "4.13.36",
+            "version": "4.13.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao/core-bundle.git",
-                "reference": "9abe1453ebbdef04cbcac5c5a1f419e483abc24a"
+                "reference": "9d173eb7dd941b4a111fded3eaec4302fc558c38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contao/core-bundle/zipball/9abe1453ebbdef04cbcac5c5a1f419e483abc24a",
-                "reference": "9abe1453ebbdef04cbcac5c5a1f419e483abc24a",
+                "url": "https://api.github.com/repos/contao/core-bundle/zipball/9d173eb7dd941b4a111fded3eaec4302fc558c38",
+                "reference": "9d173eb7dd941b4a111fded3eaec4302fc558c38",
                 "shasum": ""
             },
             "require": {
@@ -1080,7 +1080,7 @@
                 "symfony/yaml": "^5.4",
                 "terminal42/escargot": "^1.4.1",
                 "terminal42/service-annotation-bundle": "^1.1",
-                "twig/twig": "^3.0",
+                "twig/twig": "^3.8",
                 "ua-parser/uap-php": "^3.9",
                 "webignition/robots-txt-file": "^3.0",
                 "wikimedia/less.php": "^1.7"
@@ -1094,7 +1094,9 @@
                 "doctrine/dbal": "3.3.0",
                 "symfony/dependency-injection": "5.4.16 || 6.0.16 || 6.1.8 || 6.2.0 || 6.2.1",
                 "terminal42/contao-ce-access": "<3.0",
-                "thecodingmachine/safe": "<1.2"
+                "thecodingmachine/safe": "<1.2",
+                "twig/intl-extra": "3.9.0",
+                "twig/twig": "3.9.0"
             },
             "require-dev": {
                 "contao/installation-bundle": "self.version",
@@ -1103,7 +1105,7 @@
                 "ext-fileinfo": "*",
                 "league/flysystem-memory": "^2.0 || ^3.0",
                 "phpunit/phpunit": "^9.3",
-                "roave/better-reflection": "^4.12.2 || ^5.0",
+                "roave/better-reflection": "^4.12.2 || ^5.0 || ^6.0",
                 "symfony/browser-kit": "^5.4",
                 "symfony/phpunit-bridge": "^5.4",
                 "symfony/web-profiler-bundle": "^5.4"
@@ -1159,7 +1161,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-01-17T11:49:58+00:00"
+            "time": "2024-04-19T12:50:36+00:00"
         },
         {
             "name": "contao/image",
@@ -1295,16 +1297,16 @@
         },
         {
             "name": "contao/installation-bundle",
-            "version": "4.13.36",
+            "version": "4.13.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao/installation-bundle.git",
-                "reference": "8638f513c5bb62407a2f390d4c5fe010cfdb4c5a"
+                "reference": "49c46cacdb7a9ce93d4b5f0f38ed81d8eb78bb73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contao/installation-bundle/zipball/8638f513c5bb62407a2f390d4c5fe010cfdb4c5a",
-                "reference": "8638f513c5bb62407a2f390d4c5fe010cfdb4c5a",
+                "url": "https://api.github.com/repos/contao/installation-bundle/zipball/49c46cacdb7a9ce93d4b5f0f38ed81d8eb78bb73",
+                "reference": "49c46cacdb7a9ce93d4b5f0f38ed81d8eb78bb73",
                 "shasum": ""
             },
             "require": {
@@ -1373,11 +1375,11 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-11-12T20:23:12+00:00"
+            "time": "2024-03-20T11:24:14+00:00"
         },
         {
             "name": "contao/manager-bundle",
-            "version": "4.13.36",
+            "version": "4.13.43",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contao/manager-bundle.git",

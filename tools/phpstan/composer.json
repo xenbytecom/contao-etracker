@@ -3,7 +3,7 @@
         "phpstan/phpstan": "^1.7",
         "phpstan/phpstan-phpunit": "^1.1",
         "phpstan/phpstan-symfony": "^1.2",
-        "contao/manager-bundle": "4.13.36"
+        "contao/manager-bundle": "^4.13.40"
     },
     "config": {
         "allow-plugins": {
