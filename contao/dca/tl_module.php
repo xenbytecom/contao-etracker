@@ -11,15 +11,6 @@
 
 declare(strict_types=1);
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['etrackerOptOut'] =
-    '{title_legend},name,headline;etracker_tld';
+use Xenbyte\ContaoEtracker\Controller\FrontendModule\EtrackerOptoutController;
 
-$GLOBALS['TL_DCA']['tl_module']['fields']['etrackerTLD'] = [
-    'label' => &$GLOBALS['TL_LANG']['tl_page']['etrackerTLD'],
-    'inputType' => 'text',
-    'eval' => [
-        'size' => 50,
-        'tl_class' => 'w50',
-    ],
-    'sql' => "varchar(255) NOT NULL default ''",
-];
+$GLOBALS['TL_DCA']['tl_module']['palettes'][EtrackerOptoutController::TYPE] = '{title_legend},name,headline,type;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
