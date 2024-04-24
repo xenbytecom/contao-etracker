@@ -1,3 +1,3 @@
-<script type="text/javascript"{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}>
+<script type="text/javascript"{% if nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
     {{ et_event_script|raw }}
 </script>

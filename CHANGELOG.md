@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [0.3.0]
+
+### Added
+
+- JavaScript for optout
+
+### Changed
+
+- Using Nelmio csp listener for nonce generation for versions before contao 5.3
+- Using Contao csp listener for nonce generation for Contao 5.3 and newer
+- Nonce generation in Contao 5.3 only if CSP is activated
+
+### Removed
+
+- Optout ContentElement (FrontendModule is a better option, but not finished) 
+- etrackerTLD field for Frontendmodule
+
 ## [0.2.3]
 
 ### Changed

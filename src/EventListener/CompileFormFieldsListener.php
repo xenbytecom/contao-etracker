@@ -32,14 +32,16 @@ class CompileFormFieldsListener
     {
         $trackingEnabled = GeneratePageListener::isTrackingEnabled();
 
-        // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist TODO: Am besten
-        // wäre es, wenn die Events nicht erzeugt werden, wenn das Formular schon ohne
-        // HTML5 validiert wurde. Sonst doppelte Read-Ereignisse
+        // TODO: Am besten wäre es, wenn die Events nicht erzeugt werden, wenn das
+        // Formular schon ohne HTML5 validiert wurde. Sonst doppelte Read-Ereignisse
         $formTracking = (bool) $form->{'etrackerFormTracking'};
+
+        // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist
         if ($trackingEnabled && $formTracking) {
             $objTemplate = new FrontendTemplate('analytics_etracker_events');
 
             $objTemplate->{'et_event_script'} = $this->getScript($fields, $form);
+            $objTemplate->{'nonce'} = GeneratePageListener::getNonce();
 
             $GLOBALS['TL_BODY'][] = $objTemplate->parse();
         }
@@ -61,6 +63,7 @@ class CompileFormFieldsListener
         $etFormFields = [];
         $formName = $form->{'etrackerFormName'} ?: $form->title;
         $sectionName = $form->{'etrackerSectionName'} ?: 'Standard';
+
         // Informationen zum Formular in die Session schreiben, um bei der Validierung
         // und nach dem erfolgreichen Abseden darauf zurückgreifen zu können
         $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA'] = [
@@ -100,7 +103,6 @@ class CompileFormFieldsListener
         // HTML5-Validierungsfehler
         if (!$form->novalidate) {
             $script .= "etFormObjects.forEach(formField => formField.addEventListener('invalid', (evt) => {
-                console.log(evt.target.getAttribute(\"data-et-name\") + \" invalid\");
                 etForm.sendEvent('formFieldError', ".$formName.", {
                     'sectionName': 'Standard',
                     'sectionField': { 'name': evt.target.getAttribute(\"data-et-name\"), 'type': evt.target.type }

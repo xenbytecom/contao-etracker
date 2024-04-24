@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\FrontendTemplate;
 use Contao\LayoutModel;
@@ -21,6 +22,7 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
 use Contao\User;
+use Nelmio\SecurityBundle\EventListener\ContentSecurityPolicyListener;
 
 #[AsHook('generatePage', priority: -5)]
 class GeneratePageListener
@@ -30,7 +32,7 @@ class GeneratePageListener
         /** @var PageModel $rootPage */
         $rootPage = PageModel::findById($pageModel->rootId);
 
-        if (self::isTrackingEnabled()) {
+        if (self::isTrackingEnabled($rootPage)) {
             $objTemplate = new FrontendTemplate('analytics_etracker');
 
             $objTemplate->{'et_script'} = $this->getScriptCode($rootPage);
@@ -96,21 +98,27 @@ class GeneratePageListener
      */
     public function getParameters(PageModel $rootPage, PageModel $currentPage): string
     {
+        $document = new \DOMDocument();
+        $script = $document->createElement('script');
+        $script->setAttribute('type', 'text/javascript');
+
+        $nonce = self::getNonce();
+        if (null !== $nonce) {
+            $script->setAttribute('nonce', $nonce);
+        }
         $paramCode = '';
 
         // Seitenname @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
         $pagename = $this->getPagename($currentPage);
         if ('' !== $pagename) {
-            $paramCode .= 'var et_pagename = "'.rawurlencode(trim($pagename)).'";'.PHP_EOL;
+            $paramCode .= 'var et_pagename = "'.trim($pagename).'";'.PHP_EOL;
         }
 
         // Bereiche
         $areas = $this->getParentAreas($currentPage);
         if (\count($areas) > 0) {
             $paramCode .= 'var et_areas = "'.implode('/', $areas).'";'.PHP_EOL;
-            //            $paramCode .= 'var et_areas = "' . rawurlencode(implode('/',
-            // $areas)) . '";' . PHP_EOL;
         }
 
         // Debug-Modus
@@ -147,15 +155,23 @@ class GeneratePageListener
             }
         }
 
-        return $paramCode;
+        $script->append($paramCode);
+
+        $document->append($script);
+        $document->normalize();
+
+        return $document->saveHTML();
     }
 
     /**
      * Ermittelt, ob das Tracking für die aktuelle Root-Page erlaubt/aktiviert ist.
      */
-    public static function isTrackingEnabled(): bool
+    public static function isTrackingEnabled(?PageModel $rootPage = null): bool
     {
-        $rootPage = PageModel::findById($GLOBALS['objPage']->rootId);
+        if (null === $rootPage) {
+            $rootPage = self::getRootPage();
+        }
+
         if (!$rootPage instanceof PageModel) {
             return false;
         }
@@ -170,6 +186,34 @@ class GeneratePageListener
         $feHide = $excludeFeUser && System::getContainer()->get('security.helper')?->getUser() instanceof User;
 
         return $enabled && '' !== $rootPage->{'etrackerAccountKey'} && false === $beHide && false === $feHide;
+    }
+
+    public static function getNonce(): string|null
+    {
+        // Only generate nonce if CSP is enabled via Contao 5.3+ setting, in older
+        // versions activated by default
+        $cspEnabled = self::getRootPage()->{'enableCsp'};
+        if (!$cspEnabled) {
+            return null;
+        }
+
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
+        if ($responseContext?->has('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler')) {
+            /** @var CspHandler $cspHandler */
+            $cspHandler = $responseContext->get('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler');
+
+            return $cspHandler->getNonce('script-src');
+        }
+
+        // CSP nonce before Contao 5.3
+        if (System::getContainer()->has('xenbyte.csp_listener')) {
+            /** @var ContentSecurityPolicyListener $cspListener */
+            $cspListener = System::getContainer()->get('xenbyte.csp_listener');
+
+            return $cspListener->getNonce('script');
+        }
+
+        return null;
     }
 
     /**
@@ -218,5 +262,10 @@ class GeneratePageListener
         }
 
         return array_reverse($areas);
+    }
+
+    private static function getRootPage(): PageModel|null
+    {
+        return PageModel::findById($GLOBALS['objPage']->rootId);
     }
 }
