@@ -59,7 +59,7 @@ class CompileFormFieldsListener
      */
     public function getScript(array $fields, Form $form): string
     {
-        $script = "_etrackerOnReady.push(function() {" . PHP_EOL;
+        $script = '_etrackerOnReady.push(function() {'.PHP_EOL;
         $script .= 'let etFormObjects = [];'.PHP_EOL;
         $etFormFields = [];
         $formName = $form->{'etrackerFormName'} ?: $form->title;
@@ -111,7 +111,7 @@ class CompileFormFieldsListener
             }));";
         }
 
-        $script .= "});";
+        $script .= '});';
 
         return $script;
     }

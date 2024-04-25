@@ -166,7 +166,7 @@ class GeneratePageListener
     /**
      * Ermittelt, ob das Tracking für die aktuelle Root-Page erlaubt/aktiviert ist.
      */
-    public static function isTrackingEnabled(?PageModel $rootPage = null): bool
+    public static function isTrackingEnabled(PageModel|null $rootPage = null): bool
     {
         if (null === $rootPage) {
             $rootPage = self::getRootPage();
