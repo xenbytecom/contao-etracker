@@ -7,4 +7,6 @@ function initTrackingCheckBox(id) {
   };
 }
 
-initTrackingCheckBox('trackingAllowed');
+_etrackerOnReady.push(function() {
+  initTrackingCheckBox('trackingAllowed');
+});

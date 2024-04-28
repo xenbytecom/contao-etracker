@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Contao Etracker Bundle
+ * etracker Plugin for Contao
  *
  * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
  *
@@ -12,9 +12,7 @@
 declare(strict_types=1);
 
 // label for extenion list in settings
-$GLOBALS['TL_LANG']['CTE']['etrackerOptOut'] = [
+$GLOBALS['TL_LANG']['CTE']['etracker_optout'] = [
     'etracker Optout',
-    'Optout-Switch für etracker',
+    'Zählungsausschluss für etracker',
 ];
-
-$GLOBALS['TL_LANG']['MOD']['etrackerOptOut'] = ['etracker OptOut'];
