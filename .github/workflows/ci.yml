@@ -51,6 +51,30 @@ jobs:
             -   name: Run PHPStan
                 run: tools/phpstan/vendor/bin/phpstan analyse --no-progress
 
+    lint:
+        name: Linting of Twig and Yaml
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: 8.3
+                    extensions: dom
+                    coverage: none
+
+            -   name: Checkout
+                uses: actions/checkout@v3
+
+            -   name: Install the dependencies
+                run: |
+                    composer install --no-interaction --no-progress
+                    composer require contao/manager-bundle
+
+            -   name: Run Linter
+                run: |
+                    vendor/bin/contao-console lint:twig contao/templates
+                    vendor/bin/contao-console lint:yaml config
+
     phpunit:
         name: PHP ${{ matrix.php }}
         runs-on: ubuntu-latest
