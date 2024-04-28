@@ -21,7 +21,7 @@ class CustomizeSearchListener
 {
     public function __invoke(array &$pageIds, string $keywords, string $queryType, bool $fuzzy, Module $module): void
     {
-        $module->Template->{'etrackerEnable'} = GeneratePageListener::isTrackingEnabled();
-        $module->Template->{'nonce'} = GeneratePageListener::getNonce();
+        $module->Template->etrackerEnable = GeneratePageListener::isTrackingEnabled();
+        $module->Template->nonce = GeneratePageListener::getNonce();
     }
 }

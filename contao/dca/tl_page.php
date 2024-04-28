@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Contao Etracker Bundle
+ * etracker Plugin for Contao
  *
  * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
  *
@@ -15,9 +15,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 // Palettes
 $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'etrackerEnable';
-
 $GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerOptimiser,etrackerAreaname,etrackerDoNotTrack,etrackerNoJquery,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser';
-
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
@@ -48,7 +46,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEnable'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'cbx',
         'submitOnChange' => true,
     ],
     'sql' => [
@@ -119,6 +117,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerPagename'] = [
     'inputType' => 'text',
     'eval' => [
         'tl_class' => 'w50',
+        'maxlength' => 255,
     ],
     'sql' => 'varchar(255) NULL default NULL',
 ];
@@ -127,6 +126,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAreaname'] = [
     'inputType' => 'text',
     'eval' => [
         'tl_class' => 'w50',
+        'maxlength' => 50,
     ],
     'sql' => 'varchar(50) NULL default NULL',
 ];
@@ -135,6 +135,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAreas'] = [
     'inputType' => 'text',
     'eval' => [
         'tl_class' => 'w50',
+        'maxlength' => 255,
     ],
     'sql' => 'varchar(255) NULL default NULL',
 ];
@@ -142,7 +143,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerNoJquery'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'w50 cbx',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -153,7 +154,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDoNotTrack'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'w50 cbx',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -164,7 +165,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeFEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'w50 cbx',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -175,7 +176,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerExcludeBEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'w50 cbx',
     ],
     'sql' => [
         'type' => 'boolean',
@@ -186,7 +187,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCDIFEUser'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => [
-        'tl_class' => 'w50 cbx m12',
+        'tl_class' => 'w50 cbx',
     ],
     'sql' => [
         'type' => 'boolean',

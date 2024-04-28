@@ -34,14 +34,14 @@ class CompileFormFieldsListener
 
         // TODO: Am besten wäre es, wenn die Events nicht erzeugt werden, wenn das
         // Formular schon ohne HTML5 validiert wurde. Sonst doppelte Read-Ereignisse
-        $formTracking = (bool) $form->{'etrackerFormTracking'};
+        $formTracking = (bool) $form->etrackerFormTracking;
 
         // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist
         if ($trackingEnabled && $formTracking) {
             $objTemplate = new FrontendTemplate('analytics_etracker_events');
 
-            $objTemplate->{'et_event_script'} = $this->getScript($fields, $form);
-            $objTemplate->{'nonce'} = GeneratePageListener::getNonce();
+            $objTemplate->et_event_script = $this->getScript($fields, $form);
+            $objTemplate->nonce = GeneratePageListener::getNonce();
 
             $GLOBALS['TL_BODY'][] = $objTemplate->parse();
         }
@@ -62,8 +62,8 @@ class CompileFormFieldsListener
         $script = '_etrackerOnReady.push(function() {'.PHP_EOL;
         $script .= 'let etFormObjects = [];'.PHP_EOL;
         $etFormFields = [];
-        $formName = $form->{'etrackerFormName'} ?: $form->title;
-        $sectionName = $form->{'etrackerSectionName'} ?: 'Standard';
+        $formName = $form->etrackerFormName ?: $form->title;
+        $sectionName = $form->etrackerSectionName ?: 'Standard';
 
         // Informationen zum Formular in die Session schreiben, um bei der Validierung
         // und nach dem erfolgreichen Abseden darauf zurückgreifen zu können
@@ -74,7 +74,7 @@ class CompileFormFieldsListener
         ];
 
         foreach ($fields as $field) {
-            if (1 === $field->{'etrackerIgnoreField'} || \in_array($field->type, ['hidden', 'captcha', 'fieldsetStart', 'fieldsetStop'], true)) {
+            if (1 === $field->etrackerIgnoreField || \in_array($field->type, ['hidden', 'captcha', 'fieldsetStart', 'fieldsetStop'], true)) {
                 continue;
             }
 
@@ -118,6 +118,6 @@ class CompileFormFieldsListener
 
     private function getFieldName(FormFieldModel $field): string
     {
-        return $field->label ?: $field->{'placeholder'} ?: $field->name;
+        return $field->label ?: $field->placeholder ?: $field->name;
     }
 }

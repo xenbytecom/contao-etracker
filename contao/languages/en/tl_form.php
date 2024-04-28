@@ -15,5 +15,5 @@ declare(strict_types=1);
 $GLOBALS['TL_LANG']['tl_form']['etracker_legend'] = 'etracker';
 
 // fields
-$GLOBALS['TL_LANG']['tl_form']['etrackerFormTracking'] = ['Formularanalyse', 'wenn aktiviert, werden Ereignisse für die Formularanalyse gesendet'];
-$GLOBALS['TL_LANG']['tl_form']['etrackerFormName'] = ['abweichender Formularname', 'zur Identifizierung des Formulars in etracker, falls abweichend zum Titel'];
+$GLOBALS['TL_LANG']['tl_form']['etrackerFormTracking'] = ['Form tracking', 'if activated, events are sent for the form analysis'];
+$GLOBALS['TL_LANG']['tl_form']['etrackerFormName'] = ['deviating form name', 'to identify the form in etracker, if different from the title'];

@@ -35,8 +35,8 @@ class GeneratePageListener
         if (self::isTrackingEnabled($rootPage)) {
             $objTemplate = new FrontendTemplate('analytics_etracker');
 
-            $objTemplate->{'et_script'} = $this->getScriptCode($rootPage);
-            $objTemplate->{'et_params'} = $this->getParameters($rootPage, $pageModel);
+            $objTemplate->et_script = $this->getScriptCode($rootPage);
+            $objTemplate->et_params = $this->getParameters($rootPage, $pageModel);
 
             $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
         }
@@ -65,21 +65,21 @@ class GeneratePageListener
         // 24 = 24 Monate        $script->setAttribute('data-cookie-upgrade-url',
         // htmlspecialchars($cookieUpgradeURL)); @see
         // https://www.etracker.com/tipp-der-woche-do-not-track/
-        if (true === (bool) $rootPage->{'etrackerDoNotTrack'}) {
+        if (true === (bool) $rootPage->etrackerDoNotTrack) {
             $script->setAttribute('data-respect-dnt', 'true');
         }
 
         // @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#Standardintegration
-        $script->setAttribute('data-secure-code', $rootPage->{'etrackerAccountKey'});
+        $script->setAttribute('data-secure-code', $rootPage->etrackerAccountKey);
 
-        if (true === (bool) $rootPage->{'etrackerOptimiser'}) {
+        if (true === (bool) $rootPage->etrackerOptimiser) {
             $script->setAttribute('data-enable-eo', 'true');
         }
 
         // Mozilla Observatory complains protocol-relative URLs, if Subresource Integrity
         // (SRI) is not implemented
-        $host = $rootPage->{'etrackerTrackingDomain'} ?: 'code.etracker.com';
+        $host = $rootPage->etrackerTrackingDomain ?: 'code.etracker.com';
         $src = '//'.$host.'/code/e.js';
         if ($rootPage->rootUseSSL && !str_starts_with($src, 'http')) {
             $src = 'https:'.$src;
@@ -122,14 +122,14 @@ class GeneratePageListener
         }
 
         // Debug-Modus
-        if ('enabled' === $rootPage->{'etrackerDebug'} || ('backend-user' === $rootPage->{'etrackerDebug'} && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
+        if ('enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
             $paramCode .= 'var _etr = { debugMode: true };';
         }
 
         // Frontend-User-Information für Cross-Device-Tracking übergeben @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
         $feUser = System::getContainer()->get('security.helper')?->getUser();
-        if ($feUser instanceof User && '1' === $rootPage->{'etrackerCDIFEUser'}) {
+        if ($feUser instanceof User && '1' === $rootPage->etrackerCDIFEUser) {
             $paramCode .= 'var et_cdi = "'.md5($feUser->getUserIdentifier()).'";'.PHP_EOL;
         }
 
@@ -176,23 +176,23 @@ class GeneratePageListener
             return false;
         }
 
-        $enabled = (bool) $rootPage->{'etrackerEnable'};
-        $excludeBeUser = (bool) $rootPage->{'etrackerExcludeBEUser'};
-        $excludeFeUser = (bool) $rootPage->{'etrackerExcludeFEUser'};
+        $enabled = (bool) $rootPage->etrackerEnable;
+        $excludeBeUser = (bool) $rootPage->etrackerExcludeBEUser;
+        $excludeFeUser = (bool) $rootPage->etrackerExcludeFEUser;
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
         $beHide = $excludeBeUser && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser();
 
         $feHide = $excludeFeUser && System::getContainer()->get('security.helper')?->getUser() instanceof User;
 
-        return $enabled && '' !== $rootPage->{'etrackerAccountKey'} && false === $beHide && false === $feHide;
+        return $enabled && '' !== $rootPage->etrackerAccountKey && false === $beHide && false === $feHide;
     }
 
     public static function getNonce(): string|null
     {
         // Only generate nonce if CSP is enabled via Contao 5.3+ setting, in older
         // versions activated by default
-        $cspEnabled = self::getRootPage()->{'enableCsp'};
+        $cspEnabled = self::getRootPage()->enableCsp;
         if (!$cspEnabled) {
             return null;
         }
@@ -223,7 +223,7 @@ class GeneratePageListener
      */
     private function getPagename(PageModel $page, bool $readHeadBag = true): string
     {
-        $etPagename = trim((string) $page->{'etrackerPagename'});
+        $etPagename = trim((string) $page->etrackerPagename);
         if ('' !== $etPagename) {
             return $etPagename;
         }
@@ -238,7 +238,7 @@ class GeneratePageListener
             return $htmlHeadBag->getTitle();
         }
 
-        return $page->{'pageTitle'} ?: $page->{'title'};
+        return $page->pageTitle ?: $page->title;
     }
 
     /**
@@ -254,11 +254,11 @@ class GeneratePageListener
                 continue;
             }
 
-            if ('root' === $parent->type && '' === (string) $parent->{'etrackerAreaname'}) {
+            if ('root' === $parent->type && '' === (string) $parent->etrackerAreaname) {
                 continue;
             }
 
-            $areas[] = trim((string) $parent->{'etrackerAreaname'}) ?: $this->getPagename($parent, false);
+            $areas[] = trim((string) $parent->etrackerAreaname) ?: $this->getPagename($parent, false);
         }
 
         return array_reverse($areas);

@@ -13,8 +13,9 @@ Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Test
 * Setzen der Variable et_pagename je Seite oder automatische Erkennung
 * Setzen der Variable et_areas je Seite oder automatische Ermittlung über die Seitenstruktur
 * Berücksichtung von Titeln der News, Kalender-Einträge etc.
-* Tracking der Formular-Interaktionen (muss in den Formular-Einstellungen aktiviert und konfiguriert werden)
-* twig-Templates mit Nutzung von CSP nonce (auch unter Contao 4.13), sodass unsafe-inline nicht mehr erforderlich ist (andere Security Header müssen gesetzt weden: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#integration-security-header)
+* Tracking der Formular-Interaktionen (muss in den Formular-Einstellungen konfiguriert werden und erfordert etracker Pro oder Enterprise)
+* Tracking der Suchergebnisse als Onsite-Kampagne (muss in den Suchmodul-Einstellungen konfiguriert werden und erfordert etracker Pro oder Enterprise)
+* twig-Templates mit Nutzung von CSP nonce (auch unter Contao 4.13), sodass unsafe-inline nicht mehr erforderlich ist ([andere Security Header müssen gesetzt werden](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#integration-security-header))
 
 ## Einschränkungen
 * nur asynchroner code
@@ -30,7 +31,7 @@ Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Test
 ## Voraussetzzungen
 * Contao 4.13 oder neuer
 * PHP 8.0 oder höher
-* etracker Konto (kostenpflichtig)
+* [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)
 
 ## Installation
 Entweder über den Contao Manager oder mittels composer via `composer require xenbyte/contao-etracker`

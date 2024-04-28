@@ -29,10 +29,10 @@ class ValidateFormFieldListener
         $trackingEnabled = GeneratePageListener::isTrackingEnabled();
 
         // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist
-        if ($trackingEnabled && 1 === $form->{'etrackerFormTracking'}) {
+        if ($trackingEnabled && 1 === $form->etrackerFormTracking) {
             $objTemplate = new FrontendTemplate('analytics_etracker_events');
 
-            $objTemplate->{'et_event_script'} = $this->getScript($widget, $form);
+            $objTemplate->et_event_script = $this->getScript($widget, $form);
 
             $GLOBALS['TL_BODY'][] = $objTemplate->parse();
         }
@@ -60,6 +60,6 @@ class ValidateFormFieldListener
 
     private function getFieldName(Widget $widget): string
     {
-        return $widget->label ?: $widget->{'placeholder'} ?: $widget->name;
+        return $widget->label ?: $widget->placeholder ?: $widget->name;
     }
 }

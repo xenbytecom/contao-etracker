@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Contao Etracker Bundle
+ * etracker Plugin for Contao
  *
  * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
  *

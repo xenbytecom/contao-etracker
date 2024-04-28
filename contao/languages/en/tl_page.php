@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Contao Etracker Bundle
+ * etracker Plugin for Contao
  *
  * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
  *
@@ -25,5 +25,5 @@ $GLOBALS['TL_LANG']['tl_page']['et_optimiser'] = ['Optimiser', 'Usage of etracke
 $GLOBALS['TL_LANG']['tl_page']['et_pagename'] = ['Seitenname', 'Seitenname überschreiben, ansonsten Seitentitel'];
 $GLOBALS['TL_LANG']['tl_page']['et_nojquery'] = ['jQuery deaktivieren', 'nur dann sinnvoll, wenn ohnehin jQuery geladen wird, da sonst Smart Messages und A/B-Tests nicht ausgespielt werden können.'];
 $GLOBALS['TL_LANG']['tl_page']['et_donottrack'] = ['Do Not Track (DNT) berücksichtigen', 'die Beachtung ist freiwilig und nicht für den datenschutzkonformen Einsatz erforderlich'];
-$GLOBALS['TL_LANG']['tl_page']['et_exclude_feuser'] = ['exclude frontend users', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Frontend verwendet'];
+$GLOBALS['TL_LANG']['tl_page']['et_exclude_feuser'] = ['exclude content_element users', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Frontend verwendet'];
 $GLOBALS['TL_LANG']['tl_page']['et_exclude_beuser'] = ['exclude backend users', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Backend verwendet'];
