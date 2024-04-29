@@ -19,6 +19,9 @@ use Contao\Module;
 #[AsHook('customizeSearch')]
 class CustomizeSearchListener
 {
+    /**
+     * @param array<int, int> $pageIds the current page IDs to be searched though
+     */
     public function __invoke(array &$pageIds, string $keywords, string $queryType, bool $fuzzy, Module $module): void
     {
         $module->Template->etrackerEnable = GeneratePageListener::isTrackingEnabled();
