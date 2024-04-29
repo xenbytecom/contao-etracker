@@ -68,7 +68,7 @@ jobs:
             -   name: Install the dependencies
                 run: |
                     composer install --no-interaction --no-progress
-                    composer require contao/manager-bundle
+                    composer require contao/manager-bundle "^4.13 || ^5.0"
 
             -   name: Run Linter
                 run: |
