@@ -13,5 +13,5 @@ declare(strict_types=1);
 
 // fields
 $GLOBALS['TL_LANG']['tl_content']['etrackerOptOutType'] = ['Darstellungsform', ''];
-$GLOBALS['TL_LANG']['tl_content']['etrackerOptOutType'][0] = ['Vollständiger Text', ''];
-$GLOBALS['TL_LANG']['tl_content']['etrackerOptOutType'][1] = ['nur Wechsel-Checkbox', ''];
+$GLOBALS['TL_LANG']['tl_content']['etrackerOptOutType']['options']['text'] = 'vollständiger Text';
+$GLOBALS['TL_LANG']['tl_content']['etrackerOptOutType']['options']['checkbox'] = 'nur Wechsel-Checkbox';

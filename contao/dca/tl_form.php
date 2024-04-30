@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
+$GLOBALS['TL_DCA']['tl_form']['palettes']['__selector__'][] = 'etrackerFormTracking';
+$GLOBALS['TL_DCA']['tl_form']['subpalettes']['etrackerFormTracking'] = 'etrackerFormName';
+
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'template_legend')
     ->addField(['etrackerFormTracking'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->addField(['etrackerFormName'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_form');
 
 $GLOBALS['TL_DCA']['tl_form']['fields']['etrackerFormTracking'] = [

@@ -20,17 +20,7 @@ $GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccoun
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
     ->addField(['etrackerEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerOptimizer'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerAccountKey'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerDebug'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerDomain'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerArea'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerDoNotTrack'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerNoJquery'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerExcludeFEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerExcludeBEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-//    ->addField(['etrackerCDIFEUser'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('root', 'tl_page')
+     ->applyToPalette('root', 'tl_page')
     ->applyToPalette('rootfallback', 'tl_page')
 ;
 
