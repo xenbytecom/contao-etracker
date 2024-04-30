@@ -15,11 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ### Changed
 
 - Moved templates
-- Removed FrontendModule with ContentElement
+- Replaced FrontendModule with ContentElement
+- Using parseTemplate hook instead of customizeSearch for search result tracking
+- fields for search result tracking are mandatory
 
 ### Fixed
 
 - Using _etrackerOnReady for events in form tracking
+- removed unnecessary config which caused problems with the content module
 
 ## [0.3.0]
 

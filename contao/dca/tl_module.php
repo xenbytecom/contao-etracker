@@ -39,6 +39,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchMedOnsite'] = [
     'inputType' => 'text',
     'eval'      => [
         'tl_class'  => 'w50',
+        'mandatory' => true,
         'maxlength' => 50,
     ],
     'sql'       => 'varchar(50) NULL',
@@ -48,6 +49,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteResults'] = [
     'inputType' => 'text',
     'eval'      => [
         'tl_class'  => 'w50',
+        'mandatory' => true,
         'maxlength' => 50,
     ],
     'sql'       => 'varchar(50) NULL',
@@ -57,6 +59,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteNoresults'] = 
     'inputType' => 'text',
     'eval'      => [
         'tl_class'  => 'w50',
+        'mandatory' => true,
         'maxlength' => 50,
     ],
     'sql'       => 'varchar(50) NULL',
