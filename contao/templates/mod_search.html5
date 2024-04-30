@@ -30,7 +30,7 @@
 <?php endif; ?>
 <?php endif; ?>
 
-<?php if ($this->etrackerEnable && $this->etrackerSearchCampaignEnable): ?>
+<?php if ((bool) $this->etrackerEnable && (bool) $this->etrackerSearchCampaignEnable): ?>
 <script type="text/javascript" nonce="<?= $this->nonce; ?>">
   var cc_attributes = new Object();
   cc_attributes["etcc_cu"] = "onsite";
