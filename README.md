@@ -30,7 +30,7 @@ Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Test
 
 ## Voraussetzzungen
 * Contao 4.13 oder neuer
-* PHP 8.0 oder höher
+* PHP 8.1 oder höher
 * [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)
 
 ## Installation
