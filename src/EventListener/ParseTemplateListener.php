@@ -11,7 +11,7 @@ use Contao\FrontendTemplate;
 #[AsHook('parseTemplate')]
 class ParseTemplateListener
 {
-    public function __invoke(FrontendTemplate|BackendTemplate $template): void
+    public function __invoke(BackendTemplate|FrontendTemplate $template): void
     {
         if ('mod_search' === $template->getName() && isset($template->count)) {
             $template->etrackerEnable = GeneratePageListener::isTrackingEnabled();
