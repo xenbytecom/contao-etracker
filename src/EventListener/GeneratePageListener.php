@@ -35,10 +35,12 @@ class GeneratePageListener
         if (self::isTrackingEnabled($rootPage)) {
             $objTemplate = new FrontendTemplate('analytics_etracker');
 
-            $objTemplate->et_script = $this->getScriptCode($rootPage);
-            $objTemplate->et_params = $this->getParameters($rootPage, $pageModel);
-
-            $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+            try {
+                $objTemplate->et_script = $this->getScriptCode($rootPage);
+                $objTemplate->et_params = $this->getParameters($rootPage, $pageModel);
+                $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+            } catch (\DOMException) {
+            }
         }
     }
 
@@ -90,7 +92,12 @@ class GeneratePageListener
         $document->append($script);
         $document->normalize();
 
-        return $document->saveHTML();
+        // Umlaute wiederherstellen, bis ich hierfür eine bessere Lösung gefunden habe
+        return str_replace(
+            ['&auml;', '&Auml;', '&ouml;', '&Ouml;', '&szlig;', '&uuml;', '&Uuml;'],
+            ['ä', 'Ä', 'ö', 'Ö', 'ß', 'ü', 'Ü'],
+            $document->saveHTML()
+        );
     }
 
     /**
@@ -112,7 +119,7 @@ class GeneratePageListener
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
         $pagename = $this->getPagename($currentPage);
         if ('' !== $pagename) {
-            $paramCode .= 'var et_pagename = "'.trim($pagename).'";'.PHP_EOL;
+            $paramCode .= 'var et_pagename = "ä";'.PHP_EOL;
         }
 
         // Bereiche
@@ -160,7 +167,12 @@ class GeneratePageListener
         $document->append($script);
         $document->normalize();
 
-        return $document->saveHTML();
+        // Umlaute wiederherstellen, bis ich hierfür eine bessere Lösung gefunden habe
+        return str_replace(
+            ['&auml;', '&Auml;', '&ouml;', '&Ouml;', '&szlig;', '&uuml;', '&Uuml;'],
+            ['ä', 'Ä', 'ö', 'Ö', 'ß', 'ü', 'Ü'],
+            $document->saveHTML()
+        );
     }
 
     /**
