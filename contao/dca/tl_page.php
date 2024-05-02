@@ -50,6 +50,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAccountKey'] = [
     'eval' => [
         'tl_class' => 'w50',
         'maxlength' => 16,
+        'mandatory' => true,
     ],
     'sql' => 'varchar(16) NOT NULL default \'\'',
 ];
