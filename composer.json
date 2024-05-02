@@ -15,6 +15,13 @@
         "issues": "https://github.com/xenbytecom/contao-etracker/issues",
         "source": "https://github.com/xenbytecom/contao-etracker"
     },
+    "homepage": "https://www.xenbyte.com",
+    "funding": [
+        {
+            "type": "other",
+            "url": "https://www.paypal.com/donate/?hosted_button_id=J425R728CYH9N"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "ext-dom": "*",
