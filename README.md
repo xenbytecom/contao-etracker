@@ -3,7 +3,10 @@
 Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden. Kompatibel zu Contao 4.13 und neuer,
 einschließlich Contao 5.3.
 
-Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Testphase.
+Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Testphase. Jedes Feedback (via Github, im Contao-Forum oder per E-Mail) ist willkommen.
+
+![Packagist Version](https://img.shields.io/packagist/v/xenbyte/contao-etracker)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate/?hosted_button_id=J425R728CYH9N)
 
 ## Features
 * etracker-Account je Startpunkt einer Seite
@@ -22,11 +25,9 @@ Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Test
 * beim Formular-Tracking ist nur ein Fomular pro Seite möglich
 
 ## Geplante Funktionen
-* Modul für etracker-Optout
-* Tracking der internen Suche
-* custom attributes
 * deaktivierung Cookie-less tracking
-* Segmente: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
+* eigene Dimensionen: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
+* evtl. Anbindung and Cookiebar
 
 ## Voraussetzzungen
 * Contao 4.13 oder neuer
@@ -36,10 +37,39 @@ Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Test
 ## Installation
 Entweder über den Contao Manager oder mittels composer via `composer require xenbyte/contao-etracker`
 
+## Konfiguration
+
+### Website-Startseite (Root-Ebene)
+![docs/01_rootpage_setup.png](docs/01_rootpage_setup.png)!
+
+Die etracker-Integration wird auf den jeweiligen Website-Startseiten aktiviert. Der Account-Schlüssel von etracker ist
+das einzige Pflichtfeld. Weitere Felder:
+
+* Haupt-Domain: Die im etracker hinterlegte Haupt-Domain. Diese Angabe wird nur für den Zählungsausschluss benötigt. Dieses Konfigurationsfeld wird voraussichtlich noch verschoben.
+* Eigene Tracking-Domain: Wenn eine [eigene Tracking-Domain](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/eigene-tracking-domain-einrichten/) eingerichtet wurde (muss separat bestellt werden), ist die abweichende Tracking-Domain hier anzugeben.
+* Debug mode: ermöglicht den etracker-eigenen debug mode, wahlweise komplett oder nur für Backend-Benutzer
+* Optimiser: aktiviert den etracker Optimiser für Smart Message oder A/B-Test, welcher jedoch sich im im End-of-Life-Status befindet
+* Bereich-Name: legt einen Bereichsnamen fest, der für et_area an die Unterseiten weitergegeben wird. Auf Website-Startseiten-Ebene wäre bei mehrsprachigen Seiten z. B. die Sprache als Bereich 1 empfehlenswert. Wenn es nur eine Website-Startseite (Root-Ebene) gibt, sollte das Feld leergelassen werden.
+* Do Not Track (DNT) berücksichtigen: Standardmäßig berücksichtigt etracker die DNT-Angabe des Browsers nicht (siehe [etracker-Artikel](https://www.etracker.com/tipp-der-woche-do-not-track/)), die Berücksichtigung kann jedoch mit der Einstellung erzwungen werden.
+* jQuery deaktivieren: Für den Optimiser lädt etracker JavaScript. Das JavaScript kann mittlerweile bedenkenlos deaktiviert werden, wenn der Optimiser nichft für Smart Messages oder A/B-Tests genutzt wird
+* Frontend-Benutzer ausschließen: bindet kein Tracking Code für eingeloggte Mitglieder aus, auch nicht bei aktiviertem debug mode
+* Backend-Bentuzer ausschließen: bindet kein Tracking Code für eingeloggte Benutzer aus, auch nicht bei aktiviertem debug mode
+* Cross_Devide-Tracking von Frontend-Benutzern: Zum Geräteübergreifenden Tracking kann der Benutzername als md5-Hash übermittelt werden
+
+### Reguläre Seite
+![docs/02_page_setup.png](docs/02_page_setup.png)
+
+Sämtliche Angaben für die Unterseiten sind optional.
+
+* Seitenname: Wenn kein Seitenname in den etracker-Einstellungen gesetzt ist, wird der Seitentitel (welcher u. U. aber noch den Suffix des Website-Namens enthält) herangezogen.
+* Bereich-Name: Standardmäßig identisch zum Seitenname, kann aber überschrieben werden. Dieser Wert wird als Ebenen-Name für die Unterseiten weitergegeben.
+* Bereiche: Überschreibt die Bereiche für die aktuelle Seite anstatt diese über die Vererbungen zu generieren
+
 ## CSP-Header für etracker
+Ab Contao 5.13 können die CSP-Header direkt im Backend aktiviert werden, für ältere Versionen kann diese Einstellung (theoretisch) auch auf Webserver-Ebene gesetzt werden, allerdings wäre dann mit Einschränkungen von TinyMCE im Backend zu rechnen.
 
 ```
-Header set Content-Security-Policy "script-src 'self' https://*.etracker.com https://*.etracker.de 'unsafe-inline'; connect-src https://*.etracker.de"
+Header set Content-Security-Policy "script-src 'self' https://*.etracker.com https://*.etracker.de; connect-src https://*.etracker.de"
 ```
 
 Bei Verwendung der Scrollmap sollte zudem noch das Einbetten in einen iframe erlaubt werden:
