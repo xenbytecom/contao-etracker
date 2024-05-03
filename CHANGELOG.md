@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 
 ### Fixed
 
-- Keep umlauts in tracking code (pagetitle, areas, ...)
+- umlauts in tracking code (pagetitle, areas, ...)
+- missing CSP nonce for versions before contao 5.13
 
 ## [0.4.0]
 

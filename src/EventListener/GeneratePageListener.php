@@ -24,7 +24,7 @@ use Contao\System;
 use Contao\User;
 use Nelmio\SecurityBundle\EventListener\ContentSecurityPolicyListener;
 
-#[AsHook('generatePage', priority: -5)]
+#[AsHook('generatePage')]
 class GeneratePageListener
 {
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -147,7 +147,7 @@ class GeneratePageListener
         // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
         // [Dropdown], Segment 2: [Dropdown], ...
 
-        $paramCode .= 'var _etrackerOnReady = [];';
+        $paramCode .= 'var _etrackerOnReady = [];'.PHP_EOL;
 
         if (isset($_SESSION) && \is_array($_SESSION) && \array_key_exists('FORM_DATA', $_SESSION) && \is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
             $jumpToId = $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['JUMPTO'];
@@ -204,13 +204,14 @@ class GeneratePageListener
     {
         // Only generate nonce if CSP is enabled via Contao 5.3+ setting, in older
         // versions activated by default
+        /** @var bool|null $cspEnabled */
         $cspEnabled = self::getRootPage()->enableCsp;
-        if (!$cspEnabled) {
+        if (false === $cspEnabled) {
             return null;
         }
 
         $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
-        if ($responseContext?->has('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler')) {
+        if ($responseContext instanceof ResponseContext && $responseContext?->has('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler')) {
             /** @var CspHandler $cspHandler */
             $cspHandler = $responseContext->get('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler');
 
