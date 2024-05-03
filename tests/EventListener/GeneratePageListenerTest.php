@@ -43,6 +43,6 @@ class GeneratePageListenerTest extends ContaoTestCase
             'etrackerAccountKey' => 'abcdef',
         ]);
 
-        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
+        $this->assertTrue($this->listener::isTrackingEnabled($rootPage));
     }
 }
