@@ -16,6 +16,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
+use Contao\CoreBundle\Routing\ResponseContext\ResponseContext;
 use Contao\FrontendTemplate;
 use Contao\LayoutModel;
 use Contao\PageModel;
