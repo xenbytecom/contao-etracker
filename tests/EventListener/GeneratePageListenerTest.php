@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace Xenbyte\ContaoEtracker\Tests\EventListener;
 
+use Contao\BackendUser;
 use Contao\FrontendUser;
 use Contao\PageModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
-use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Security;
 use Xenbyte\ContaoEtracker\EventListener\GeneratePageListener;
 
 class GeneratePageListenerTest extends ContaoTestCase
@@ -40,12 +41,11 @@ class GeneratePageListenerTest extends ContaoTestCase
 
     public function testDisabledTracking(): void
     {
-        $rootPage = $this->mockClassWithProperties(PageModel::class, [
-            'etrackerEnable' => false,
-            'etrackerAccountKey' => 'abcdef',
-        ]);
+        $config = $this->getDefaultConfig();
+        $config['etrackerEnable'] = false;
+        $rootPage = $this->mockClassWithProperties(PageModel::class, $config);
 
-        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
+        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
     public function testDisabledTrackingExcludedFEUser(): void
@@ -56,22 +56,47 @@ class GeneratePageListenerTest extends ContaoTestCase
             ->willReturn($user)
         ;
 
-        $rootPage = $this->mockClassWithProperties(PageModel::class, [
-            'etrackerEnable' => true,
-            'etrackerAccountKey' => 'abcdef',
-            'etrackerExcludeFEUser' => true,
-        ]);
+        $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
 
-        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
+        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
+    }
+
+    public function testDisabledTrackingExcludedBEUser(): void
+    {
+        $user = $this->createMock(BackendUser::class);
+        $this->security
+            ->method('getUser')
+            ->willReturn($user)
+        ;
+
+        $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
+
+        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
     public function testEnabledTracking(): void
     {
-        $rootPage = $this->mockClassWithProperties(PageModel::class, [
+        $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
+
+        static::assertTrue($this->listener::isTrackingEnabled($rootPage));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function getDefaultConfig(): array
+    {
+        return [
             'etrackerEnable' => true,
             'etrackerAccountKey' => 'abcdef',
-        ]);
-
-        $this->assertTrue($this->listener::isTrackingEnabled($rootPage));
+            'etrackerOptimiser' => false,
+            'etrackerDoNotTrack' => false,
+            'rootUseSSL' => true,
+            'etrackerTrackingDomain' => null,
+            'etrackerExcludeFEUser' => true,
+            'etrackerExcludeBEUser' => true,
+            'etrackerDebug' => 'disabled',
+            'etrackerCDIFEUser' => false,
+        ];
     }
 }
