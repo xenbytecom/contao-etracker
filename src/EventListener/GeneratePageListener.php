@@ -44,24 +44,21 @@ class GeneratePageListener
             } catch (\DOMException) {
             }
 
-            $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($this->getEventScriptCode($rootPage));
+            // $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($this->getEventScriptCode($rootPage));
         }
     }
 
-    public function getEventScriptCode(PageModel $rootPage)
-    {
-        return <<<'JS'
-                _etrackerOnReady.push(() => {
-                    document.querySelectorAll('[href^="tel:"]').forEach(item => item.addEventListener("click", (evt) => {
-                        _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(), 'Kontakt', 'click', 'Telefon'));
-                    }));
-
-                    document.querySelectorAll('[href^="mailto:"]').forEach(item => item.addEventListener("click", (evt) => {
-                        _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(), 'Kontakt', 'click', 'E-Mail'));
-                    }));
-                });
-            JS;
-    }
+    //    public function getEventScriptCode(PageModel $rootPage)    {        return
+    // <<<'JS'                _etrackerOnReady.push(() => {                   
+    // document.querySelectorAll('[href^="tel:"]').forEach(item =>
+    // item.addEventListener("click", (evt) => {                       
+    // _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(),
+    // 'Kontakt', 'click', 'Telefon'));                    }));                    
+    // document.querySelectorAll('[href^="mailto:"]').forEach(item =>
+    // item.addEventListener("click", (evt) => {                       
+    // _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(),
+    // 'Kontakt', 'click', 'E-Mail'));                    }));                });    
+    //        JS;    }
 
     /**
      * Baut das Script-Element via PHP zusammen.
