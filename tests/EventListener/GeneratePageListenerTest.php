@@ -18,6 +18,7 @@ use Contao\FrontendUser;
 use Contao\PageModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Security\Core\Security;
 use Xenbyte\ContaoEtracker\EventListener\GeneratePageListener;
 
@@ -25,7 +26,7 @@ class GeneratePageListenerTest extends ContaoTestCase
 {
     private GeneratePageListener $listener;
 
-    private Security $security;
+    private MockObject $security;
 
     protected function setUp(): void
     {
@@ -45,7 +46,7 @@ class GeneratePageListenerTest extends ContaoTestCase
         $config['etrackerEnable'] = false;
         $rootPage = $this->mockClassWithProperties(PageModel::class, $config);
 
-        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
+        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
     public function testDisabledTrackingExcludedFEUser(): void
@@ -58,7 +59,7 @@ class GeneratePageListenerTest extends ContaoTestCase
 
         $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
 
-        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
+        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
     public function testDisabledTrackingExcludedBEUser(): void
@@ -71,14 +72,14 @@ class GeneratePageListenerTest extends ContaoTestCase
 
         $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
 
-        static::assertFalse($this->listener::isTrackingEnabled($rootPage));
+        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
     public function testEnabledTracking(): void
     {
         $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
 
-        static::assertTrue($this->listener::isTrackingEnabled($rootPage));
+        $this->assertTrue($this->listener::isTrackingEnabled($rootPage));
     }
 
     /**
