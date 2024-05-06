@@ -43,22 +43,8 @@ class GeneratePageListener
                 $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
             } catch (\DOMException) {
             }
-
-            // $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($this->getEventScriptCode($rootPage));
         }
     }
-
-    //    public function getEventScriptCode(PageModel $rootPage)    {        return
-    // <<<'JS'                _etrackerOnReady.push(() => {                   
-    // document.querySelectorAll('[href^="tel:"]').forEach(item =>
-    // item.addEventListener("click", (evt) => {                       
-    // _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(),
-    // 'Kontakt', 'click', 'Telefon'));                    }));                    
-    // document.querySelectorAll('[href^="mailto:"]').forEach(item =>
-    // item.addEventListener("click", (evt) => {                       
-    // _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(),
-    // 'Kontakt', 'click', 'E-Mail'));                    }));                });    
-    //        JS;    }
 
     /**
      * Baut das Script-Element via PHP zusammen.
@@ -121,7 +107,7 @@ class GeneratePageListener
      */
     public function getParameters(PageModel $rootPage, PageModel $currentPage): string
     {
-        $user = System::getContainer()?->get('security.helper')?->getUser();
+        $user = System::getContainer()->get('security.helper')?->getUser();
 
         $document = new \DOMDocument();
         $script = $document->createElement('script');
@@ -210,7 +196,7 @@ class GeneratePageListener
         $excludeFeUser = (bool) $rootPage->etrackerExcludeFEUser;
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
-        $user = System::getContainer()?->get('security.helper')?->getUser();
+        $user = System::getContainer()->get('security.helper')?->getUser();
         $beHide = $excludeBeUser && $user instanceof BackendUser;
         $feHide = $excludeFeUser && $user instanceof FrontendUser;
 
