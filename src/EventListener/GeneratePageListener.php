@@ -13,16 +13,17 @@ declare(strict_types=1);
 
 namespace Xenbyte\ContaoEtracker\EventListener;
 
+use Contao\BackendUser;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\CoreBundle\Routing\ResponseContext\ResponseContext;
 use Contao\FrontendTemplate;
+use Contao\FrontendUser;
 use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
-use Contao\User;
 use Nelmio\SecurityBundle\EventListener\ContentSecurityPolicyListener;
 
 #[AsHook('generatePage')]
@@ -42,7 +43,24 @@ class GeneratePageListener
                 $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
             } catch (\DOMException) {
             }
+
+            $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($this->getEventScriptCode($rootPage));
         }
+    }
+
+    public function getEventScriptCode(PageModel $rootPage)
+    {
+        return <<<'JS'
+                _etrackerOnReady.push(() => {
+                    document.querySelectorAll('[href^="tel:"]').forEach(item => item.addEventListener("click", (evt) => {
+                        _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(), 'Kontakt', 'click', 'Telefon'));
+                    }));
+
+                    document.querySelectorAll('[href^="mailto:"]').forEach(item => item.addEventListener("click", (evt) => {
+                        _etracker.sendEvent(new et_UserDefinedEvent(evt.target.textContent.trim(), 'Kontakt', 'click', 'E-Mail'));
+                    }));
+                });
+            JS;
     }
 
     /**
@@ -106,6 +124,8 @@ class GeneratePageListener
      */
     public function getParameters(PageModel $rootPage, PageModel $currentPage): string
     {
+        $user = System::getContainer()?->get('security.helper')?->getUser();
+
         $document = new \DOMDocument();
         $script = $document->createElement('script');
         $script->setAttribute('type', 'text/javascript');
@@ -120,7 +140,7 @@ class GeneratePageListener
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
         $pagename = $this->getPagename($currentPage);
         if ('' !== $pagename) {
-            $paramCode .= 'var et_pagename = "ä";'.PHP_EOL;
+            $paramCode .= 'var et_pagename = "'.trim($pagename).'";'.PHP_EOL;
         }
 
         // Bereiche
@@ -130,15 +150,14 @@ class GeneratePageListener
         }
 
         // Debug-Modus
-        if ('enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser())) {
-            $paramCode .= 'var _etr = { debugMode: true };';
+        if ('enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && $user instanceof BackendUser)) {
+            $paramCode .= 'var _etr = { debugMode: true };'.PHP_EOL;
         }
 
         // Frontend-User-Information für Cross-Device-Tracking übergeben @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
-        $feUser = System::getContainer()->get('security.helper')?->getUser();
-        if ($feUser instanceof User && '1' === $rootPage->etrackerCDIFEUser) {
-            $paramCode .= 'var et_cdi = "'.md5($feUser->getUserIdentifier()).'";'.PHP_EOL;
+        if ($user instanceof FrontendUser && '1' === $rootPage->etrackerCDIFEUser) {
+            $paramCode .= 'var et_cdi = "'.md5($user->getUserIdentifier()).'";'.PHP_EOL;
         }
 
         // @see
@@ -194,11 +213,11 @@ class GeneratePageListener
         $excludeFeUser = (bool) $rootPage->etrackerExcludeFEUser;
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
-        $beHide = $excludeBeUser && System::getContainer()->get('contao.security.token_checker')?->hasBackendUser();
+        $user = System::getContainer()?->get('security.helper')?->getUser();
+        $beHide = $excludeBeUser && $user instanceof BackendUser;
+        $feHide = $excludeFeUser && $user instanceof FrontendUser;
 
-        $feHide = $excludeFeUser && System::getContainer()->get('security.helper')?->getUser() instanceof User;
-
-        return $enabled && '' !== $rootPage->etrackerAccountKey && false === $beHide && false === $feHide;
+        return $enabled && false === $beHide && false === $feHide;
     }
 
     public static function getNonce(): string|null
