@@ -15,7 +15,10 @@ namespace Xenbyte\ContaoEtracker\Tests\EventListener;
 
 use Contao\BackendUser;
 use Contao\FrontendUser;
+use Contao\LayoutModel;
+use Contao\Model\Collection;
 use Contao\PageModel;
+use Contao\PageRegular;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -88,6 +91,8 @@ class GeneratePageListenerTest extends ContaoTestCase
     private function getDefaultConfig(): array
     {
         return [
+            'id' => 99,
+            'type' => 'root',
             'etrackerEnable' => true,
             'etrackerAccountKey' => 'abcdef',
             'etrackerOptimiser' => false,
@@ -98,6 +103,7 @@ class GeneratePageListenerTest extends ContaoTestCase
             'etrackerExcludeBEUser' => true,
             'etrackerDebug' => 'disabled',
             'etrackerCDIFEUser' => false,
+            'etrackerAreaname' => ''
         ];
     }
 }

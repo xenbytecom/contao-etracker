@@ -15,8 +15,9 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'template_legend')
-    ->addField(['etrackerFieldname'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerIgnoreField'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->addField(['etrackerFormSection'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerFormFieldname'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('text', 'tl_form_field')
     ->applyToPalette('textdigit', 'tl_form_field')
     ->applyToPalette('textcustom', 'tl_form_field')
