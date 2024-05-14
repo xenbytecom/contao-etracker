@@ -40,7 +40,7 @@ Entweder über den Contao Manager oder mittels composer via `composer require xe
 ## Konfiguration
 
 ### Website-Startseite (Root-Ebene)
-![docs/01_rootpage_setup.png](docs/01_rootpage_setup.png)!
+![docs/01_rootpage_setup.png](docs/01_rootpage_setup.png)
 
 Die etracker-Integration wird auf den jeweiligen Website-Startseiten aktiviert. Der Account-Schlüssel von etracker ist
 das einzige Pflichtfeld. Weitere Felder:
@@ -64,6 +64,19 @@ Sämtliche Angaben für die Unterseiten sind optional.
 * Seitenname: Wenn kein Seitenname in den etracker-Einstellungen gesetzt ist, wird der Seitentitel (welcher u. U. aber noch den Suffix des Website-Namens enthält) herangezogen.
 * Bereich-Name: Standardmäßig identisch zum Seitenname, kann aber überschrieben werden. Dieser Wert wird als Ebenen-Name für die Unterseiten weitergegeben.
 * Bereiche: Überschreibt die Bereiche für die aktuelle Seite anstatt diese über die Vererbungen zu generieren
+
+### Interne Suche tracken (etracker Pro oder Enterprise)
+
+Als Vorbereitung sind, wie in der [etracker-Dokumentation](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/onsite-kampagnen/) beschrieben, "in den Account-Einstellungen unter Einstellungen → Account → Automatische Erfassung  → Interne Suche die Benennung der Suche vorzunehmen". Der Wert für etcc_cmp_onsite ist bei der Contao-Konfiguration zu verwenden.
+
+![docs/03_search_setup.png](docs/03_search_setup.png)
+
+### Formulare tracken (etracker Pro oder Enterprise)
+
+Um die Formularanalyse zu verwenden, kann bei jedem Formular die entsprechende Option aktiviert werden. Ein abweichender Formularname, der in etracker verwendet werden soll, kann festgelegtwerden - ansonsten wird die Titel-Angabe verwendet.
+
+Zusätzlich lässt sich bei jedem Formularfeld eine "Sektion" festlegen, ansonsten wird der Wert "Standard" verwendet. Dies ist beispielsweise bei Formularen mit mehreren Bereichen möglich - eine automatische Erkennung über die Fieldsets ist (zumindest derzeit) nicht möglich. Für jedes Feld lässt sich auch eine für etracker abweichende Bezeichnung nutzen bzw. ein kompletter Ausschluss des Feldes festlegen.
+
 
 ## CSP-Header für etracker
 Ab Contao 5.13 können die CSP-Header direkt im Backend aktiviert werden, für ältere Versionen kann diese Einstellung (theoretisch) auch auf Webserver-Ebene gesetzt werden, allerdings wäre dann mit Einschränkungen von TinyMCE im Backend zu rechnen.
