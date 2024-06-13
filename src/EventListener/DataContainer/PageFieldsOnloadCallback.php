@@ -9,7 +9,7 @@ use Contao\DataContainer;
 use Contao\PageModel;
 
 /**
- * Removes etracker fields on page settings if etracker is disabled at root level
+ * Removes etracker fields on page settings if etracker is disabled at root level.
  */
 #[AsCallback(table: 'tl_page', target: 'config.onload')]
 class PageFieldsOnloadCallback
@@ -33,10 +33,7 @@ class PageFieldsOnloadCallback
     }
 
     /**
-     * Gets the root page of the current page
-     *
-     * @param int $pid
-     * @return PageModel|null
+     * Gets the root page of the current page.
      */
     private function getRootPage(int $pid): PageModel|null
     {

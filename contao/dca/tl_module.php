@@ -27,7 +27,6 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCampaignEnable'] = [
     'inputType' => 'checkbox',
     'eval'      => [
         'submitOnChange' => true,
-        'tl_class'       => 'clr'
     ],
     'sql'       => [
         'type'    => 'boolean',
@@ -38,7 +37,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCampaignEnable'] = [
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchMedOnsite'] = [
     'inputType' => 'text',
     'eval'      => [
-        'tl_class'  => 'w50',
+        'tl_class'  => 'w500 clr',
         'mandatory' => true,
         'maxlength' => 50,
     ],

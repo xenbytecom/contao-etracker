@@ -20,7 +20,7 @@ $GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccoun
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
     ->addField(['etrackerEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-     ->applyToPalette('root', 'tl_page')
+    ->applyToPalette('root', 'tl_page')
     ->applyToPalette('rootfallback', 'tl_page')
 ;
 
