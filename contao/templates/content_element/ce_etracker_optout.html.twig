@@ -1,44 +1,55 @@
-{% if etrackerOptOutType == 'checkbox' %}
-    <input type="checkbox" data-tld="{{ etracker_tld }}" id="trackingAllowed" value="true"/>
-    <span>Tracking erlauben</span>
-{% else %}
-    {# @see https://newapp.etracker.com/#/report/dataPrivacy/ #}
-    <p>
-        Der Anbieter dieser Website nutzt Dienste der etracker GmbH aus Hamburg, Deutschland (<a
-            href="https://www.etracker.com" target="_blank" rel="nofollow noopener">www.etracker.com</a>) zur Analyse
-        von
-        Nutzungsdaten. Wir verwenden standardmäßig keine Cookies für die Web-Analyse. Soweit wir Analyse- und
-        Optimierungs-Cookies einsetzen, holen wir Ihre explizite Einwilligung gesondert im Vorfeld ein. Ist das der Fall
-        und
-        Sie stimmen zu, werden Cookies eingesetzt, die eine statistische Reichweiten-Analyse dieser Website, eine
-        Erfolgsmessung unserer Online-Marketing-Maßnahmen sowie Testverfahren ermöglichen, um z.B. unterschiedliche
-        Versionen unseres Online-Angebotes oder seiner Bestandteile zu testen und zu optimieren. Cookies sind kleine
-        Textdateien, die vom Internet Browser auf dem Endgerät des Nutzers gespeichert werden. etracker Cookies
-        enthalten
-        keine Informationen, die eine Identifikation eines Nutzers ermöglichen.</p>
-    <p>
-        Die mit etracker erzeugten Daten werden im Auftrag des Anbieters dieser Website von etracker ausschließlich in
-        Deutschland verarbeitet und gespeichert und unterliegen damit den strengen deutschen und europäischen
-        Datenschutzgesetzen und -standards. etracker wurde diesbezüglich unabhängig geprüft, zertifiziert und mit dem
-        Datenschutz-Gütesiegel <a href="https://etracker.com/eprivacy" rel="nofollow noopener">ePrivacyseal</a>
-        ausgezeichnet.</p>
-    <p>
-        Die Datenverarbeitung erfolgt auf Basis der gesetzlichen Bestimmungen des Art. 6 Abs. 1 lit. f (berechtigtes
-        Interesse) der Datenschutzgrundverordnung (DSGVO). Unser Anliegen im Sinne der DSGVO (berechtigtes Interesse)
-        ist
-        die Optimierung unseres Online-Angebotes und unseres Webauftritts. Da uns die Privatsphäre unserer Besucher
-        wichtig
-        ist, werden die Daten, die möglicherweise einen Bezug zu einer einzelnen Person zulassen, wie die IP-Adresse,
-        Anmelde- oder Gerätekennungen, frühestmöglich anonymisiert oder pseudonymisiert. Eine andere Verwendung,
-        Zusammenführung mit anderen Daten oder eine Weitergabe an Dritte erfolgt nicht.</p>
-    <p>Sie können der vorbeschriebenen Datenverarbeitung jederzeit durch Klick auf den Schieberegler widersprechen. Der
-        Widerspruch hat keine nachteiligen Folgen. Wird kein Schieberegler angezeigt, ist die Datenerfassung bereits
-        durch
-        andere Blockier-Maßnahmen unterbunden.</p>
-    <p>
-        <a href="#" data-tld="{{ etracker_tld }}" id="et-opt-out"></a>
-    </p>
-    <p>Weitere Informationen zum Datenschutz bei etracker finden Sie <a
-            href="https://www.etracker.com/datenschutz/" target="_blank" rel="nofollow noopener">hier</a>.</p>
+{% extends "@Contao/content_element/_base.html.twig" %}
 
-{% endif %}
+{% block content %}
+    {% if etrackerOptOutType == 'checkbox' %}
+        <input type="checkbox" data-tld="{{ etracker_tld }}" id="trackingAllowed" value="true"/>
+        <span>Tracking erlauben</span>
+    {% else %}
+        {# @see https://newapp.etracker.com/#/report/dataPrivacy/ #}
+        <p>
+            Der Anbieter dieser Website nutzt Dienste der etracker GmbH aus Hamburg, Deutschland (<a
+                href="https://www.etracker.com" target="_blank" rel="nofollow noopener">www.etracker.com</a>) zur
+            Analyse
+            von
+            Nutzungsdaten. Wir verwenden standardmäßig keine Cookies für die Web-Analyse. Soweit wir Analyse- und
+            Optimierungs-Cookies einsetzen, holen wir Ihre explizite Einwilligung gesondert im Vorfeld ein. Ist das der
+            Fall
+            und
+            Sie stimmen zu, werden Cookies eingesetzt, die eine statistische Reichweiten-Analyse dieser Website, eine
+            Erfolgsmessung unserer Online-Marketing-Maßnahmen sowie Testverfahren ermöglichen, um z.B. unterschiedliche
+            Versionen unseres Online-Angebotes oder seiner Bestandteile zu testen und zu optimieren. Cookies sind kleine
+            Textdateien, die vom Internet Browser auf dem Endgerät des Nutzers gespeichert werden. etracker Cookies
+            enthalten
+            keine Informationen, die eine Identifikation eines Nutzers ermöglichen.</p>
+        <p>
+            Die mit etracker erzeugten Daten werden im Auftrag des Anbieters dieser Website von etracker ausschließlich
+            in
+            Deutschland verarbeitet und gespeichert und unterliegen damit den strengen deutschen und europäischen
+            Datenschutzgesetzen und -standards. etracker wurde diesbezüglich unabhängig geprüft, zertifiziert und mit
+            dem
+            Datenschutz-Gütesiegel <a href="https://etracker.com/eprivacy" rel="nofollow noopener">ePrivacyseal</a>
+            ausgezeichnet.</p>
+        <p>
+            Die Datenverarbeitung erfolgt auf Basis der gesetzlichen Bestimmungen des Art. 6 Abs. 1 lit. f (berechtigtes
+            Interesse) der Datenschutzgrundverordnung (DSGVO). Unser Anliegen im Sinne der DSGVO (berechtigtes
+            Interesse)
+            ist
+            die Optimierung unseres Online-Angebotes und unseres Webauftritts. Da uns die Privatsphäre unserer Besucher
+            wichtig
+            ist, werden die Daten, die möglicherweise einen Bezug zu einer einzelnen Person zulassen, wie die
+            IP-Adresse,
+            Anmelde- oder Gerätekennungen, frühestmöglich anonymisiert oder pseudonymisiert. Eine andere Verwendung,
+            Zusammenführung mit anderen Daten oder eine Weitergabe an Dritte erfolgt nicht.</p>
+        <p>Sie können der vorbeschriebenen Datenverarbeitung jederzeit durch Klick auf den Schieberegler widersprechen.
+            Der
+            Widerspruch hat keine nachteiligen Folgen. Wird kein Schieberegler angezeigt, ist die Datenerfassung bereits
+            durch
+            andere Blockier-Maßnahmen unterbunden.</p>
+        <p>
+            <a href="#" data-tld="{{ etracker_tld }}" id="et-opt-out"></a>
+        </p>
+        <p>Weitere Informationen zum Datenschutz bei etracker finden Sie <a
+                href="https://www.etracker.com/datenschutz/" target="_blank" rel="nofollow noopener">hier</a>.</p>
+
+    {% endif %}
+{% endblock %}
