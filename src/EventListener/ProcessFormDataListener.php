@@ -36,7 +36,7 @@ class ProcessFormDataListener
 
         // Stores form name for conversion after redirect
         unset($_SESSION['ET_FORM_CONVERSION']);
-        if($form->jumpTo === 0){
+        if (0 === $form->jumpTo) {
             $_SESSION['ET_FORM_CONVERSION'][$GLOBALS['objPage']->id] = $formName;
         } else {
             $_SESSION['ET_FORM_CONVERSION'][$form->jumpTo] = $formName;
