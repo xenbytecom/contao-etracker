@@ -13,9 +13,23 @@ class ParseTemplateListener
 {
     public function __invoke(BackendTemplate|FrontendTemplate $template): void
     {
-        if ('mod_search' === $template->getName() && isset($template->count)) {
+        if (isset($template->count) && 'mod_search' === $template->getName()) {
             $template->etrackerEnable = GeneratePageListener::isTrackingEnabled();
             $template->nonce = GeneratePageListener::getNonce();
+
+            if ($template->etrackerEnable && $template->etrackerSearchCampaignEnable) {
+                $objTemplate = new FrontendTemplate('etracker_search_code');
+
+                if (0 === $template->count) {
+                    $objTemplate->etrackerSearchCampaign = $template->etrackerSearchCmpOnsiteNoresults;
+                } else {
+                    $objTemplate->etrackerSearchCampaign = $template->etrackerSearchCmpOnsiteResults;
+                }
+                $objTemplate->etrackerSearchMedOnsite = $template->etrackerSearchMedOnsite;
+                $objTemplate->keyword = $template->keyword;
+
+                $GLOBALS['TL_BODY'][] = $objTemplate->parse();
+            }
         }
     }
 }
