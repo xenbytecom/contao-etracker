@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [0.5.0]
+
+### Added
+
+- event tracking configuration with default templates
+- support for 401, 403, 404 and 503 error pages
+- support for multiple forms on one page
+
+### Changed
+
+- renamed templates to avoid listing as analytics templates in layout configuration
+- hides etracker settings if etracker is disabled at root level
+- replaced mod_search template and use etracker_search_code in ParseTemplateListener instead
+- ignoring invisible form fields in form tracking
+- outsourced form tracking into external js file
+- moved more params logic from listener into template file
+- recognize only forms and fields as soon as they get visible on screen
+
 ## [0.4.3]
 
 ### Fixed

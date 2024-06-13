@@ -25,6 +25,7 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
 use Nelmio\SecurityBundle\EventListener\ContentSecurityPolicyListener;
+use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 #[AsHook('generatePage')]
 class GeneratePageListener
@@ -35,15 +36,97 @@ class GeneratePageListener
         $rootPage = PageModel::findById($pageModel->rootId);
 
         if (self::isTrackingEnabled($rootPage)) {
-            $objTemplate = new FrontendTemplate('analytics_etracker');
+            $objTemplate = new FrontendTemplate('etracker_head_code');
+
+            // Seitenname @see
+            // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
+            $pagename = $this->getPagename($pageModel);
+            if ('' !== $pagename) {
+                $objTemplate->pagename = trim($pagename);
+            }
 
             try {
                 $objTemplate->et_script = $this->getScriptCode($rootPage);
-                $objTemplate->et_params = $this->getParameters($rootPage, $pageModel);
+                $this->getParameters($objTemplate, $rootPage, $pageModel);
                 $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+
+                // Event-Tracking
+                if (null !== $rootPage->etrackerEvents) {
+                    $GLOBALS['TL_BODY'][] = $this->generateEventTracking($rootPage);
+                }
             } catch (\DOMException) {
             }
         }
+    }
+
+    public function generateEventTracking(PageModel $rootPage): string
+    {
+        $eventIds = unserialize($rootPage->etrackerEvents, [
+            'allowed_classes' => false,
+        ]);
+
+        /** @var array<EtrackerEventsModel> $evts */
+        $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
+        $script = '';
+
+        foreach ($evts as $evt) {
+            switch ($evt->event) {
+                case EtrackerEventsModel::EVT_MAIL:
+                    $selector = 'a[href^="mailto:"]';
+                    $object = 'evt.target.textContent.trim() || evt.target.href';
+                    break;
+                case EtrackerEventsModel::EVT_PHONE:
+                    $selector = 'a[href^="tel:"]';
+                    $object = 'evt.target.textContent.trim() || evt.target.href';
+                    break;
+                case EtrackerEventsModel::EVT_GALLERY:
+                    $selector = 'a[data-lightbox]';
+                    $object = 'evt.target.href';
+                    break;
+                case EtrackerEventsModel::EVT_DOWNLOAD:
+                    $selector = '.download-element a';
+                    $object = "[].reduce.call(evt.target.childNodes, function(a, b) { return a + (b.nodeType === 3 ? b.textContent : ''); }, '').trim()";
+                    break;
+                case EtrackerEventsModel::EVT_ACCORDION:
+                    $selector = 'section.ce_accordion div[aria-expanded="false"],h2.handorgel__header:not(.handorgel__header--opened)';
+                    $object = "[].reduce.call(evt.target.childNodes, function(a, b) { return a + (b.nodeType === 3 ? b.textContent : ''); }, '').trim()";
+                    break;
+                case EtrackerEventsModel::EVT_LANGUAGE:
+                    $selector = '.mod_changelanguage li a';
+                    $object = 'evt.target.textContent.trim() || evt.target.hreflang';
+                    break;
+                default:
+                    $selector = html_entity_decode($evt->selector ?? '');
+                    if (($evt->object ?? '') !== '') {
+                        $object = 'evt.target.'.$evt->object.'.trim()';
+                    } else {
+                        $object = $evt->object ?? 'evt.target.textContent.trim()';
+                    }
+                    break;
+            }
+
+            if ('' === $selector) {
+                continue;
+            }
+
+            $debug = '';
+            if ($this->isDebugMode($rootPage)) {
+                $debug = 'console.log('.$object.');';
+            }
+            $script .= <<<JS
+                    document.querySelectorAll('$selector').forEach(item => item.addEventListener("click", (evt) => {
+                        {$debug}
+                        if (_etracker !== undefined){
+                            _etracker.sendEvent(new et_UserDefinedEvent($object, '$evt->category', '$evt->action', '$evt->type'));
+                        }
+                    }));
+                JS;
+        }
+        $objTemplate = new FrontendTemplate('etracker_events');
+        $objTemplate->et_event_script = $script;
+        $objTemplate->nonce = self::getNonce();
+
+        return $objTemplate->parse();
     }
 
     /**
@@ -94,53 +177,36 @@ class GeneratePageListener
         $document->append($script);
         $document->normalize();
 
-        // Umlaute wiederherstellen, bis ich hierfür eine bessere Lösung gefunden habe
-        return str_replace(
-            ['&auml;', '&Auml;', '&ouml;', '&Ouml;', '&szlig;', '&uuml;', '&Uuml;'],
-            ['ä', 'Ä', 'ö', 'Ö', 'ß', 'ü', 'Ü'],
-            $document->saveHTML()
-        );
+        return $document->saveHTML();
     }
 
     /**
      * Ermitteln den JavaScript-Inhalt mit den etracker-Parametern.
      */
-    public function getParameters(PageModel $rootPage, PageModel $currentPage): string
+    public function getParameters(FrontendTemplate $objTemplate, PageModel $rootPage, PageModel $currentPage): void
     {
         $user = System::getContainer()->get('security.helper')?->getUser();
 
-        $document = new \DOMDocument();
-        $script = $document->createElement('script');
-        $script->setAttribute('type', 'text/javascript');
-
         $nonce = self::getNonce();
         if (null !== $nonce) {
-            $script->setAttribute('nonce', $nonce);
-        }
-        $paramCode = '';
-
-        // Seitenname @see
-        // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
-        $pagename = $this->getPagename($currentPage);
-        if ('' !== $pagename) {
-            $paramCode .= 'var et_pagename = "'.trim($pagename).'";'.PHP_EOL;
+            $objTemplate->nonce = $nonce;
         }
 
         // Bereiche
         $areas = $this->getParentAreas($currentPage);
         if (\count($areas) > 0) {
-            $paramCode .= 'var et_areas = "'.implode('/', $areas).'";'.PHP_EOL;
+            $objTemplate->areas .= implode('/', $areas);
         }
 
         // Debug-Modus
-        if ('enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && $user instanceof BackendUser)) {
-            $paramCode .= 'var _etr = { debugMode: true };'.PHP_EOL;
+        if ($this->isDebugMode($rootPage)) {
+            $objTemplate->debugmode .= 'var _etr = { debugMode: true };'.PHP_EOL;
         }
 
         // Frontend-User-Information für Cross-Device-Tracking übergeben @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
         if ($user instanceof FrontendUser && '1' === $rootPage->etrackerCDIFEUser) {
-            $paramCode .= 'var et_cdi = "'.md5($user->getUserIdentifier()).'";'.PHP_EOL;
+            $objTemplate->cdi .= 'var et_cdi = "'.md5($user->getUserIdentifier()).'";'.PHP_EOL;
         }
 
         // @see
@@ -148,34 +214,16 @@ class GeneratePageListener
         // $feUser->gender könnte als eigenes Segment genutzt werden weitere denkbare
         // Segmente: Benutzersprache, Seitensprache, Benutzergruppe (geht aber nur eine),
         // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
-        // [Dropdown], Segment 2: [Dropdown], ...
+        // [Dropdown], Segment 2: [Dropdown], ... Form conversion on form-target-page
+        //    var_dump($_SESSION['FORM_DATA']);
+        if (isset($_SESSION) && \is_array($_SESSION) && \array_key_exists('ET_FORM_CONVERSION', $_SESSION) && \is_array($_SESSION['ET_FORM_CONVERSION']) && \array_key_exists($currentPage->id, $_SESSION['ET_FORM_CONVERSION'])) {
+            // @see
+            // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
+            $objTemplate->formConversion = $_SESSION['ET_FORM_CONVERSION'][$currentPage->id];
 
-        $paramCode .= 'var _etrackerOnReady = [];'.PHP_EOL;
-
-        if (isset($_SESSION) && \is_array($_SESSION) && \array_key_exists('FORM_DATA', $_SESSION) && \is_array($_SESSION['FORM_DATA']) && \array_key_exists('ET_FORM_TRACKING_DATA', $_SESSION['FORM_DATA']) && !empty($_SESSION['FORM_DATA']['FORM_SUBMIT'])) {
-            $jumpToId = $_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['JUMPTO'];
-
-            if ($jumpToId === $currentPage->id) {
-                // @see
-                // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
-                $paramCode .= 'etForm.sendEvent("formConversion", '.$_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']['NAME'].');';
-
-                // FORM_DATA zurücksetzen, damit das Event kein zweites Mal getriggert wird
-                unset($_SESSION['FORM_DATA']['ET_FORM_TRACKING_DATA']);
-            }
+            // FORM_DATA zurücksetzen, damit das Event kein zweites Mal getriggert wird
+            unset($_SESSION['ET_FORM_CONVERSION']);
         }
-
-        $script->append($paramCode);
-
-        $document->append($script);
-        $document->normalize();
-
-        // Umlaute wiederherstellen, bis ich hierfür eine bessere Lösung gefunden habe
-        return str_replace(
-            ['&auml;', '&Auml;', '&ouml;', '&Ouml;', '&szlig;', '&uuml;', '&Uuml;'],
-            ['ä', 'Ä', 'ö', 'Ö', 'ß', 'ü', 'Ü'],
-            $document->saveHTML()
-        );
     }
 
     /**
@@ -283,5 +331,12 @@ class GeneratePageListener
     private static function getRootPage(): PageModel|null
     {
         return PageModel::findById($GLOBALS['objPage']->rootId);
+    }
+
+    private function isDebugMode(PageModel $rootPage): bool
+    {
+        $user = System::getContainer()->get('security.helper')?->getUser();
+
+        return 'enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && $user instanceof BackendUser);
     }
 }

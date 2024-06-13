@@ -1,0 +1,22 @@
+<!-- indexer::stop -->
+<!-- Copyright (c) 2000-2022 etracker GmbH. All rights reserved. -->
+<!-- This material may not be reproduced, displayed, modified or distributed -->
+<!-- without the express prior written permission of the copyright holder. -->
+<!-- etracker tracklet 5.0 -->
+<script type="text/javascript" {% if nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
+    var _etrackerOnReady = [];
+    {% if pagename is not null %}var et_pagename = "{{ pagename }}";{% endif %}
+    {% if areas is not null %}var et_areas = "{{ areas }}";{% endif %}
+    {% if debugmode|default(false) == true %}var _etr = {debugMode: true};{% endif %}
+    {% if cdi is not null %}var et_cdi = "{{ cdi }}";{% endif %}
+    {% if evt is not null %}{{ evt }}{% endif %}
+    {% if formConversion is not null %}_etrackerOnReady.push(
+        function () {
+            {% if debugmode|default(false) == true %}console.log("{{ formConversion }} submittet");{% endif %}
+            etForm.sendEvent("formConversion", "{{ formConversion }}");
+            _etracker.sendEvent(new et_UserDefinedEvent({{ formConversion }}, 'Formular', 'Formular abgesendet'));
+        });{% endif %}
+</script>
+{{ et_script|raw }}
+<!-- etracker tracklet 5.0 end -->
+<!-- indexer::continue -->
