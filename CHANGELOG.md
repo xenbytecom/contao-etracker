@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 - moved more params logic from listener into template file
 - recognize only forms and fields as soon as they get visible on screen
 
+
+### Fixed
+
+- recognizing etrackerIgnoreField
+
 ## [0.4.3]
 
 ### Fixed

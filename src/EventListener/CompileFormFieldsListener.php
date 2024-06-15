@@ -68,7 +68,7 @@ class CompileFormFieldsListener
         $section = 'Standard';
 
         foreach ($fields as $field) {
-            if (1 === $field->etrackerIgnoreField || $field->invisible || 'hidden' === $field->type) {
+            if (1 === (int) $field->etrackerIgnoreField || ((bool) $field->invisible) === true || 'hidden' === $field->type) {
                 continue;
             }
 
