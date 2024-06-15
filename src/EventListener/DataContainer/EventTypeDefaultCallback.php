@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
+use Contao\Database\Result;
 use Contao\DataContainer;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
@@ -20,20 +21,23 @@ class EventTypeDefaultCallback
             return $currentValue;
         }
 
-        $type = '';
-        $current = $dc->getCurrentRecord();
+        /** @var \stdClass|Result|null $record */
+        $record = $dc->activeRecord;
+        if(null === $record){
+            return '';
+        }
 
-        if (\is_array($current) && \array_key_exists('event', $current)) {
-            switch ($current['event']) {
-                case EtrackerEventsModel::EVT_MAIL:
-                    $type = 'mail';
-                    break;
-                case EtrackerEventsModel::EVT_PHONE:
-                    $type = 'phone';
-                    break;
-                default:
-                    break;
-            }
+        $type = '';
+
+        switch ($record->event) {
+            case EtrackerEventsModel::EVT_MAIL:
+                $type = 'mail';
+                break;
+            case EtrackerEventsModel::EVT_PHONE:
+                $type = 'phone';
+                break;
+            default:
+                break;
         }
 
         return $type;

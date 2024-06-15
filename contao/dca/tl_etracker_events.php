@@ -10,7 +10,6 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     // Config
     'config'   => [
         'dataContainer'    => DC_Table::class,
-        'switchToEdit'     => true,
         'enableVersioning' => true,
         'markAsCopy'       => 'title',
         'sql'              => [
@@ -165,5 +164,19 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
             'fields'      => ['title', 'event'],
             'format'      => '%s'
         ],
+        'operations' => [
+            'edit' => [
+                'href' => 'act=edit',
+                'icon' => 'edit.svg'
+            ],
+            'delete' => [
+                'href' => 'act=delete',
+                'icon' => 'delete.svg'
+            ],
+            'show' => [
+                'href' => 'act=show',
+                'icon' => 'show.svg'
+            ]
+        ]
     ],
 ];

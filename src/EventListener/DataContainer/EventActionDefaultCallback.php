@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
+use Contao\Database\Result;
 use Contao\DataContainer;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
@@ -20,28 +21,31 @@ class EventActionDefaultCallback
             return $currentValue;
         }
 
-        $category = '';
-        $current = $dc->getCurrentRecord();
+        /** @var \stdClass|Result|null $record */
+        $record = $dc->activeRecord;
+        if(null === $record){
+            return '';
+        }
 
-        if (\is_array($current) && \array_key_exists('event', $current)) {
-            switch ($current['event']) {
-                case EtrackerEventsModel::EVT_MAIL:
-                case EtrackerEventsModel::EVT_PHONE:
-                    $category = 'Klick';
-                    break;
-                case EtrackerEventsModel::EVT_GALLERY:
-                    $category = 'Lightbox';
-                    break;
-                case EtrackerEventsModel::EVT_DOWNLOAD:
-                    $category = 'Download';
-                    break;
-                case EtrackerEventsModel::EVT_LANGUAGE:
-                case EtrackerEventsModel::EVT_ACCORDION:
-                    $category = 'Auswahl';
-                    break;
-                default:
-                    break;
-            }
+        $category = '';
+
+        switch ($record->event) {
+            case EtrackerEventsModel::EVT_MAIL:
+            case EtrackerEventsModel::EVT_PHONE:
+                $category = 'Klick';
+                break;
+            case EtrackerEventsModel::EVT_GALLERY:
+                $category = 'Lightbox';
+                break;
+            case EtrackerEventsModel::EVT_DOWNLOAD:
+                $category = 'Download';
+                break;
+            case EtrackerEventsModel::EVT_LANGUAGE:
+            case EtrackerEventsModel::EVT_ACCORDION:
+                $category = 'Auswahl';
+                break;
+            default:
+                break;
         }
 
         return $category;
