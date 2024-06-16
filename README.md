@@ -1,4 +1,6 @@
-# etracker für Contao CMS (inoffizielles Plugin)
+# etracker-Integration für Contao CMS
+
+![etracker.svg](etracker.svg)
 
 Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden. Kompatibel zu Contao 4.13 und neuer,
 einschließlich Contao 5.3.
@@ -24,18 +26,15 @@ Contao-Forum oder per E-Mail) ist willkommen.
   etracker Pro oder Enterprise)
 * twig-Templates mit Nutzung von CSP nonce (auch unter Contao 4.13), sodass unsafe-inline nicht mehr erforderlich
   ist ([andere Security Header müssen gesetzt werden](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#integration-security-header))
-
-## Einschränkungen
-
-* nur asynchroner code
-* beim Formular-Tracking ist nur ein Fomular pro Seite möglich
+* Event-Tracking-Vorlagen
 
 ## Geplante Funktionen
 
 * deaktivierung Cookie-less tracking
-* eigene
-  Dimensionen: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
+* eigene Dimensionen: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
 * evtl. Anbindung and Cookiebar
+* Tracking von Benutzer-Registrierungen (falls machbar)
+* Tracking von Benutzer-Logins (falls machbar)
 
 ## Voraussetzzungen
 
@@ -127,6 +126,9 @@ Vorlage vorausgefühllt. Das Event-Objekt ist abhängig von der gewählten Vorla
 benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberfläche
 wähbar.
 
+**Einschränkung:** Die Vorlagen-Texte werden nur beim erstmaligen Auswählen der Ereignis-Vorlage gesetzt und bleiben
+beim erneuten Wechsel bestehen.
+
 **Hinweis:** Das Anlegen der Ereignisse erfolgt im Menüpunkt `etracker-Events`, die einzelnen Ereignisse müssen jedoch
 auf Root-Ebene (Startpunkt einer Website) explizit aktiviert werden.
 
@@ -144,3 +146,7 @@ Bei Verwendung der Scrollmap sollte zudem noch das Einbetten in einen iframe erl
 ```
 Header set Content-Security-Policy "frame-ancestors https://*.etracker.com; script-src 'self' https://*.etracker.com https://*.etracker.de; connect-src https://*.etracker.de"
 ```
+
+## Disclaimer
+etracker und das etracker Logo sind Eigentum der etracker GmbH. Die etracker-Integration in Contao ist eine eigene,
+inoffizielle Erweiterung.
