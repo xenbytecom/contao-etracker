@@ -15,7 +15,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 // Palettes
 $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'etrackerEnable';
-$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerOptimiser,etrackerAreaname,etrackerDoNotTrack,etrackerNoJquery,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser;etrackerEvents';
+$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerOptimiser,etrackerAreaname,etrackerDoNotTrack,etrackerNoJquery,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser,etrackerEvents';
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
