@@ -193,9 +193,13 @@ class GeneratePageListener
         }
 
         // Bereiche
-        $areas = $this->getParentAreas($currentPage);
-        if (\count($areas) > 0) {
-            $objTemplate->areas .= implode('/', $areas);
+        if ('' !== ((string) $currentPage->etrackerAreas)) {
+            $objTemplate->areas = $currentPage->etrackerAreas;
+        } else {
+            $areas = $this->getParentAreas($currentPage);
+            if (\count($areas) > 0) {
+                $objTemplate->areas .= implode('/', $areas);
+            }
         }
 
         // Debug-Modus
