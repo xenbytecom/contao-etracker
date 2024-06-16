@@ -17,13 +17,13 @@ class EventTypeDefaultCallback
 {
     public function __invoke(string|null $currentValue, DataContainer|null $dc = null): string|null
     {
-        if (null === $dc || null !== $currentValue) {
+        if (null === $dc || '' !== ((string) $currentValue)) {
             return $currentValue;
         }
 
         /** @var \stdClass|Result|null $record */
         $record = $dc->activeRecord;
-        if(null === $record){
+        if (null === $record) {
             return '';
         }
 
