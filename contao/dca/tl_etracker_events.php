@@ -8,10 +8,11 @@ use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     // Config
-    'config'   => [
+    'config'      => [
         'dataContainer'    => DC_Table::class,
         'enableVersioning' => true,
         'markAsCopy'       => 'title',
+        'notEditable'      => false,
         'sql'              => [
             'keys' => [
                 'id' => 'primary',
@@ -20,14 +21,22 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     ],
 
     // Fields
-    'fields'   => [
-        'id'           => [
-            'sql' => "int(10) unsigned NOT NULL auto_increment"
+    'fields'      => [
+        'id'       => [
+            'sql' => [
+                'type' => 'integer',
+                'unsigned' => true,
+                'autoincrement' => true
+            ],
         ],
-        'tstamp'       => [
-            'sql' => "int(10) unsigned NOT NULL default 0"
+        'tstamp' => [
+            'sql' => [
+                'type' => 'integer',
+                'unsigned' => true,
+                'default' => 0
+            ]
         ],
-        'title'        => [
+        'title'    => [
             'exclude'   => true,
             'search'    => true,
             'inputType' => 'text',
@@ -36,12 +45,15 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'maxlength' => 255,
                 'tl_class'  => 'w50'
             ],
-            'sql'       => "varchar(255) NOT NULL default ''"
+            'sql'       => [
+                'type'    => 'text',
+                'length'  => 255,
+            ],
         ],
-        'event'     => [
+        'event'    => [
             'exclude'   => true,
             'inputType' => 'select',
-            'options' => [
+            'options'   => [
                 EtrackerEventsModel::EVT_MAIL,
                 EtrackerEventsModel::EVT_PHONE,
                 EtrackerEventsModel::EVT_GALLERY,
@@ -52,8 +64,8 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
             ],
             'reference' => &$GLOBALS['TL_LANG']['tl_etracker_events']['event']['options'],
             'eval'      => [
-                'mandatory' => true,
-                'tl_class'  => 'w50',
+                'mandatory'      => true,
+                'tl_class'       => 'w50',
                 'submitOnChange' => true,
             ],
             'sql'       => [
@@ -62,7 +74,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'default' => EtrackerEventsModel::EVT_CUSTOM
             ],
         ],
-        'selector'     => [
+        'selector' => [
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => [
@@ -76,21 +88,21 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'notnull' => false,
             ],
         ],
-        'object'       => [
+        'object'   => [
             'exclude'   => true,
             'inputType' => 'select',
-            'default' => EtrackerEventsModel::OBJ_INNERTEXT,
+            'default'   => EtrackerEventsModel::OBJ_INNERTEXT,
             'options'   => [
                 EtrackerEventsModel::OBJ_INNERTEXT => 'textContent',
-                EtrackerEventsModel::OBJ_ALT => 'alt-Attribut',
-                EtrackerEventsModel::OBJ_SRC => 'src-Attribut',
-                EtrackerEventsModel::OBJ_HREF => 'href-Attribut',
-                EtrackerEventsModel::OBJ_TITLE => 'title-Attribut',
+                EtrackerEventsModel::OBJ_ALT       => 'alt-Attribut',
+                EtrackerEventsModel::OBJ_SRC       => 'src-Attribut',
+                EtrackerEventsModel::OBJ_HREF      => 'href-Attribut',
+                EtrackerEventsModel::OBJ_TITLE     => 'title-Attribut',
             ],
             'eval'      => [
-                'mandatory' => true,
+                'mandatory'      => true,
                 'submitOnChange' => true,
-                'tl_class'  => 'w50'
+                'tl_class'       => 'w50'
             ],
             'sql'       => [
                 'type'    => 'integer',
@@ -99,7 +111,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'default' => EtrackerEventsModel::OBJ_INNERTEXT,
             ],
         ],
-        'category'     => [
+        'category' => [
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => [
@@ -114,7 +126,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'default' => '',
             ],
         ],
-        'action'       => [
+        'action'   => [
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => [
@@ -127,11 +139,11 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 'notnull' => false,
             ],
         ],
-        'type'         => [
+        'type'     => [
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => [
-                'tl_class' => 'w50',
+                'tl_class'  => 'w50',
                 'maxlength' => 100,
             ],
             'sql'       => [
@@ -143,7 +155,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     ],
 
     // Palettes
-    'palettes' => [
+    'palettes'    => [
         '__selector__' => ['event', 'object'],
         'default'      => '{title_legend},title,event;category,action,type;',
     ],
@@ -152,14 +164,14 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     ],
 
     // Listing
-    'list'     => [
-        'sorting' => [
-            'mode'        => DataContainer::MODE_SORTABLE,
+    'list'        => [
+        'sorting'           => [
+            'mode'        => DataContainer::MODE_SORTED,
             'fields'      => ['title'],
             'panelLayout' => 'sort,search,limit',
             'flag'        => DataContainer::SORT_INITIAL_LETTER_ASC,
         ],
-        'label'   => [
+        'label'             => [
             'showColumns' => true,
             'fields'      => ['title', 'event'],
             'format'      => '%s'
