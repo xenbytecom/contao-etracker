@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 
 ## [0.5.1]
 
+### Changed
+
+- display category and action in event tracking list
+- update default values of event tracking on every change of the template selection in Contao 5.0 and newer
+- updated english translations
+
+### Fixed
+
+- default values for event tracking were not saved correctly to the database in Contao 4.13
+
+## [0.5.1]
+
 ### Fixed
 
 - optout template caused error in Contao 4.13

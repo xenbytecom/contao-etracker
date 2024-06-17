@@ -123,8 +123,7 @@ einige Standardfälle wurden aber zusätzliche Event-Tracking-Vorlagen hinzugef�
 
 Event-Kategorie, Event-Aktion und Event-Typ sind frei wählbar, für die schnelle Konfiguration sind jedoch Texte als
 Vorlage vorausgefühllt. Das Event-Objekt ist abhängig von der gewählten Vorlage hinterlegt. Darüber hinaus sind
-benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberfläche
-wähbar.
+benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberfläche wähbar.
 
 **Einschränkung:** Die Vorlagen-Texte werden nur beim erstmaligen Auswählen der Ereignis-Vorlage gesetzt und bleiben
 beim erneuten Wechsel bestehen.
