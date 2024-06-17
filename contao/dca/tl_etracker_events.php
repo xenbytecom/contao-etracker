@@ -61,6 +61,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
             'sql' => [
                 'type' => 'text',
                 'length' => 255,
+                'default' => '',
             ],
         ],
         'event' => [

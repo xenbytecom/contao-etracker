@@ -213,6 +213,6 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEvents'] = [
     ],
     'relation' => [
         'type' => 'hasMany',
-        'load' => 'lazy'
-    ]
+        'load' => 'lazy',
+    ],
 ];
