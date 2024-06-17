@@ -1,22 +1,10 @@
 <?php
 
-/*
- * etracker integration for Contao CMS
- *
- * Copyright (c) 2024 Xenbyte, Stefan Brauner
- *
- * @author     Stefan Brauner <https://www.xenbyte.com>
- * @link       https://github.com/xenbytecom/contao-etracker
- * @license    LGPL-3.0-or-later
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 declare(strict_types=1);
 
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\Database\Result;
 use Contao\DataContainer;
@@ -34,33 +22,41 @@ class EventActionDefaultCallback
             return $currentValue;
         }
 
-        /** @var \stdClass|Result|null $record */
+        $version = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
+        if (!$dc->id || str_starts_with($version, '5.')) {
+            // ignore in Contao 5 or newer
+            return '';
+        }
+
+        /** @var Result|null $record */
         $record = $dc->__get('activeRecord');
         if (null === $record) {
             return '';
         }
 
-        $category = '';
+        $action = '';
 
         switch ($record->event) {
             case EtrackerEventsModel::EVT_MAIL:
             case EtrackerEventsModel::EVT_PHONE:
-                $category = 'Klick';
+                $action = 'Klick';
                 break;
             case EtrackerEventsModel::EVT_GALLERY:
-                $category = 'Lightbox';
+                $action = 'Lightbox';
                 break;
             case EtrackerEventsModel::EVT_DOWNLOAD:
-                $category = 'Download';
+                $action = 'Download';
                 break;
             case EtrackerEventsModel::EVT_LANGUAGE:
             case EtrackerEventsModel::EVT_ACCORDION:
-                $category = 'Auswahl';
+                $action = 'Auswahl';
                 break;
             default:
                 break;
         }
 
-        return $category;
+        $record->__set('action', $action);
+
+        return $action;
     }
 }

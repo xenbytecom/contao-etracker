@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
+use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\Database\Result;
 use Contao\DataContainer;
@@ -34,7 +35,13 @@ class EventCategoryDefaultCallback
             return $currentValue;
         }
 
-        /** @var \stdClass|Result|null $record */
+        $version = (method_exists(ContaoCoreBundle::class, 'getVersion') ? ContaoCoreBundle::getVersion() : VERSION);
+        if (!$dc->id || str_starts_with($version, '5.')) {
+            // ignore in Contao 5 or newer
+            return '';
+        }
+
+        /** @var Result|null $record */
         $record = $dc->__get('activeRecord');
         if (null === $record) {
             return '';
