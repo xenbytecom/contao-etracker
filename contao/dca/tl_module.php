@@ -1,9 +1,13 @@
 <?php
 
 /*
- * etracker Plugin for Contao
+ * etracker integration for Contao CMS
  *
- * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
+ * Copyright (c) 2024 Xenbyte, Stefan Brauner
+ *
+ * @author     Stefan Brauner <https://www.xenbyte.com>
+ * @link       https://github.com/xenbytecom/contao-etracker
+ * @license    LGPL-3.0-or-later
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,46 +24,47 @@ $GLOBALS['TL_DCA']['tl_module']['subpalettes']['etrackerSearchCampaignEnable'] =
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'config_legend')
     ->addField(['etrackerSearchCampaignEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('search', 'tl_module');
+    ->applyToPalette('search', 'tl_module')
+;
 
 // Fields for Search Module
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCampaignEnable'] = [
     'inputType' => 'checkbox',
-    'eval'      => [
+    'eval' => [
         'submitOnChange' => true,
     ],
-    'sql'       => [
-        'type'    => 'boolean',
+    'sql' => [
+        'type' => 'boolean',
         'default' => false,
     ],
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchMedOnsite'] = [
     'inputType' => 'text',
-    'eval'      => [
-        'tl_class'  => 'w500 clr',
+    'eval' => [
+        'tl_class' => 'w500 clr',
         'mandatory' => true,
         'maxlength' => 50,
     ],
-    'sql'       => 'varchar(50) NULL',
+    'sql' => 'varchar(50) NULL',
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteResults'] = [
     'inputType' => 'text',
-    'eval'      => [
-        'tl_class'  => 'w50',
+    'eval' => [
+        'tl_class' => 'w50',
         'mandatory' => true,
         'maxlength' => 50,
     ],
-    'sql'       => 'varchar(50) NULL',
+    'sql' => 'varchar(50) NULL',
 ];
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteNoresults'] = [
     'inputType' => 'text',
-    'eval'      => [
-        'tl_class'  => 'w50',
+    'eval' => [
+        'tl_class' => 'w50',
         'mandatory' => true,
         'maxlength' => 50,
     ],
-    'sql'       => 'varchar(50) NULL',
+    'sql' => 'varchar(50) NULL',
 ];

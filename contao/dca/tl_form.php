@@ -1,9 +1,13 @@
 <?php
 
 /*
- * etracker Plugin for Contao
+ * etracker integration for Contao CMS
  *
- * (c) Xenbyte, Stefan Brauner <info@xenbyte.com>
+ * Copyright (c) 2024 Xenbyte, Stefan Brauner
+ *
+ * @author     Stefan Brauner <https://www.xenbyte.com>
+ * @link       https://github.com/xenbytecom/contao-etracker
+ * @license    LGPL-3.0-or-later
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,25 +23,26 @@ $GLOBALS['TL_DCA']['tl_form']['subpalettes']['etrackerFormTracking'] = 'etracker
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'template_legend')
     ->addField(['etrackerFormTracking'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('default', 'tl_form');
+    ->applyToPalette('default', 'tl_form')
+;
 
 $GLOBALS['TL_DCA']['tl_form']['fields']['etrackerFormTracking'] = [
-    'exclude'   => true,
+    'exclude' => true,
     'inputType' => 'checkbox',
-    'eval'      => ['tl_class' => 'w50', 'submitOnChange' => true],
+    'eval' => ['tl_class' => 'w50', 'submitOnChange' => true],
     'toggle' => true,
-    'sql'       => [
-        'type'    => 'boolean',
+    'sql' => [
+        'type' => 'boolean',
         'default' => false,
     ],
 ];
 $GLOBALS['TL_DCA']['tl_form']['fields']['etrackerFormName'] = [
-    'exclude'   => true,
+    'exclude' => true,
     'inputType' => 'text',
-    'eval'      => ['tl_class' => 'w50', 'maxlength' => 50],
-    'sql'       => [
-        'type'    => 'text',
-        'length'  => 50,
-        'default' => ''
+    'eval' => ['tl_class' => 'w50', 'maxlength' => 50],
+    'sql' => [
+        'type' => 'text',
+        'length' => 50,
+        'default' => '',
     ],
 ];

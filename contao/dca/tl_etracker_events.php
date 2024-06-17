@@ -1,5 +1,18 @@
 <?php
 
+/*
+ * etracker integration for Contao CMS
+ *
+ * Copyright (c) 2024 Xenbyte, Stefan Brauner
+ *
+ * @author     Stefan Brauner <https://www.xenbyte.com>
+ * @link       https://github.com/xenbytecom/contao-etracker
+ * @license    LGPL-3.0-or-later
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 use Contao\DataContainer;
@@ -8,52 +21,52 @@ use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 $GLOBALS['TL_DCA']['tl_etracker_events'] = [
     // Config
-    'config'      => [
-        'dataContainer'    => DC_Table::class,
+    'config' => [
+        'dataContainer' => DC_Table::class,
         'enableVersioning' => true,
-        'markAsCopy'       => 'title',
-        'notEditable'      => false,
-        'sql'              => [
+        'markAsCopy' => 'title',
+        'notEditable' => false,
+        'sql' => [
             'keys' => [
                 'id' => 'primary',
-            ]
-        ]
+            ],
+        ],
     ],
 
     // Fields
-    'fields'      => [
-        'id'       => [
+    'fields' => [
+        'id' => [
             'sql' => [
                 'type' => 'integer',
                 'unsigned' => true,
-                'autoincrement' => true
+                'autoincrement' => true,
             ],
         ],
         'tstamp' => [
             'sql' => [
                 'type' => 'integer',
                 'unsigned' => true,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
-        'title'    => [
-            'exclude'   => true,
-            'search'    => true,
+        'title' => [
+            'exclude' => true,
+            'search' => true,
             'inputType' => 'text',
-            'eval'      => [
+            'eval' => [
                 'mandatory' => true,
                 'maxlength' => 255,
-                'tl_class'  => 'w50'
+                'tl_class' => 'w50',
             ],
-            'sql'       => [
-                'type'    => 'text',
-                'length'  => 255,
+            'sql' => [
+                'type' => 'text',
+                'length' => 255,
             ],
         ],
-        'event'    => [
-            'exclude'   => true,
+        'event' => [
+            'exclude' => true,
             'inputType' => 'select',
-            'options'   => [
+            'options' => [
                 EtrackerEventsModel::EVT_MAIL,
                 EtrackerEventsModel::EVT_PHONE,
                 EtrackerEventsModel::EVT_GALLERY,
@@ -63,132 +76,132 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 EtrackerEventsModel::EVT_CUSTOM,
             ],
             'reference' => &$GLOBALS['TL_LANG']['tl_etracker_events']['event']['options'],
-            'eval'      => [
-                'mandatory'      => true,
-                'tl_class'       => 'w50',
+            'eval' => [
+                'mandatory' => true,
+                'tl_class' => 'w50',
                 'submitOnChange' => true,
             ],
-            'sql'       => [
-                'type'    => 'integer',
+            'sql' => [
+                'type' => 'integer',
                 'notnull' => true,
-                'default' => EtrackerEventsModel::EVT_CUSTOM
+                'default' => EtrackerEventsModel::EVT_CUSTOM,
             ],
         ],
         'selector' => [
-            'exclude'   => true,
+            'exclude' => true,
             'inputType' => 'text',
-            'eval'      => [
+            'eval' => [
                 'mandatory' => true,
-                'tl_class'  => 'w50',
+                'tl_class' => 'w50',
                 'maxlength' => 255,
             ],
-            'sql'       => [
-                'type'    => 'text',
-                'length'  => 255,
+            'sql' => [
+                'type' => 'text',
+                'length' => 255,
                 'notnull' => false,
             ],
         ],
-        'object'   => [
-            'exclude'   => true,
+        'object' => [
+            'exclude' => true,
             'inputType' => 'select',
-            'default'   => EtrackerEventsModel::OBJ_INNERTEXT,
-            'options'   => [
+            'default' => EtrackerEventsModel::OBJ_INNERTEXT,
+            'options' => [
                 EtrackerEventsModel::OBJ_INNERTEXT => 'textContent',
-                EtrackerEventsModel::OBJ_ALT       => 'alt-Attribut',
-                EtrackerEventsModel::OBJ_SRC       => 'src-Attribut',
-                EtrackerEventsModel::OBJ_HREF      => 'href-Attribut',
-                EtrackerEventsModel::OBJ_TITLE     => 'title-Attribut',
+                EtrackerEventsModel::OBJ_ALT => 'alt-Attribut',
+                EtrackerEventsModel::OBJ_SRC => 'src-Attribut',
+                EtrackerEventsModel::OBJ_HREF => 'href-Attribut',
+                EtrackerEventsModel::OBJ_TITLE => 'title-Attribut',
             ],
-            'eval'      => [
-                'mandatory'      => true,
+            'eval' => [
+                'mandatory' => true,
                 'submitOnChange' => true,
-                'tl_class'       => 'w50'
+                'tl_class' => 'w50',
             ],
-            'sql'       => [
-                'type'    => 'integer',
-                'length'  => 255,
+            'sql' => [
+                'type' => 'integer',
+                'length' => 255,
                 'notnull' => true,
                 'default' => EtrackerEventsModel::OBJ_INNERTEXT,
             ],
         ],
         'category' => [
-            'exclude'   => true,
+            'exclude' => true,
             'inputType' => 'text',
-            'eval'      => [
+            'eval' => [
                 'mandatory' => true,
-                'tl_class'  => 'w50',
+                'tl_class' => 'w50',
                 'maxlength' => 100,
             ],
-            'sql'       => [
-                'type'    => 'text',
-                'length'  => 100,
+            'sql' => [
+                'type' => 'text',
+                'length' => 100,
                 'notnull' => true,
                 'default' => '',
             ],
         ],
-        'action'   => [
-            'exclude'   => true,
+        'action' => [
+            'exclude' => true,
             'inputType' => 'text',
-            'eval'      => [
-                'tl_class'  => 'w50',
+            'eval' => [
+                'tl_class' => 'w50',
                 'maxlength' => 100,
             ],
-            'sql'       => [
-                'type'    => 'text',
-                'length'  => 100,
+            'sql' => [
+                'type' => 'text',
+                'length' => 100,
                 'notnull' => false,
             ],
         ],
-        'type'     => [
-            'exclude'   => true,
+        'type' => [
+            'exclude' => true,
             'inputType' => 'text',
-            'eval'      => [
-                'tl_class'  => 'w50',
+            'eval' => [
+                'tl_class' => 'w50',
                 'maxlength' => 100,
             ],
-            'sql'       => [
-                'type'    => 'text',
-                'length'  => 100,
+            'sql' => [
+                'type' => 'text',
+                'length' => 100,
                 'notnull' => false,
             ],
         ],
     ],
 
     // Palettes
-    'palettes'    => [
+    'palettes' => [
         '__selector__' => ['event', 'object'],
-        'default'      => '{title_legend},title,event;category,action,type;',
+        'default' => '{title_legend},title,event;category,action,type;',
     ],
     'subpalettes' => [
         'event_99' => 'selector,object',
     ],
 
     // Listing
-    'list'        => [
-        'sorting'           => [
-            'mode'        => DataContainer::MODE_SORTED,
-            'fields'      => ['title'],
+    'list' => [
+        'sorting' => [
+            'mode' => DataContainer::MODE_SORTED,
+            'fields' => ['title'],
             'panelLayout' => 'sort,search,limit',
-            'flag'        => DataContainer::SORT_INITIAL_LETTER_ASC,
+            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
         ],
-        'label'             => [
+        'label' => [
             'showColumns' => true,
-            'fields'      => ['title', 'event'],
-            'format'      => '%s'
+            'fields' => ['title', 'event'],
+            'format' => '%s',
         ],
         'operations' => [
             'edit' => [
                 'href' => 'act=edit',
-                'icon' => 'edit.svg'
+                'icon' => 'edit.svg',
             ],
             'delete' => [
                 'href' => 'act=delete',
-                'icon' => 'delete.svg'
+                'icon' => 'delete.svg',
             ],
             'show' => [
                 'href' => 'act=show',
-                'icon' => 'show.svg'
-            ]
-        ]
+                'icon' => 'show.svg',
+            ],
+        ],
     ],
 ];

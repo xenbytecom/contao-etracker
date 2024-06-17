@@ -2,36 +2,33 @@
 
 declare(strict_types=1);
 
+use Contao\EasyCodingStandard\Set\SetList;
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
-$header = <<<EOF
-etracker plugin for Contao
-
-(c) Xenbyte, Stefan Brauner <info@xenbyte.com>
-
-For the full copyright and license information, please view the LICENSE
-file that was distributed with this source code.
-EOF;
+$year = date('Y');
 
 return ECSConfig::configure()
-    ->withSets([__DIR__ . '/vendor/contao/easy-coding-standard/config/contao.php'])
+    ->withSets([SetList::CONTAO])
     ->withPaths([
+        __DIR__ . '/contao',
         __DIR__ . '/src',
         __DIR__ . '/tests',
     ])
+    ->withConfiguredRule(HeaderCommentFixer::class, [
+        'header' => <<<EOF
+etracker integration for Contao CMS
 
-    // add a single rule
-    ->withConfiguredRule(
-        HeaderCommentFixer::class,
-        ['header' => $header, 'location' => 'after_open']
-    )
+Copyright (c) $year Xenbyte, Stefan Brauner
 
-    // add sets - group of rules
-    ->withPreparedSets(
-        arrays: true,
-    // namespaces: true,
-    // spaces: true,
-    // docblocks: true,
-    // comments: true,
-    );
+@author     Stefan Brauner <https://www.xenbyte.com>
+@link       https://github.com/xenbytecom/contao-etracker
+@license    LGPL-3.0-or-later
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+EOF,
+        'location' => 'after_open'
+    ])
+    ->withParallel()
+    ->withCache(sys_get_temp_dir().'/ecs_ecs_cache');
