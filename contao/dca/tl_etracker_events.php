@@ -187,7 +187,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
         ],
         'label' => [
             'showColumns' => true,
-            'fields' => ['title', 'event'],
+            'fields' => ['title', 'event', 'category', 'action'],
             'format' => '%s',
         ],
         'operations' => [
