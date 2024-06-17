@@ -49,7 +49,7 @@ class EventTypeDefaultCallback
 
         $type = '';
 
-        switch ($record->event) {
+        switch ($record->__get('event')) {
             case EtrackerEventsModel::EVT_MAIL:
                 $type = 'mail';
                 break;

@@ -17,5 +17,8 @@ parameters:
         - Contao\Form
         - Contao\Widget
 
+    ignoreErrors:
+      - '#Constant VERSION not found.#'
+
     excludePaths:
         - %currentWorkingDirectory%/src/Resources/*

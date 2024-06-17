@@ -49,7 +49,7 @@ class EventCategoryDefaultCallback
 
         $category = '';
 
-        switch ($record->event) {
+        switch ($record->__get('event')) {
             case EtrackerEventsModel::EVT_MAIL:
             case EtrackerEventsModel::EVT_PHONE:
                 $category = 'Kontakt';

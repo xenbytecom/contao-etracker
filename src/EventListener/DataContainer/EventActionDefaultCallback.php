@@ -36,7 +36,7 @@ class EventActionDefaultCallback
 
         $action = '';
 
-        switch ($record->event) {
+        switch ($record->__get('event')) {
             case EtrackerEventsModel::EVT_MAIL:
             case EtrackerEventsModel::EVT_PHONE:
                 $action = 'Klick';
@@ -54,8 +54,6 @@ class EventActionDefaultCallback
             default:
                 break;
         }
-
-        $record->__set('action', $action);
 
         return $action;
     }
