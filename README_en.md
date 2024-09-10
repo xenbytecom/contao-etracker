@@ -1,7 +1,7 @@
 # etracker Analytics for Contao CMS (inofficial extension)
 
 With this bundle, etracker Analytics can be easily integrated into Contao. It's compatible with Contao 4.13 and newer,
-including Contao 5.3.
+including Contao 5.3. Contao 5.4 is currently not supported.
 
 This is still a pre-release version in the active development and testing phase.
 
@@ -27,7 +27,7 @@ This is still a pre-release version in the active development and testing phase.
 * segments: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
 
 ## Requirements
-* Contao 4.13 or newer
+* Contao 4.13 or newer (including Contao 5.3)
 * PHP 8.0 or newer
 * etracker account (chargeable)
 

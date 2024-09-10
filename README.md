@@ -3,7 +3,7 @@
 ![etracker.svg](etracker.svg)
 
 Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden. Kompatibel zu Contao 4.13 und neuer,
-einschließlich Contao 5.3.
+einschließlich Contao 5.3. Contao 5.4 wird noch nicht unterstützt.
 
 Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Testphase. Jedes Feedback (via Github, im
 Contao-Forum oder per E-Mail) ist willkommen.
@@ -38,7 +38,7 @@ Contao-Forum oder per E-Mail) ist willkommen.
 
 ## Voraussetzzungen
 
-* Contao 4.13 oder neuer
+* Contao 4.13 oder neuer (bis einschließlich Contao 5.3)
 * PHP 8.1 oder höher
 * [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)
 
