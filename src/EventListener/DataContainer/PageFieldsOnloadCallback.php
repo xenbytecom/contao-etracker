@@ -50,7 +50,7 @@ class PageFieldsOnloadCallback
      */
     private function getRootPage(int $pid): PageModel|null
     {
-        $parentPages = PageModel::findParentsById($pid);
+        $parentPages = PageModel::findParentsById($pid) ?? [];
 
         foreach ($parentPages as $parent) {
             if ('root' === $parent->type) {

@@ -320,7 +320,7 @@ class GeneratePageListener
     private function getParentAreas(PageModel $page): array
     {
         $areas = [];
-        $parentPages = PageModel::findParentsById($page->id);
+        $parentPages = PageModel::findParentsById($page->id) ?? [];
 
         foreach ($parentPages as $parent) {
             if ($parent->id === $page->id) {
