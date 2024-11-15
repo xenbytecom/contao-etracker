@@ -49,6 +49,8 @@ class GeneratePageListener
                 $objTemplate->pagename = trim($pagename);
             }
 
+            $objTemplate->etrackerTrackingDomain = $rootPage->etrackerTrackingDomain;
+
             try {
                 $objTemplate->et_script = $this->getScriptCode($rootPage);
                 $this->getParameters($objTemplate, $rootPage, $pageModel);

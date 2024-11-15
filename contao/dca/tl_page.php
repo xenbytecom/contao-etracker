@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDomain'] = [
     'inputType' => 'text',
     'eval' => [
         'tl_class' => 'w50',
-        'maxlength' => 16,
+        'maxlength' => 50,
     ],
     'sql' => 'varchar(50) NOT NULL default \'\'',
 ];
@@ -92,7 +92,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerTrackingDomain'] = [
     'inputType' => 'text',
     'eval' => [
         'tl_class' => 'w50',
-        'maxlength' => 16,
+        'maxlength' => 50,
     ],
     'sql' => 'varchar(50) NOT NULL default \'\'',
 ];

@@ -3,8 +3,9 @@
 <!-- This material may not be reproduced, displayed, modified or distributed -->
 <!-- without the express prior written permission of the copyright holder. -->
 <!-- etracker tracklet 5.0 -->
-<script type="text/javascript" {% if nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
+<script type="text/javascript" {% if nonce is defined and nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
     var _etrackerOnReady = [];
+    {% if etrackerTrackingDomain is not null %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
     {% if pagename is not null %}var et_pagename = "{{ pagename }}";{% endif %}
     {% if areas is not null %}var et_areas = "{{ areas }}";{% endif %}
     {% if debugmode|default(false) == true %}var _etr = {debugMode: true};{% endif %}

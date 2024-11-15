@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ### Fixed
 
 - Error when getRootPage don't find a result
+- Too short field length for domain in settings
+- Missing variable for custom domains
 
 ## [0.5.2]
 

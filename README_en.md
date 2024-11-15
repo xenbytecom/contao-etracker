@@ -28,7 +28,7 @@ This is still a pre-release version in the active development and testing phase.
 
 ## Requirements
 * Contao 4.13 or newer (including Contao 5.3)
-* PHP 8.0 or newer
+* PHP 8.1 or newer
 * etracker account (chargeable)
 
 ## Install
