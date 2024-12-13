@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [1.0.0]
+
+### Breaking Changes
+- Dropped support for Contao < 5.3
+
+### Added
+- Support for Contao 5.4
+
+### Fixed
+- custom event caused a JavaScript syntax error
+- default values for events overwrites custom values, even without chaning the event template
+- backend user were not determined for debug mode
+
 ## [0.5.4]
 
 - Too short field length for domain in settings

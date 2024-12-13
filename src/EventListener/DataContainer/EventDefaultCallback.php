@@ -18,11 +18,12 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
+use Contao\Database;
 use Contao\DataContainer;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 /**
- * Setzt die Standard-Werte in Abhängigkeit der Vorlage (nur Contao 5.0 und neuer).
+ * Setzt die Standard-Werte in Abhängigkeit der Vorlage.
  */
 #[AsCallback(table: 'tl_etracker_events', target: 'config.onbeforesubmit')]
 class EventDefaultCallback
@@ -34,6 +35,18 @@ class EventDefaultCallback
      */
     public function __invoke(array $values, DataContainer $dc): array
     {
+        // Aktuellen Wert aus der Datenbank holen
+        $currentEvent = Database::getInstance()
+            ->prepare('SELECT event FROM tl_etracker_events WHERE id=?')
+            ->execute($dc->id)
+            ->fetchAssoc()
+        ;
+
+        // Skip if event didn't change
+        if (false !== $currentEvent && $currentEvent['event'] === (int) $values['event']) {
+            return $values;
+        }
+
         if (\array_key_exists('event', $values)) {
             $events = (int) $values['event'];
 
