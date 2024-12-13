@@ -2,8 +2,8 @@
 
 ![etracker.svg](etracker.svg)
 
-Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden. Kompatibel zu Contao 4.13 und neuer,
-einschließlich Contao 5.3. Contao 5.4 wird noch nicht unterstützt.
+Mit diesem Bundle kann etracker Analytics einfach in Contao eingebunden werden. Kompatibel zu Contao 5.3 und Contao 5.4.
+Die Versionen zwischen Contao 4.13 und 5.2 werden nur bis Version 0.5.x der Erweiterung unterstützt.
 
 Es handelt sich noch um eine Vorab-Version in der aktiven Entwicklungs- und Testphase. Jedes Feedback (via Github, im
 Contao-Forum oder per E-Mail) ist willkommen.
@@ -59,7 +59,7 @@ das einzige Pflichtfeld. Weitere Felder:
   Dieses Konfigurationsfeld wird voraussichtlich noch verschoben.
 * Eigene Tracking-Domain: Wenn
   eine [eigene Tracking-Domain](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/eigene-tracking-domain-einrichten/)
-  eingerichtet wurde (muss separat bestellt werden), ist die abweichende Tracking-Domain hier anzugeben.
+  eingerichtet wurde, ist die abweichende Tracking-Domain hier anzugeben.
 * Debug mode: ermöglicht den etracker-eigenen debug mode, wahlweise komplett oder nur für Backend-Benutzer
 * Optimiser: aktiviert den etracker Optimiser für Smart Message oder A/B-Test, welcher jedoch sich im im
   End-of-Life-Status befindet

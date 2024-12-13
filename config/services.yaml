@@ -7,8 +7,3 @@ services:
     Xenbyte\ContaoEtracker\:
         resource: ../src/
         exclude: ../src/{ContaoManager,DependencyInjection}
-
-    # Alias to be able to use the CSP Listener as public service
-    xenbyte.csp_listener:
-        alias: nelmio_security.csp_listener
-        public: true

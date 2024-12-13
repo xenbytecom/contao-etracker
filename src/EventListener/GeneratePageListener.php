@@ -28,7 +28,6 @@ use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\System;
-use Nelmio\SecurityBundle\EventListener\ContentSecurityPolicyListener;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 #[AsHook('generatePage')]
@@ -264,8 +263,7 @@ class GeneratePageListener
 
     public static function getNonce(): string|null
     {
-        // Only generate nonce if CSP is enabled via Contao 5.3+ setting, in older
-        // versions activated by default
+        // Only generate nonce if CSP is enabled via settings
         /** @var bool|null $cspEnabled */
         $cspEnabled = self::getRootPage()->enableCsp;
         if (false === $cspEnabled) {
@@ -278,14 +276,6 @@ class GeneratePageListener
             $cspHandler = $responseContext->get('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler');
 
             return $cspHandler->getNonce('script-src');
-        }
-
-        // CSP nonce before Contao 5.3
-        if (System::getContainer()->has('xenbyte.csp_listener')) {
-            /** @var ContentSecurityPolicyListener $cspListener */
-            $cspListener = System::getContainer()->get('xenbyte.csp_listener');
-
-            return $cspListener->getNonce('script');
         }
 
         return null;
