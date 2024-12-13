@@ -95,4 +95,15 @@ class EtrackerEventsModel extends Model
      * @var string
      */
     protected static $strTable = 'tl_etracker_events';
+
+    public static function getObjectAttribute(int $objId): string
+    {
+        return match ($objId) {
+            self::OBJ_ALT => 'alt',
+            self::OBJ_SRC => 'src',
+            self::OBJ_HREF => 'href',
+            self::OBJ_TITLE => 'title',
+            default => 'textContent',
+        };
+    }
 }
