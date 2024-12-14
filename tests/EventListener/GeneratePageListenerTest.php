@@ -22,8 +22,14 @@ use Contao\FrontendUser;
 use Contao\PageModel;
 use Contao\System;
 use Contao\TestCase\ContaoTestCase;
+use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
+use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Xenbyte\ContaoEtracker\EventListener\GeneratePageListener;
 
 class GeneratePageListenerTest extends ContaoTestCase
@@ -38,10 +44,24 @@ class GeneratePageListenerTest extends ContaoTestCase
 
         $this->security = $this->createMock(Security::class);
 
-        $container = $this->getContainerWithContaoConfiguration();
-        $container->set('security.helper', $this->security);
+        $this->container = $this->getContainerWithContaoConfiguration();
 
-        System::setContainer($container);
+        $security = $this->createMock(Security::class);
+        $this->container->set('security.helper', $security);
+        $this->container->set('security.token_storage', $this->createMock(TokenStorageInterface::class));
+        $this->container->set('security.firewall.map', $this->createMock(FirewallMap::class));
+        $this->container->set('security.authentication.trust_resolver', $this->createMock(AuthenticationTrustResolver::class));
+        $this->container->set('security.access.simple_role_voter', $this->createMock(RoleVoter::class));
+        $this->container->set('database_connection', $this->createMock(Connection::class));
+
+        System::setContainer($this->container);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->resetStaticProperties([BackendUser::class]);
+
+        parent::tearDown();
     }
 
     public function testDisabledTracking(): void
@@ -53,6 +73,30 @@ class GeneratePageListenerTest extends ContaoTestCase
         $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
     }
 
+    public function testDisabledTrackingExcludedBEUser(): void
+    {
+        $user = $this->mockClassWithProperties(BackendUser::class, ['id' => 12]);
+
+        $token = $this->createMock(TokenInterface::class);
+        $token
+            ->method('getUser')
+            ->willReturn($user)
+        ;
+
+        $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        $tokenStorage
+            ->method('getToken')
+            ->willReturn($token)
+        ;
+
+        $this->container->set('security.token_storage', $tokenStorage);
+        System::setContainer($this->container);
+
+        $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
+
+        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
+    }
+
     public function testDisabledTrackingExcludedFEUser(): void
     {
         $user = $this->createMock(FrontendUser::class);
@@ -60,19 +104,8 @@ class GeneratePageListenerTest extends ContaoTestCase
             ->method('getUser')
             ->willReturn($user)
         ;
-
-        $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
-
-        $this->assertFalse($this->listener::isTrackingEnabled($rootPage));
-    }
-
-    public function testDisabledTrackingExcludedBEUser(): void
-    {
-        $user = $this->createMock(BackendUser::class);
-        $this->security
-            ->method('getUser')
-            ->willReturn($user)
-        ;
+        $this->container->set('security.helper', $this->security);
+        System::setContainer($this->container);
 
         $rootPage = $this->mockClassWithProperties(PageModel::class, $this->getDefaultConfig());
 

@@ -252,7 +252,7 @@ class GeneratePageListener
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
         $user = System::getContainer()->get('security.helper')?->getUser();
-        $beHide = $excludeBeUser && BackendUser::getInstance() instanceof BackendUser;
+        $beHide = $excludeBeUser && null !== BackendUser::getInstance()->id;
         $feHide = $excludeFeUser && $user instanceof FrontendUser;
 
         return $enabled && false === $beHide && false === $feHide;
