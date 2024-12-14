@@ -20,8 +20,8 @@ namespace Xenbyte\ContaoEtracker\Controller\ContentElement;
 use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
+use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\PageModel;
-use Contao\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,10 +30,10 @@ class EtrackerOptoutController extends AbstractContentElementController
 {
     public const TYPE = 'etracker_optout';
 
-    protected function getResponse(Template $template, ContentModel $model, Request $request): Response
+    protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
         if ('checkbox' === $model->etrackerOptOutType) {
-            $GLOBALS['TL_BODY'][] = Template::generateScriptTag('bundles/contaoetracker/optout.js');
+            $GLOBALS['TL_BODY'][] = '<script src="bundles/contaoetracker/optout.js"></script>';
         }
 
         $rootpage = PageModel::findById($GLOBALS['objPage']->rootId);
