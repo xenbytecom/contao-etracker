@@ -333,6 +333,6 @@ class GeneratePageListener
 
     private function isDebugMode(PageModel $rootPage): bool
     {
-        return 'enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && BackendUser::getInstance() instanceof BackendUser);
+        return 'enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && null !== BackendUser::getInstance()->id);
     }
 }
