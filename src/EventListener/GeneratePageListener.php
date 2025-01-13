@@ -103,7 +103,7 @@ class GeneratePageListener
                     break;
                 default:
                     $selector = html_entity_decode($evt->selector ?? '');
-                    $object = 'evt.target.'.EtrackerEventsModel::getObjectAttribute($evt->object ?? 0).'.trim()';
+                    $object = 'evt.target.'.EtrackerEventsModel::getObjectAttribute((int) ($evt->object ?? 0)).'.trim()';
                     break;
             }
 

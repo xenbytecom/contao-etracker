@@ -5,7 +5,7 @@
 <!-- etracker tracklet 5.0 -->
 <script type="text/javascript" {% if nonce is defined and nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
     var _etrackerOnReady = [];
-    {% if etrackerTrackingDomain is not null %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
+    {% if etrackerTrackingDomain|default('') != '' %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
     {% if pagename is not null %}var et_pagename = "{{ pagename }}";{% endif %}
     {% if areas is not null %}var et_areas = "{{ areas }}";{% endif %}
     {% if debugmode|default(false) == true %}var _etr = {debugMode: true};{% endif %}
