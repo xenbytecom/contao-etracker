@@ -26,6 +26,7 @@ use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -37,6 +38,8 @@ class GeneratePageListenerTest extends ContaoTestCase
     private GeneratePageListener $listener;
 
     private MockObject $security;
+
+    private ContainerBuilder $container;
 
     protected function setUp(): void
     {
