@@ -74,6 +74,7 @@ class GeneratePageListener
         /** @var array<EtrackerEventsModel> $evts */
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
         $script = '';
+        $event = 'click';
 
         foreach ($evts as $evt) {
             switch ($evt->event) {
@@ -103,11 +104,7 @@ class GeneratePageListener
                     break;
                 default:
                     $selector = html_entity_decode($evt->selector ?? '');
-                    if (($evt->object ?? '') !== '') {
-                        $object = 'evt.target.'.$evt->object.'.trim()';
-                    } else {
-                        $object = $evt->object ?? 'evt.target.textContent.trim()';
-                    }
+                    $object = 'evt.target.'.EtrackerEventsModel::getObjectAttribute((int) ($evt->object ?? 0)).'.trim()';
                     break;
             }
 
@@ -120,7 +117,7 @@ class GeneratePageListener
                 $debug = 'console.log('.$object.');';
             }
             $script .= <<<JS
-                    document.querySelectorAll('$selector').forEach(item => item.addEventListener("click", (evt) => {
+                    document.querySelectorAll('$selector').forEach(item => item.addEventListener("$event", (evt) => {
                         {$debug}
                         if (_etracker !== undefined){
                             _etracker.sendEvent(new et_UserDefinedEvent($object, '$evt->category', '$evt->action', '$evt->type'));
@@ -256,7 +253,7 @@ class GeneratePageListener
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
         $user = System::getContainer()->get('security.helper')?->getUser();
-        $beHide = $excludeBeUser && $user instanceof BackendUser;
+        $beHide = $excludeBeUser && null !== BackendUser::getInstance()->id;
         $feHide = $excludeFeUser && $user instanceof FrontendUser;
 
         return $enabled && false === $beHide && false === $feHide;
@@ -346,8 +343,6 @@ class GeneratePageListener
 
     private function isDebugMode(PageModel $rootPage): bool
     {
-        $user = System::getContainer()->get('security.helper')?->getUser();
-
-        return 'enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && $user instanceof BackendUser);
+        return 'enabled' === $rootPage->etrackerDebug || ('backend-user' === $rootPage->etrackerDebug && null !== BackendUser::getInstance()->id);
     }
 }

@@ -5,13 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [0.5.5]
+
+### Fixed
+
+- empty et_proxy_redirect
+- backend user were not determined for debug mode
+- default values for events overwrites custom values, even without chaning the event template
+- custom event caused a JavaScript syntax error
+
+## [0.5.4]
+
+- Too short field length for domain in settings
+- Missing variable for custom domains
+
 ## [0.5.3]
 
 ### Fixed
 
 - Error when getRootPage don't find a result
-- Too short field length for domain in settings
-- Missing variable for custom domains
 
 ## [0.5.2]
 
