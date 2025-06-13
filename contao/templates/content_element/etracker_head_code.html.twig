@@ -1,8 +1,6 @@
 <!-- indexer::stop -->
-<!-- Copyright (c) 2000-2022 etracker GmbH. All rights reserved. -->
-<!-- This material may not be reproduced, displayed, modified or distributed -->
-<!-- without the express prior written permission of the copyright holder. -->
-<!-- etracker tracklet 5.0 -->
+<!-- Copyright (c) 2000-2025 etracker GmbH. All rights reserved. No reproduction, publication or modification allowed without permission. -->
+<!-- etracker code 6.0 -->
 <script type="text/javascript" {% if nonce is defined and nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
     var _etrackerOnReady = [];
     {% if etrackerTrackingDomain|default('') != '' %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
@@ -19,5 +17,5 @@
         });{% endif %}
 </script>
 {{ et_script|raw }}
-<!-- etracker tracklet 5.0 end -->
+<!-- etracker code 6.0 end -->
 <!-- indexer::continue -->

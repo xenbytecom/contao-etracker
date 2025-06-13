@@ -193,6 +193,10 @@ class GeneratePageListener
 
         $script->setAttribute('src', $src);
         $script->setAttribute('async', '');
+        $nonce = self::getNonce();
+        if (null !== $nonce) {
+            $script->setAttribute('nonce', $nonce);
+        }
         $document->append($script);
         $document->normalize();
 
