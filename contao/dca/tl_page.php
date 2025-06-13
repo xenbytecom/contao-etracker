@@ -19,7 +19,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 // Palettes
 $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'etrackerEnable';
-$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerOptimiser,etrackerAreaname,etrackerDoNotTrack,etrackerNoJquery,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser,etrackerEvents';
+$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerAreaname,etrackerDoNotTrack,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser,etrackerEvents';
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')
@@ -143,17 +143,6 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAreas'] = [
         'maxlength' => 255,
     ],
     'sql' => 'varchar(255) NULL default NULL',
-];
-$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerNoJquery'] = [
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => [
-        'tl_class' => 'w50 cbx',
-    ],
-    'sql' => [
-        'type' => 'boolean',
-        'default' => false,
-    ],
 ];
 $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDoNotTrack'] = [
     'exclude' => true,

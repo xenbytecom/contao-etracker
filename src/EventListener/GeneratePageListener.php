@@ -179,10 +179,6 @@ class GeneratePageListener
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#Standardintegration
         $script->setAttribute('data-secure-code', $rootPage->etrackerAccountKey);
 
-        if (true === (bool) $rootPage->etrackerOptimiser) {
-            $script->setAttribute('data-enable-eo', 'true');
-        }
-
         // Mozilla Observatory complains protocol-relative URLs, if Subresource Integrity
         // (SRI) is not implemented
         $host = $rootPage->etrackerTrackingDomain ?: 'code.etracker.com';

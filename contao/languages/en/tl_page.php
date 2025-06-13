@@ -28,9 +28,7 @@ $GLOBALS['TL_LANG']['tl_page']['etrackerCookieless'] = ['cookie less tracking', 
 $GLOBALS['TL_LANG']['tl_page']['etrackerTrackingDomain'] = ['custom tracking domain', 'only enter after setting up your own, different <a href="https://www.etracker.com/docs/integration-setup/tracking-code-sdks/eigene-tracking-domain-einrichten/" target="_blank">tracking domain</a>'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerAccountKey'] = ['key', 'etracker account key'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerDomain'] = ['Main Domain', 'in etracker added main domain, needed for Opt-out'];
-$GLOBALS['TL_LANG']['tl_page']['etrackerOptimiser'] = ['Optimiser', 'Usage of etracker Optimiser add-on (EOL)'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerPagename'] = ['page name', 'Overwrite page name, otherwise page title'];
-$GLOBALS['TL_LANG']['tl_page']['etrackerNoJquery'] = ['disable jQuery', 'only makes sense if jQuery is loaded anyway, as otherwise smart messages and A/B tests cannot be played'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerDoNotTrack'] = ['Consider Do Not Track (DNT)', 'compliance is voluntary and not required for data protection-compliant use'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerExcludeFEUser'] = ['exclude frontend users', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Frontend verwendet'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerExcludeBEUser'] = ['exclude backend users', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Backend verwendet'];

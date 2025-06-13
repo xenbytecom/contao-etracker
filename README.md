@@ -14,8 +14,6 @@ Contao-Forum oder per E-Mail) ist willkommen.
 ## Features
 
 * etracker-Account je Startpunkt einer Seite
-* optionales Deaktivieren des etracker Optimisers
-* optionales Deaktivieren des in etracker integriertem jQuery
 * optionales Deaktivieren von etracker für eingeloggte Benutzer und/oder Mitglieder
 * Setzen der Variable et_pagename je Seite oder automatische Erkennung
 * Setzen der Variable et_areas je Seite oder automatische Ermittlung über die Seitenstruktur
@@ -60,16 +58,12 @@ das einzige Pflichtfeld. Weitere Felder:
   eine [eigene Tracking-Domain](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/eigene-tracking-domain-einrichten/)
   eingerichtet wurde, ist die abweichende Tracking-Domain hier anzugeben.
 * Debug mode: ermöglicht den etracker-eigenen debug mode, wahlweise komplett oder nur für Backend-Benutzer
-* Optimiser: aktiviert den etracker Optimiser für Smart Message oder A/B-Test, welcher jedoch sich im im
-  End-of-Life-Status befindet
 * Bereich-Name: legt einen Bereichsnamen fest, der für et_area an die Unterseiten weitergegeben wird. Auf
   Website-Startseiten-Ebene wäre bei mehrsprachigen Seiten z. B. die Sprache als Bereich 1 empfehlenswert. Wenn es nur
   eine Website-Startseite (Root-Ebene) gibt, sollte das Feld leergelassen werden.
 * Do Not Track (DNT) berücksichtigen: Standardmäßig berücksichtigt etracker die DNT-Angabe des Browsers nicht (
   siehe [etracker-Artikel](https://www.etracker.com/tipp-der-woche-do-not-track/)), die Berücksichtigung kann jedoch mit
   der Einstellung erzwungen werden.
-* jQuery deaktivieren: Für den Optimiser lädt etracker JavaScript. Das JavaScript kann mittlerweile bedenkenlos
-  deaktiviert werden, wenn der Optimiser nichft für Smart Messages oder A/B-Tests genutzt wird
 * Frontend-Benutzer ausschließen: bindet kein Tracking Code für eingeloggte Mitglieder aus, auch nicht bei aktiviertem
   debug mode
 * Backend-Bentuzer ausschließen: bindet kein Tracking Code für eingeloggte Benutzer aus, auch nicht bei aktiviertem

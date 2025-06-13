@@ -8,8 +8,7 @@ This is still a pre-release version in the active development and testing phase.
 ## Features
 * etracker account key per entrypoint
 * optional disabling of etracker Optimiser
-* optional disabling of loading etracker integrated jQuery
-* overwrite et_pagename variable with a custom title 
+ * overwrite et_pagename variable with a custom title 
 * specify et_areas or determine the values by page structure
 * optional disabling etracker for logged in frontend users and/or backend users
 * enabling and configuring form interaction tracking
