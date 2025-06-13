@@ -81,6 +81,26 @@ class EventDefaultCallback
                     $values['category'] = 'Accordion';
                     $values['type'] = '';
                     break;
+                case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
+                    $values['action'] = 'Erfolgreicher Login';
+                    $values['category'] = 'Authentifizierung';
+                    $values['type'] = '';
+                    break;
+                case EtrackerEventsModel::EVT_LOGIN_FAILURE:
+                    $values['action'] = 'Fehlgeschlagener Login';
+                    $values['category'] = 'Authentifizierung';
+                    $values['type'] = '';
+                    break;
+                case EtrackerEventsModel::EVT_LOGOUT:
+                    $values['action'] = 'Logout';
+                    $values['category'] = 'Authentifizierung';
+                    $values['type'] = '';
+                    break;
+                case EtrackerEventsModel::EVT_USER_REGISTRATION:
+                    $values['action'] = 'Registrierung';
+                    $values['category'] = 'Benutzer';
+                    $values['type'] = '';
+                    break;
                 default:
                     break;
             }

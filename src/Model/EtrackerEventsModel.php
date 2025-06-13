@@ -26,6 +26,9 @@ use Contao\Model;
  * @property string $category
  * @property string $action
  * @property string $type
+ * @property string $object
+ * @property string $object_text
+ * @property string $target_modules
  */
 class EtrackerEventsModel extends Model
 {

@@ -24,8 +24,7 @@ Contao-Forum oder per E-Mail) ist willkommen.
   oder Enterprise)
 * Tracking der Suchergebnisse als Onsite-Kampagne (muss in den Suchmodul-Einstellungen konfiguriert werden und erfordert
   etracker Pro oder Enterprise)
-* twig-Templates mit Nutzung von CSP nonce (auch unter Contao 4.13), sodass unsafe-inline nicht mehr erforderlich
-  ist ([andere Security Header müssen gesetzt werden](https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/funktion-zweck/#integration-security-header))
+* Tracking von Logins (erfolgreich und fehlgeschlagen), Logouts und Registrierungen
 * Event-Tracking-Vorlagen
 
 ## Geplante Funktionen
@@ -128,8 +127,9 @@ benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberflä
 **Einschränkung:** Die Vorlagen-Texte werden nur beim erstmaligen Auswählen der Ereignis-Vorlage gesetzt und bleiben
 beim erneuten Wechsel bestehen.
 
-**Hinweis:** Das Anlegen der Ereignisse erfolgt im Menüpunkt `etracker-Events`, die einzelnen Ereignisse müssen jedoch
-auf Root-Ebene (Startpunkt einer Website) explizit aktiviert werden.
+**Hinweis:** Das Anlegen der Ereignisse erfolgt zunächst im Menüpunkt `etracker Events`. Die einzelnen Ereignisse müssen
+anschließend auf Root-Ebene (Startpunkt einer Website) explizit aktiviert werden. Dadurch ist es möglich, dasselbe Event
+mit unterschiedlichen Werten je Root-Ebene zu nutzen.
 
 ## CSP-Header für etracker
 

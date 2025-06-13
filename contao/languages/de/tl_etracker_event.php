@@ -37,4 +37,12 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
     EtrackerEventsModel::EVT_ACCORDION => 'Ausklappen eines Accordion-Elements',
     EtrackerEventsModel::EVT_LANGUAGE => 'Sprachwechsel (contao-changelanguage)',
     EtrackerEventsModel::EVT_CUSTOM => 'benutzerdefiniertes Ereignis',
+    EtrackerEventsModel::EVT_LOGIN_SUCCESS => 'Erfolgreicher Login',
+    EtrackerEventsModel::EVT_LOGIN_FAILURE => 'Fehlgeschlagener Login',
+    EtrackerEventsModel::EVT_USER_REGISTRATION => 'Benutzerregistrierung',
+    EtrackerEventsModel::EVT_LOGOUT => 'Logout',
+];
+$GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'] = [
+    EtrackerEventsModel::OBJ_MODULE_TITLE => 'Name des Moduls',
+    EtrackerEventsModel::OBJ_TEXT_CONTENT => 'benutzerdefinierter Text',
 ];

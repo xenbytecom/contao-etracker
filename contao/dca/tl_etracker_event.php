@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 use Contao\DC_Table;
+use Xenbyte\ContaoEtracker\EventListener\DataContainer\EtrackerEventsDcaHelper;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 $GLOBALS['TL_DCA']['tl_etracker_event'] = [
@@ -74,6 +75,10 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 EtrackerEventsModel::EVT_DOWNLOAD,
                 EtrackerEventsModel::EVT_ACCORDION,
                 EtrackerEventsModel::EVT_LANGUAGE,
+                EtrackerEventsModel::EVT_LOGIN_SUCCESS,
+                EtrackerEventsModel::EVT_LOGIN_FAILURE,
+                EtrackerEventsModel::EVT_USER_REGISTRATION,
+                EtrackerEventsModel::EVT_LOGOUT,
                 EtrackerEventsModel::EVT_CUSTOM,
             ],
             'reference' => &$GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'],
@@ -112,7 +117,10 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 EtrackerEventsModel::OBJ_SRC => 'src-Attribut',
                 EtrackerEventsModel::OBJ_HREF => 'href-Attribut',
                 EtrackerEventsModel::OBJ_TITLE => 'title-Attribut',
+                EtrackerEventsModel::OBJ_MODULE_TITLE,
+                EtrackerEventsModel::OBJ_TEXT_CONTENT,
             ],
+            'reference' => &$GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'],
             'eval' => [
                 'mandatory' => true,
                 'submitOnChange' => true,
@@ -120,7 +128,6 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
             ],
             'sql' => [
                 'type' => 'integer',
-                'length' => 255,
                 'notnull' => true,
                 'default' => EtrackerEventsModel::OBJ_INNERTEXT,
             ],
@@ -166,6 +173,18 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'notnull' => false,
             ],
         ],
+        'target_modules' => [
+            'exclude' => true,
+            'inputType' => 'checkbox',
+            'options_callback' => [EtrackerEventsDcaHelper::class, 'getModuleOptions'
+            ],
+            'eval' => [
+                'multiple' => true,
+                'mandatory' => false,
+                'tl_class' => 'clr',
+            ],
+            'sql' => "blob NULL"
+        ],
     ],
 
     // Palettes
@@ -174,7 +193,14 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
         'default' => '{title_legend},title,event;category,action,type;',
     ],
     'subpalettes' => [
-        'event_99' => 'selector,object',
+        'event_'.EtrackerEventsModel::EVT_CUSTOM => 'selector,object',
+        // Subpaletten für modulbasierte Events
+        'event_'.EtrackerEventsModel::EVT_LOGIN_SUCCESS => 'target_modules;object',
+        'event_'.EtrackerEventsModel::EVT_LOGIN_FAILURE => '{module_legend},target_modules;{tracking_legend},event_object_value,category,action',
+        'event_'.EtrackerEventsModel::EVT_USER_REGISTRATION => '{module_legend},target_modules;{tracking_legend},event_object_value,category,action',
+        'event_'.EtrackerEventsModel::EVT_LOGOUT => '{module_legend},target_modules;{tracking_legend},event_object_value,category,action', // Logout könnte auch ohne target_modules sein
+
+        'object_'.EtrackerEventsModel::OBJ_TEXT_CONTENT => 'object_text',
     ],
 
     // Listing

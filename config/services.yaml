@@ -7,3 +7,10 @@ services:
     Xenbyte\ContaoEtracker\:
         resource: ../src/
         exclude: ../src/{ContaoManager,DependencyInjection}
+
+    Xenbyte\ContaoEtracker\EventListener\DataContainer\EtrackerEventsDcaHelper:
+        public: true
+
+    Xenbyte\ContaoEtracker\Migration\Version100:
+        tags:
+            - { name: contao.migration, priority: 0 }

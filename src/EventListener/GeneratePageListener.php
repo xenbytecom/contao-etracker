@@ -27,18 +27,26 @@ use Contao\FrontendUser;
 use Contao\LayoutModel;
 use Contao\PageModel;
 use Contao\PageRegular;
+use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 #[AsHook('generatePage')]
 class GeneratePageListener
 {
+    public function __construct(private readonly RequestStack $requestStack)
+    {
+    }
+
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
         /** @var PageModel $rootPage */
         $rootPage = PageModel::findById($pageModel->rootId);
+        $trackingEnabled = self::isTrackingEnabled($rootPage);
 
-        if (self::isTrackingEnabled($rootPage)) {
+        if ($trackingEnabled) {
             $objTemplate = new FrontendTemplate('etracker_head_code');
 
             // Seitenname @see
@@ -62,6 +70,9 @@ class GeneratePageListener
             } catch (\DOMException) {
             }
         }
+
+        // Logik für das Login-Event-Skript integrieren
+        $this->injectDetectedEventsScript($trackingEnabled); // Hinzugefügt
     }
 
     public function generateEventTracking(PageModel $rootPage): string
@@ -77,6 +88,12 @@ class GeneratePageListener
 
         foreach ($evts as $evt) {
             switch ($evt->event) {
+                case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
+                case EtrackerEventsModel::EVT_LOGIN_FAILURE:
+                case EtrackerEventsModel::EVT_LOGOUT:
+                case EtrackerEventsModel::EVT_USER_REGISTRATION:
+                    // Diese Events werden an anderer Stelle ohne JavaScript-Erkennung behandelt
+                    continue 2;
                 case EtrackerEventsModel::EVT_MAIL:
                     $selector = 'a[href^="mailto:"]';
                     $object = 'evt.target.textContent.trim() || evt.target.href';
@@ -276,6 +293,117 @@ class GeneratePageListener
         }
 
         return null;
+    }
+
+    /**
+     * Processes the events to determine if any of them should trigger a script injection.
+     */
+    public function processEvents($evts, $session): array
+    {
+        $eventData = [
+            'category' => null,
+            'action' => null,
+            'object' => null,
+            'module' => false,
+            'triggerName' => null,
+        ];
+
+        foreach ($evts as $evt) {
+            $eventData['category'] = $evt->category ?: '';
+            $eventData['action'] = $evt->action ?: '';
+            $eventData['object'] = $evt->object_text;
+
+            $triggerName = $this->getTriggerNameForEvent((int) $evt->event);
+            if (!$triggerName) {
+                continue;
+            }
+
+            if ($this->isTriggered($session, $evt, $triggerName)) {
+                $eventData['module'] = $session->get($triggerName, false);
+                $eventData['triggerName'] = $triggerName;
+                break;
+            }
+        }
+
+        return $eventData;
+    }
+
+    public function getTriggerNameForEvent(int $event): string|null
+    {
+        return match ($event) {
+            EtrackerEventsModel::EVT_LOGIN_SUCCESS => 'etracker_event_login',
+            EtrackerEventsModel::EVT_LOGIN_FAILURE => 'etracker_event_login_failure',
+            EtrackerEventsModel::EVT_LOGOUT => 'etracker_event_logout',
+            EtrackerEventsModel::EVT_USER_REGISTRATION => 'etracker_event_registration',
+            default => null,
+        };
+    }
+
+    private function isTriggered(SessionInterface $session, EtrackerEventsModel $evt, string $triggerName): bool
+    {
+        if (!$session->has($triggerName)) {
+            return false;
+        }
+
+        $moduleId = $session->get($triggerName, false);
+        if (!$moduleId) {
+            return false;
+        }
+
+        // Check if the event is triggered for a module which is set as target for this event
+        $targetModules = StringUtil::deserialize($evt->target_modules, true);
+        /** @noinspection TypeUnsafeArraySearchInspection */
+        if (!\in_array($moduleId, $targetModules, true)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function injectDetectedEventsScript(bool $trackingEnabled): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request) {
+            return;
+        }
+
+        $session = $request->getSession();
+        $rootPage = self::getRootPage();
+        if (!$rootPage instanceof PageModel) {
+            return;
+        }
+
+        $eventIds = unserialize($rootPage->etrackerEvents, ['allowed_classes' => false]);
+        $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
+
+        $eventData = $this->processEvents($evts, $session);
+
+        if ($eventData['module']) {
+            $this->generateEventScript($eventData, $trackingEnabled, $session);
+        }
+    }
+
+    private function generateEventScript(array $eventData, bool $trackingEnabled, $session): void
+    {
+        $nonce = self::getNonce();
+        $nonceAttribute = $nonce ? ' nonce="'.htmlspecialchars($nonce).'"' : '';
+        $script = '<script'.$nonceAttribute.'>';
+
+        if ($trackingEnabled) {
+            $script .= "document.addEventListener('DOMContentLoaded', () => {
+  _etrackerOnReady.push(function () {
+    _etracker.sendEvent(new et_UserDefinedEvent('{$eventData['category']}', '{$eventData['object']}', '{$eventData['action']}'));
+  });
+});";
+        }
+
+        if ($this->isDebugMode(self::getRootPage())) {
+            $script .= 'console.log("Event mit Aktion '.$eventData['action'].' ausgelöst");';
+        }
+
+        $script .= '</script>';
+        $GLOBALS['TL_BODY'][] = $script;
+        $session->remove($eventData['triggerName']);
     }
 
     /**
