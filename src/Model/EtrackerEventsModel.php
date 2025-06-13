@@ -94,7 +94,7 @@ class EtrackerEventsModel extends Model
      *
      * @var string
      */
-    protected static $strTable = 'tl_etracker_events';
+    protected static $strTable = 'tl_etracker_event';
 
     public static function getObjectAttribute(int $objId): string
     {

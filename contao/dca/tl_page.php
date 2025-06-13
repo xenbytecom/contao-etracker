@@ -206,7 +206,7 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEvents'] = [
         'tl_class' => 'w50 cbx',
         'multiple' => true,
     ],
-    'foreignKey' => 'tl_etracker_events.title',
+    'foreignKey' => 'tl_etracker_event.title',
     'sql' => [
         'type' => 'blob',
         'notnull' => false,

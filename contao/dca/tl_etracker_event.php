@@ -19,7 +19,7 @@ use Contao\DataContainer;
 use Contao\DC_Table;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
-$GLOBALS['TL_DCA']['tl_etracker_events'] = [
+$GLOBALS['TL_DCA']['tl_etracker_event'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
@@ -76,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
                 EtrackerEventsModel::EVT_LANGUAGE,
                 EtrackerEventsModel::EVT_CUSTOM,
             ],
-            'reference' => &$GLOBALS['TL_LANG']['tl_etracker_events']['event']['options'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'],
             'eval' => [
                 'mandatory' => true,
                 'tl_class' => 'w50',
@@ -194,6 +194,10 @@ $GLOBALS['TL_DCA']['tl_etracker_events'] = [
             'edit' => [
                 'href' => 'act=edit',
                 'icon' => 'edit.svg',
+            ],
+            'copy' => [
+                'href'  => 'act=copy',
+                'icon'  => 'copy.svg',
             ],
             'delete' => [
                 'href' => 'act=delete',

@@ -25,7 +25,7 @@ use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 /**
  * Setzt die Standard-Werte in Abhängigkeit der Vorlage.
  */
-#[AsCallback(table: 'tl_etracker_events', target: 'config.onbeforesubmit')]
+#[AsCallback(table: 'tl_etracker_event', target: 'config.onbeforesubmit')]
 class EventDefaultCallback
 {
     /**
@@ -37,7 +37,7 @@ class EventDefaultCallback
     {
         // Aktuellen Wert aus der Datenbank holen
         $currentEvent = Database::getInstance()
-            ->prepare('SELECT event FROM tl_etracker_events WHERE id=?')
+            ->prepare('SELECT event FROM tl_etracker_event WHERE id=?')
             ->execute($dc->id)
             ->fetchAssoc()
         ;

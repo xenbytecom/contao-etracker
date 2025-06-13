@@ -15,14 +15,10 @@
 
 declare(strict_types=1);
 
-use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
-
-// Back end modules
-$GLOBALS['BE_MOD']['system']['etracker_events'] = [
-    'tables' => [
-        'tl_etracker_event',
-    ],
+$GLOBALS['TL_LANG']['MOD']['etracker_event'] = [
+    'etracker Events',
+    'Verwaltung von Ereignissen, die in etracker gemessen werden sollen.'
 ];
 
-// Models
-$GLOBALS['TL_MODELS']['tl_etracker_event'] = EtrackerEventsModel::class;
+$GLOBALS['TL_LANG']['MOD']['etracker'] = ['etracker Konfiguration', 'Einstellungen für die etracker Integration'];
+$GLOBALS['TL_LANG']['MOD']['etracker_event'] = ['etracker Event-Einstellungen', 'Konfigurieren Sie die Parameter für spezifische etracker Events.'];
