@@ -70,20 +70,21 @@ class CompileFormFieldsListener
     public function setFieldAttributes(array $fields): void
     {
         $section = 'Standard';
+        $previousSection = [];
 
         foreach ($fields as $field) {
-            if (1 === (int) $field->etrackerIgnoreField || ((bool) $field->invisible) === true || 'hidden' === $field->type) {
+            if (1 === (int) $field->etrackerIgnoreField || true === $field->invisible || 'hidden' === $field->type) {
                 continue;
             }
 
             if ('fieldsetStart' === $field->type && '' !== $field->label) {
+                $previousSection[] = $section;
                 $section = $field->label;
                 continue;
             }
 
             if ('fieldsetStop' === $field->type) {
-                // fieldset zu Ende
-                $section = 'Standard';
+                $section = array_pop($previousSection);
                 continue;
             }
 

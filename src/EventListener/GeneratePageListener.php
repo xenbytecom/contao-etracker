@@ -239,7 +239,6 @@ class GeneratePageListener
         // aber nur eine), city, state, country, Login-Status
         // konfigurationsmöglichkeit: Segment 1: [Dropdown], Segment 2:
         // [Dropdown], ... Form conversion on form-target-page
-        // var_dump($_SESSION['FORM_DATA']);
         if (isset($_SESSION) && \is_array($_SESSION) && \array_key_exists('ET_FORM_CONVERSION', $_SESSION) && \is_array($_SESSION['ET_FORM_CONVERSION']) && \array_key_exists($currentPage->id, $_SESSION['ET_FORM_CONVERSION'])) {
             // @see
             // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
