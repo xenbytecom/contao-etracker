@@ -7,11 +7,11 @@
     var _etrackerOnReady = [];
     {% if etrackerTrackingDomain|default('') != '' %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
     {% if pagename is not null %}var et_pagename = "{{ pagename }}";{% endif %}
-    {% if areas is not null %}var et_areas = "{{ areas }}";{% endif %}
+    {% if areas|default(null) is not null %}var et_areas = "{{ areas }}";{% endif %}
     {% if debugmode|default(false) == true %}var _etr = {debugMode: true};{% endif %}
-    {% if cdi is not null %}var et_cdi = "{{ cdi }}";{% endif %}
-    {% if evt is not null %}{{ evt }}{% endif %}
-    {% if formConversion is not null %}_etrackerOnReady.push(
+    {% if cdi|default(null) is not null %}var et_cdi = "{{ cdi }}";{% endif %}
+    {% if evt|default(null) is not null %}{{ evt }}{% endif %}
+    {% if formConversion|default(null) is not null %}_etrackerOnReady.push(
         function () {
             {% if debugmode|default(false) == true %}console.log("{{ formConversion }} submittet");{% endif %}
             etForm.sendEvent("formConversion", "{{ formConversion }}");
