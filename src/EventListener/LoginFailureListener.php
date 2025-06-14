@@ -21,7 +21,7 @@ use Contao\ModuleModel;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\LoginFailureEvent;
 
-#[AsEventListener(event: 'Symfony\Component\Security\Http\Event\LoginFailureEvent')]
+#[AsEventListener]
 class LoginFailureListener
 {
     public function __invoke(LoginFailureEvent $event): void

@@ -22,8 +22,8 @@ use Contao\ModuleModel;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
-#[AsEventListener(event: 'Symfony\Component\Security\Http\Event\LoginSuccessEvent')]
-class LoginListener
+#[AsEventListener]
+class LoginSuccessListener
 {
     public function __invoke(LoginSuccessEvent $event): void
     {

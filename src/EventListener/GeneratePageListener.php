@@ -284,9 +284,9 @@ class GeneratePageListener
         }
 
         $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
-        if ($responseContext instanceof ResponseContext && $responseContext->has('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler')) {
+        if ($responseContext instanceof ResponseContext && $responseContext->has(\Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler::class)) {
             /** @var CspHandler $cspHandler */
-            $cspHandler = $responseContext->get('Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler');
+            $cspHandler = $responseContext->get(\Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler::class);
 
             return $cspHandler->getNonce('script-src');
         }
