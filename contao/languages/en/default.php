@@ -20,8 +20,3 @@ $GLOBALS['TL_LANG']['CTE']['etracker_optout'] = [
     'etracker optout',
     'Optout for etracker',
 ];
-
-$GLOBALS['TL_LANG']['MOD']['etracker_event'] = [
-    'etracker Events',
-    'Manage events to be measured in etracker.'
-];

@@ -17,8 +17,8 @@ declare(strict_types=1);
 
 $GLOBALS['TL_LANG']['MOD']['etracker_events'] = [
     'etracker Events',
-    'Verwaltung von Ereignissen, die in etracker gemessen werden sollen.'
+    'Manage events to be measured in etracker.'
 ];
 
-$GLOBALS['TL_LANG']['MOD']['etracker'] = ['etracker Konfiguration', 'Einstellungen für die etracker-Integration'];
-$GLOBALS['TL_LANG']['MOD']['etracker_event'] = ['etracker Event-Einstellungen', 'Konfigurieren Sie die Parameter für spezifische etracker Events.'];
+$GLOBALS['TL_LANG']['MOD']['etracker'] = ['etracker configuration', 'settings for the etracker integration'];
+$GLOBALS['TL_LANG']['MOD']['etracker_event'] = ['etracker event settings', 'configure parameters for specific etracker events.'];

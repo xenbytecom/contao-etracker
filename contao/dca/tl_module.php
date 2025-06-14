@@ -71,13 +71,12 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteNoresults'] = 
 
 // Palette for Login Module
 Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-    ->addLegend('etracker_event_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_login'], 'etracker_event_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+    ->addLegend('etracker_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['etracker_track_login'], 'etracker_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('login', 'tl_module'); // Nur auf Module vom Typ 'login' anwenden
 
 // Felddefinitionen hinzufügen
 $GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_login'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['etracker_event_legend'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'eval'      => ['tl_class' => 'w50 m12'],
@@ -86,13 +85,12 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_login'] = [
 
 // Palette for Registration Module
 Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-    ->addLegend('etracker_events_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_registration'], 'etracker_events_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+    ->addLegend('etracker_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['etracker_track_registration'], 'etracker_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('registration', 'tl_module'); // Nur auf Module vom Typ 'login' anwenden
 
 // Felddefinitionen hinzufügen
 $GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_registration'] = [
-    'label'     => &$GLOBALS['TL_LANG']['tl_module']['etracker_track_registration'],
     'exclude'   => true,
     'inputType' => 'checkbox',
     'eval'      => ['tl_class' => 'w50 m12'],
