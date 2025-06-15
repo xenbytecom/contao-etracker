@@ -69,15 +69,6 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerAccountKey'] = [
     'sql' => 'varchar(16) NOT NULL default \'\'',
 ];
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerOptimiser'] = [
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => [
-        'tl_class' => 'w50 cbx m12',
-    ],
-    'sql' => 'char(1) NOT NULL default 0',
-];
-
 $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerDomain'] = [
     'exclude' => true,
     'inputType' => 'text',
