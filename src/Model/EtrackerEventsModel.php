@@ -63,14 +63,34 @@ class EtrackerEventsModel extends Model
     public const EVT_LANGUAGE = 6;
 
     /**
+     * Successful login.
+     */
+    public const EVT_LOGIN_SUCCESS = 7;
+
+    /**
+     * Failed login attempt.
+     */
+    public const EVT_LOGIN_FAILURE = 8;
+
+    /**
+     * User logout.
+     */
+    public const EVT_LOGOUT = 9;
+
+    /**
+     * Registration of a new user.
+     */
+    public const EVT_USER_REGISTRATION = 10;
+
+    /**
      * Custom event.
      */
     public const EVT_CUSTOM = 99;
 
     /**
-     * Inner text.
+     * textContent of the element.
      */
-    public const OBJ_INNERTEXT = 1;
+    public const OBJ_TEXTCONTENT = 1;
 
     /**
      * alt-Attribute of image.
@@ -93,6 +113,36 @@ class EtrackerEventsModel extends Model
     public const OBJ_TITLE = 5;
 
     /**
+     * title of the module.
+     */
+    public const OBJ_MODULE_TITLE = 6;
+
+    /**
+     * custom text content.
+     */
+    public const OBJ_CUSTOM_TEXT = 7;
+
+    /**
+     * textContent or href-Attribute fallback.
+     */
+    public const OBJ_TEXT_HREF_FALLBACK = 8;
+
+    /**
+     * innerText (similar to textContent but excludes HTML tags).
+     */
+    public const OBJ_INNERTEXT = 9;
+
+    /**
+     * textContent or hreflang-Attribute fallback (for language links).
+     */
+    public const OBJ_TEXT_HREFLANG_FALLBACK = 10;
+
+    /**
+     * textContent of an accordion element (without child elements).
+     */
+    public const OBJ_TEXT_WIHOUT_CHILDS = 11;
+
+    /**
      * Table name.
      *
      * @var string
@@ -102,11 +152,15 @@ class EtrackerEventsModel extends Model
     public static function getObjectAttribute(int $objId): string
     {
         return match ($objId) {
-            self::OBJ_ALT => 'alt',
-            self::OBJ_SRC => 'src',
-            self::OBJ_HREF => 'href',
-            self::OBJ_TITLE => 'title',
-            default => 'textContent',
+            self::OBJ_ALT =>  'evt.target.alt.trim()',
+            self::OBJ_SRC => 'evt.target.src.trim()',
+            self::OBJ_HREF => 'evt.target.href.trim()',
+            self::OBJ_TITLE => 'evt.target.title.trim()',
+            self::OBJ_TEXT_HREF_FALLBACK => 'evt.target.textContent.trim() || evt.target.href.trim()',
+            self::OBJ_INNERTEXT => 'evt.target.innerText.trim()',
+            self::OBJ_TEXT_HREFLANG_FALLBACK => 'evt.target.textContent.trim() || evt.target.hreflang.trim()',
+            self::OBJ_TEXT_WIHOUT_CHILDS => "[].reduce.call(evt.target.childNodes, function(a, b) { return a + (b.nodeType === 3 ? b.textContent : ''); }, '').trim()",
+            default => 'evt.target.textContent.trim()', // inluding self::OBJ_TEXTCONTENT
         };
     }
 }

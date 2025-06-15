@@ -43,6 +43,14 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
 ];
 $GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'] = [
     EtrackerEventsModel::OBJ_MODULE_TITLE => 'Name of the module',
-    EtrackerEventsModel::OBJ_TEXT_CONTENT => 'custom text',
+    EtrackerEventsModel::OBJ_CUSTOM_TEXT  => 'custom text',
+    EtrackerEventsModel::OBJ_TEXTCONTENT => 'textContent property',
+    EtrackerEventsModel::OBJ_INNERTEXT => 'innerText property',
+    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK => 'textContent property with href fallback',
+    EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK => 'textContent property with hreflang fallback',
+    EtrackerEventsModel::OBJ_ALT         => 'alt attribute',
+    EtrackerEventsModel::OBJ_SRC         => 'src attribute',
+    EtrackerEventsModel::OBJ_HREF        => 'href attribute',
+    EtrackerEventsModel::OBJ_TITLE       => 'title attribute',
 ];
 

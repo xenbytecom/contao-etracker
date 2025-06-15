@@ -52,51 +52,62 @@ class EventDefaultCallback
 
             switch ($events) {
                 case EtrackerEventsModel::EVT_MAIL:
+                    $values['object'] = EtrackerEventsModel::OBJ_TEXTCONTENT;
                     $values['category'] = 'Kontakt';
                     $values['action'] = 'Klick';
                     $values['type'] = 'mail';
                     break;
                 case EtrackerEventsModel::EVT_PHONE:
+                    $values['object'] = EtrackerEventsModel::OBJ_TEXTCONTENT;
                     $values['category'] = 'Kontakt';
                     $values['action'] = 'Klick';
                     $values['type'] = 'phone';
                     break;
                 case EtrackerEventsModel::EVT_GALLERY:
+                    $values['object'] = EtrackerEventsModel::OBJ_HREF;
                     $values['action'] = 'Lightbox';
                     $values['category'] = 'Galerie';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_DOWNLOAD:
+                    $values['object'] = EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS;
                     $values['action'] = 'Download';
                     $values['category'] = 'Download';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LANGUAGE:
+                    $values['object'] = EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK;
                     $values['action'] = 'Auswahl';
                     $values['category'] = 'Sprache';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_ACCORDION:
+                    $values['object'] = EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS;
                     $values['action'] = 'Auswahl';
                     $values['category'] = 'Accordion';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
                     $values['action'] = 'Erfolgreicher Login';
                     $values['category'] = 'Authentifizierung';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LOGIN_FAILURE:
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
                     $values['action'] = 'Fehlgeschlagener Login';
                     $values['category'] = 'Authentifizierung';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LOGOUT:
+                    $values['object'] = EtrackerEventsModel::OBJ_CUSTOM_TEXT;
+                    $values['object_text'] = 'Logout';
                     $values['action'] = 'Logout';
                     $values['category'] = 'Authentifizierung';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_USER_REGISTRATION:
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
                     $values['action'] = 'Registrierung';
                     $values['category'] = 'Benutzer';
                     $values['type'] = '';
