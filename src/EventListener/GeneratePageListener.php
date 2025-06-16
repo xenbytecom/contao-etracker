@@ -142,7 +142,7 @@ class GeneratePageListener
                 JS;
         }
 
-        return \Contao\Template::generateInlineScript($script);
+        return \Contao\FrontendTemplate::generateInlineScript($script);
     }
 
     /**
@@ -395,7 +395,7 @@ class GeneratePageListener
 
             $script .= '});';
 
-            $GLOBALS['TL_BODY'][] = \Contao\Template::generateInlineScript($script);
+            $GLOBALS['TL_BODY'][] = \Contao\FrontendTemplate::generateInlineScript($script);
         }
         $session->remove($eventData['triggerName']);
     }
