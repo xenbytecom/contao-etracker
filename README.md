@@ -18,8 +18,7 @@ Contao-Forum oder per E-Mail) ist willkommen.
 * Setzen der Variable et_pagename je Seite oder automatische Erkennung
 * Setzen der Variable et_areas je Seite oder automatische Ermittlung über die Seitenstruktur
 * Berücksichtung von Titeln der News, Kalender-Einträge etc.
-* Tracking der Formular-Interaktionen (muss in den Formular-Einstellungen konfiguriert werden und erfordert etracker Pro
-  oder Enterprise)
+* Tracking der Formular-Interaktionen (muss in den Formular-Einstellungen konfiguriert werden)
 * Tracking der Suchergebnisse als Onsite-Kampagne (muss in den Suchmodul-Einstellungen konfiguriert werden und erfordert
   etracker Pro oder Enterprise)
 * Tracking von Logins (erfolgreich und fehlgeschlagen), Logouts und Registrierungen
@@ -30,14 +29,12 @@ Contao-Forum oder per E-Mail) ist willkommen.
 * deaktivierung Cookie-less tracking
 * eigene Dimensionen: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
 * evtl. Anbindung and Cookiebar
-* Tracking von Benutzer-Registrierungen (falls machbar)
-* Tracking von Benutzer-Logins (falls machbar)
 
 ## Voraussetzzungen
 
 * Contao 4.13 oder neuer (bis einschließlich Contao 5.3)
 * PHP 8.1 oder höher
-* [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)
+* [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)[^1]
 
 ## Installation
 
@@ -92,20 +89,24 @@ Benennung der Suche vorzunehmen". Der Wert für etcc_cmp_onsite ist bei der Cont
 
 ![docs/03_search_setup.png](docs/03_search_setup.png)
 
-### Formulare tracken (etracker Pro oder Enterprise)
+### Formulare tracken (zum Teil etracker Pro oder Enterprise)
+Die Messung von Formular-Aufrufen und -Absendungen ist mit allen etracker-Accounts möglich.
 
 Um die Formularanalyse zu verwenden, kann bei jedem Formular die entsprechende Option aktiviert werden. Ein abweichender
 Formularname, der in etracker verwendet werden soll, kann festgelegtwerden - ansonsten wird die Titel-Angabe verwendet.
 
-Zusätzlich lässt sich bei jedem Formularfeld eine "Sektion" festlegen, ansonsten wird der Wert "Standard" verwendet.
-Dies ist beispielsweise bei Formularen mit mehreren Bereichen möglich - eine automatische Erkennung über die Fieldsets
-ist (zumindest derzeit) nicht möglich. Für jedes Feld lässt sich auch eine für etracker abweichende Bezeichnung nutzen
-bzw. ein kompletter Ausschluss des Feldes festlegen.
+Für die detailierte Formularanalyse (etwa die Auswertung von Formularfeldern) ist etracker Pro oder Enterprise
+erforderlich. Für diese lässt sich bei jedem Formularfeld eine "Sektion" festlegen, ansonsten wird der Wert "Standard" 
+verwendet. Dies ist beispielsweise bei Formularen mit mehreren Bereichen möglich - eine automatische Erkennung über die 
+Fieldsets ist (zumindest derzeit) nicht möglich. Für jedes Feld lässt sich auch eine für etracker abweichende Bezeichnung 
+nutzen bzw. ein kompletter Ausschluss des Feldes festlegen.
 
 ### Ereignis-Tracking
 
-Ereignis-Tracking kann entweder über eigenen JavaScript-Code oder im etracker tag manager konfiguriert werden. Für
-einige Standardfälle wurden aber zusätzliche Event-Tracking-Vorlagen hinzugefügt:
+Der etracker tag manager unterstützt mittlerweile eine gute Konfiguration von Ereignissen. Da manche Ereignisse aber 
+u. U. nicht via JavaScripts erkannt werden können oder einige Contao-spezifische Ereignisse über die Erweiterung
+schneller konfiguriert werden können (auch Startpunkt-abhängig), bietet die Erweiterung ein Ereignis-Tracking mit
+Vorlagen an. Abgedeckt werden damit:
 
 * Klick auf E-Mail-Adressen (mailto-Links)
 * Klick auf Telefonnummern (tel-Links)
@@ -113,22 +114,39 @@ einige Standardfälle wurden aber zusätzliche Event-Tracking-Vorlagen hinzugef�
 * Klick auf Galerie-Bild zur Vergrößerung
 * Datei-Download
 * Sprachwechsel (bei Standard-Template von contao-changelanguage)
+* erfolgreiche Logins
+* fehlgeschlagene Logins
+* Logouts
+* Benutzer-Registrierungen
 
-Event-Kategorie, Event-Aktion und Event-Typ sind frei wählbar, für die schnelle Konfiguration sind jedoch Texte als
-Vorlage vorausgefühllt. Das Event-Objekt ist abhängig von der gewählten Vorlage hinterlegt. Darüber hinaus sind
-benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberfläche wähbar.
-
-**Einschränkung:** Die Vorlagen-Texte werden nur beim erstmaligen Auswählen der Ereignis-Vorlage gesetzt und bleiben
-beim erneuten Wechsel bestehen.
+Für die schnelle Konfiguration sind jedoch Texte als Vorlage vorausgefühllt. Das Event-Objekt ist abhängig von der
+gewählten Vorlage hinterlegt und eingeschränkt, kann aber auch mit einem eigenen Textwert konfiguriert werden.
+Darüber hinaus sind benutzerdefinierte Ereignisse (nur click-Trigger) auch über die Contao-Oberfläche wähbar.
 
 **Hinweis:** Das Anlegen der Ereignisse erfolgt zunächst im Menüpunkt `etracker Events`. Die einzelnen Ereignisse müssen
 anschließend auf Root-Ebene (Startpunkt einer Website) explizit aktiviert werden. Dadurch ist es möglich, dasselbe Event
 mit unterschiedlichen Werten je Root-Ebene zu nutzen.
 
+## Nutzung im Contao Cookiebar
+etracker bietet zwar einen [Cookie-Consent-Manager](https://www.etracker.com/consent-manager/), doch in etracker Basic
+ist damit nur der etracker-Dienst abgedeckt. Bei Nutzung weiterer Dienste ist entweder etracker Pro oder Enterprise
+erforderlich oder die [Cookiebar-Erweiterung von Oveleon](https://github.com/oveleon/contao-cookiebar) empfehlenswert.
+
+Hier sollte jedoch nicht der etracker-Typ gewählt werden, da der Trackingcode damit doppelt ausgeliefert würde. 
+Stattdessen sollte der Typ "benutzerdefiniertes Script" gewählt werden. Der Code für die Cookiebar kann dann wie 
+folgt aussehen:
+
+```js
+var _etrackerOnReady = typeof _etrackerOnReady === 'undefined' ? [] : _etrackerOnReady;
+_etrackerOnReady.push(function(){ _etracker.enableCookies() });
+```
+
+Ein besseres Zusammenspiel mit der Contao Cookiebar ist in Planung, aber noch nicht umgesetzt.
+
 ## CSP-Header für etracker
 
-Ab Contao 5.13 können die CSP-Header direkt im Backend aktiviert werden, für ältere Versionen kann diese Einstellung
-auch auf Webserver-Ebene gesetzt werden, allerdings wäre dann mit Einschränkungen von TinyMCE im Backend zu rechnen.
+Seit Contao 5.13 können die CSP-Header direkt im Backend aktiviert werden. Dies empfiehlt sich, da Contao so auch 
+die Nonce für die Skripte generiert. So kann auf die CSP-Direktive 'unsafe-inline' verzichtet werden.
 
 ```
 Header set Content-Security-Policy "script-src 'self' https://*.etracker.com https://*.etracker.de; connect-src https://*.etracker.de"
@@ -143,3 +161,6 @@ Header set Content-Security-Policy "frame-ancestors https://*.etracker.com; scri
 ## Disclaimer
 etracker und das etracker Logo sind Eigentum der etracker GmbH. Die etracker-Integration in Contao ist eine eigene,
 inoffizielle Erweiterung.
+
+[^1]: Dies ist ein Partnerlink. Wenn du über diesen Link ein etracker-Konto erstellst und etracker abonnierst, erhält
+Xenbyte eine Provision. Für dich entstehen dadurch keine zusätzlichen Kosten.
