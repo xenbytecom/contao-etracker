@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\FrontendUser;
-use Contao\ModuleModel;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
@@ -34,20 +33,7 @@ class LogoutListener
             return;
         }
 
-        $request = $event->getRequest();
-        $session = $request->getSession();
-        $moduleId = $session->has('etracker_logout_module') ? $session->get('etracker_logout_module') : null;
-
-        if (!$moduleId) {
-            return;
-        }
-
-        $module = ModuleModel::findById((int) $moduleId);
-
-        if (!$module) {
-            return;
-        }
-
-        $session->set('etracker_event_logout', $module->id);
+        $session = $event->getRequest()->getSession();
+        $session->set('etracker_event_logout', 1);
     }
 }

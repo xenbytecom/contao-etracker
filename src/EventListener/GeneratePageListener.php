@@ -36,8 +36,16 @@ use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 #[AsHook('generatePage')]
 class GeneratePageListener
 {
+    private readonly SessionInterface $session;
+
     public function __construct(private readonly RequestStack $requestStack)
     {
+        $request = $this->requestStack->getCurrentRequest();
+        if (null === $request) {
+            return;
+        }
+
+        $this->session = $request->getSession();
     }
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
@@ -237,12 +245,17 @@ class GeneratePageListener
         // konfigurationsmöglichkeit: Segment 1: [Dropdown], Segment 2:
         // [Dropdown], ... Form conversion on form-target-page
         if (isset($_SESSION) && \is_array($_SESSION) && \array_key_exists('ET_FORM_CONVERSION', $_SESSION) && \is_array($_SESSION['ET_FORM_CONVERSION']) && \array_key_exists($currentPage->id, $_SESSION['ET_FORM_CONVERSION'])) {
+        // $feUser->gender könnte als eigenes Segment genutzt werden weitere denkbare
+        // Segmente: Benutzersprache, Seitensprache, Benutzergruppe (geht aber nur eine),
+        // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
+        // [Dropdown], Segment 2: [Dropdown], ... Form conversion on form-target-page
+        if ($this->session->has('ET_FORM_CONVERSION_'.$currentPage->id)) {
             // @see
             // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
-            $objTemplate->formConversion = $_SESSION['ET_FORM_CONVERSION'][$currentPage->id];
+            $objTemplate->formConversion = $this->session->get('ET_FORM_CONVERSION_'.$currentPage->id);
 
             // FORM_DATA zurücksetzen, damit das Event kein zweites Mal getriggert wird
-            unset($_SESSION['ET_FORM_CONVERSION']);
+            $this->session->remove('ET_FORM_CONVERSION'.$currentPage->id);
         }
     }
 
@@ -335,14 +348,14 @@ class GeneratePageListener
         };
     }
 
-    private function isTriggered(SessionInterface $session, EtrackerEventsModel $evt, string $triggerName): bool
+    private function isTriggered(EtrackerEventsModel $evt, string $triggerName): bool
     {
-        if (!$session->has($triggerName)) {
+        if (!$this->session->has($triggerName)) {
             return false;
         }
 
-        $moduleId = $session->get($triggerName, false);
-        if (!$moduleId) {
+        $moduleId = (string) $this->session->get($triggerName);
+        if ('' === $moduleId) {
             return false;
         }
 
@@ -397,7 +410,7 @@ class GeneratePageListener
 
             $GLOBALS['TL_BODY'][] = \Contao\FrontendTemplate::generateInlineScript($script);
         }
-        $session->remove($eventData['triggerName']);
+        $this->session->remove($eventData['triggerName']);
     }
 
     /**

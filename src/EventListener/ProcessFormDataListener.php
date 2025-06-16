@@ -20,10 +20,24 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\File;
 use Contao\Form;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[AsHook('processFormData')]
 class ProcessFormDataListener
 {
+    private SessionInterface|null $session = null;
+
+    public function __construct(private readonly RequestStack $requestStack)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request) {
+            return;
+        }
+
+        $this->session = $request->getSession();
+    }
+
     /**
      * @param array<string, mixed>  $submittedData
      * @param array<string, mixed>  $formData
@@ -39,11 +53,10 @@ class ProcessFormDataListener
         }
 
         // Stores form name for conversion after redirect
-        unset($_SESSION['ET_FORM_CONVERSION']);
         if (0 === $form->jumpTo) {
-            $_SESSION['ET_FORM_CONVERSION'][$GLOBALS['objPage']->id] = $formName;
+            $this->session->set('ET_FORM_CONVERSION'.$GLOBALS['objPage']->id, $formName);
         } else {
-            $_SESSION['ET_FORM_CONVERSION'][$form->jumpTo] = $formName;
+            $this->session->set('ET_FORM_CONVERSION'.$form->jumpTo, $formName);
         }
     }
 }
