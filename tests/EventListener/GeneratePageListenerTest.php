@@ -27,11 +27,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Xenbyte\ContaoEtracker\EventListener\GeneratePageListener;
+use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 class GeneratePageListenerTest extends ContaoTestCase
 {
@@ -43,7 +46,8 @@ class GeneratePageListenerTest extends ContaoTestCase
 
     protected function setUp(): void
     {
-        $this->listener = new GeneratePageListener();
+        $requestStack = $this->createMock(RequestStack::class);
+        $this->listener = new GeneratePageListener($requestStack);
 
         $this->security = $this->createMock(Security::class);
 
@@ -65,6 +69,20 @@ class GeneratePageListenerTest extends ContaoTestCase
         $this->resetStaticProperties([BackendUser::class]);
 
         parent::tearDown();
+    }
+
+    public function testConstructorWithValidRequestStack(): void
+    {
+        $requestStack = $this->createMock(RequestStack::class);
+        $listener = new GeneratePageListener($requestStack);
+
+        $this->assertInstanceOf(GeneratePageListener::class, $listener);
+    }
+
+    public function testConstructorWithInvalidRequestStack(): void
+    {
+        $this->expectException(\TypeError::class);
+        new GeneratePageListener(null);
     }
 
     public function testDisabledTracking(): void

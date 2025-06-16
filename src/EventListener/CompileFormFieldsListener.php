@@ -99,9 +99,9 @@ class CompileFormFieldsListener
     private function getFieldName(FormFieldModel $field): string
     {
         if ($field->label) {
-            return ($field->label) ?: $field->name;
+            return $field->label ?: $field->name;
         }
 
-        return ($field->placeholder) ?: $field->name;
+        return $field->placeholder ?: $field->name;
     }
 }

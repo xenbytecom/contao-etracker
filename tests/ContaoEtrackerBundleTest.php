@@ -26,6 +26,6 @@ class ContaoEtrackerBundleTest extends TestCase
     {
         $bundle = new ContaoEtrackerBundle();
 
-        $this->assertInstanceOf('Xenbyte\ContaoEtracker\ContaoEtrackerBundle', $bundle);
+        $this->assertInstanceOf(ContaoEtrackerBundle::class, $bundle);
     }
 }

@@ -37,11 +37,11 @@ class ParseTemplateListener
 
                 $script = 'var cc_attributes = new Object();';
                 $script .= 'cc_attributes["etcc_cu"] = "onsite";';
-                $script .= 'cc_attributes["etcc_med_onsite"] = "'.\addslashes($template->etrackerSearchMedOnsite).'";';
-                $script .= 'cc_attributes["etcc_cmp_onsite"] = "'.\addslashes($campaign).'";';
-                $script .= 'cc_attributes["etcc_st_onsite"] = "'.\addslashes($template->keyword).'";';
+                $script .= 'cc_attributes["etcc_med_onsite"] = "'.addslashes($template->etrackerSearchMedOnsite).'";';
+                $script .= 'cc_attributes["etcc_cmp_onsite"] = "'.addslashes($campaign).'";';
+                $script .= 'cc_attributes["etcc_st_onsite"] = "'.addslashes($template->keyword).'";';
 
-                $GLOBALS['TL_BODY'][] = \Contao\Template::generateInlineScript($script);
+                $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($script);
             }
         }
     }

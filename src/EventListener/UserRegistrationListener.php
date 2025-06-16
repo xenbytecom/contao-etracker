@@ -42,7 +42,6 @@ class UserRegistrationListener
 
         $session = $request->getSession();
 
-        // Setzen Sie eine Session-Variable, um die Registrierung zu verfolgen
         $session->set('etracker_event_registration', $module->id);
     }
 }
