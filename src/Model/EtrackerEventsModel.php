@@ -115,7 +115,7 @@ class EtrackerEventsModel extends Model
     /**
      * title of the module.
      */
-    public const OBJ_MODULE_TITLE = 6;
+    public const OBJ_MODULE_NAME = 6;
 
     /**
      * custom text content.
@@ -152,7 +152,7 @@ class EtrackerEventsModel extends Model
     public static function getObjectAttribute(int $objId): string
     {
         return match ($objId) {
-            self::OBJ_ALT =>  'evt.target.alt.trim()',
+            self::OBJ_ALT => 'evt.target.alt.trim()',
             self::OBJ_SRC => 'evt.target.src.trim()',
             self::OBJ_HREF => 'evt.target.href.trim()',
             self::OBJ_TITLE => 'evt.target.title.trim()',

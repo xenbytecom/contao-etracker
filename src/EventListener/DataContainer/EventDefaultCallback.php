@@ -88,13 +88,13 @@ class EventDefaultCallback
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
-                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_NAME;
                     $values['action'] = 'Erfolgreicher Login';
                     $values['category'] = 'Authentifizierung';
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_LOGIN_FAILURE:
-                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_NAME;
                     $values['action'] = 'Fehlgeschlagener Login';
                     $values['category'] = 'Authentifizierung';
                     $values['type'] = '';
@@ -107,7 +107,7 @@ class EventDefaultCallback
                     $values['type'] = '';
                     break;
                 case EtrackerEventsModel::EVT_USER_REGISTRATION:
-                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_TITLE;
+                    $values['object'] = EtrackerEventsModel::OBJ_MODULE_NAME;
                     $values['action'] = 'Registrierung';
                     $values['category'] = 'Benutzer';
                     $values['type'] = '';

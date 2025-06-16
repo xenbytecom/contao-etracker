@@ -66,13 +66,13 @@ class EtrackerEventDcaHelper
             case EtrackerEventsModel::EVT_ACCORDION:
                 $options[] = EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS;
                 break;
-            case EtrackerEventsModel::EVT_LANGUAGE;
+            case EtrackerEventsModel::EVT_LANGUAGE:
                 $options[] = EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK;
                 break;
             case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
             case EtrackerEventsModel::EVT_LOGIN_FAILURE:
             case EtrackerEventsModel::EVT_USER_REGISTRATION:
-                $options[] = EtrackerEventsModel::OBJ_MODULE_TITLE;
+                $options[] = EtrackerEventsModel::OBJ_MODULE_NAME;
                 break;
             default:
                 $options = [
