@@ -44,15 +44,15 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
 ];
 $GLOBALS['TL_LANG']['tl_etracker_event']['object_text'] = ['Objektbezeichnung','Objekt zur Klassifizierung in etracker (benutzerdefinierter Text)'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'] = [
-    EtrackerEventsModel::OBJ_MODULE_TITLE => 'Name des Moduls',
-    EtrackerEventsModel::OBJ_CUSTOM_TEXT  => 'benutzerdefinierter Text',
-    EtrackerEventsModel::OBJ_TEXTCONTENT => 'textContent-Eigenschaft',
-    EtrackerEventsModel::OBJ_INNERTEXT => 'innerText-Eigenschaft',
-    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK => 'textContent-Eigenschaft mit href-Fallback',
+    EtrackerEventsModel::OBJ_MODULE_NAME            => 'Name des Moduls',
+    EtrackerEventsModel::OBJ_CUSTOM_TEXT            => 'benutzerdefinierter Text',
+    EtrackerEventsModel::OBJ_TEXTCONTENT            => 'textContent-Eigenschaft',
+    EtrackerEventsModel::OBJ_INNERTEXT              => 'innerText-Eigenschaft',
+    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK     => 'textContent-Eigenschaft mit href-Fallback',
     EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK => 'textContent-Eigenschaft mit hreflang-Fallback',
-    EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS => 'textContent-Eigenschaft ohne Child-Nodes',
-    EtrackerEventsModel::OBJ_ALT         => 'alt-Attribut',
-    EtrackerEventsModel::OBJ_SRC         => 'src-Attribut',
-    EtrackerEventsModel::OBJ_HREF        => 'href-Attribut',
-    EtrackerEventsModel::OBJ_TITLE       => 'title-Attribut',
+    EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS     => 'textContent-Eigenschaft ohne Child-Nodes',
+    EtrackerEventsModel::OBJ_ALT                    => 'alt-Attribut',
+    EtrackerEventsModel::OBJ_SRC                    => 'src-Attribut',
+    EtrackerEventsModel::OBJ_HREF                   => 'href-Attribut',
+    EtrackerEventsModel::OBJ_TITLE                  => 'title-Attribut',
 ];

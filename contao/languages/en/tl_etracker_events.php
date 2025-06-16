@@ -28,6 +28,7 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['category'] = ['Event category', 'categ
 $GLOBALS['TL_LANG']['tl_etracker_event']['action'] = ['Event action', 'action for classification in etracker'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['type'] = ['Event type', 'type for classification in etracker'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['event'] = ['Event', 'Event template or custom event'];
+$GLOBALS['TL_LANG']['tl_etracker_event']['target_modules'] = ['Target modules', 'Modules that should be tracked with this event'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
     EtrackerEventsModel::EVT_MAIL => 'Click on e-mail link (mailto:)',
     EtrackerEventsModel::EVT_PHONE => 'Click on phone number link (tel:)',
@@ -41,16 +42,18 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
     EtrackerEventsModel::EVT_USER_REGISTRATION => 'User registration',
     EtrackerEventsModel::EVT_LOGOUT => 'Logout',
 ];
+$GLOBALS['TL_LANG']['tl_etracker_event']['object_text'] = ['Object description','object for classification in etracker (custom text)'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'] = [
-    EtrackerEventsModel::OBJ_MODULE_TITLE => 'Name of the module',
-    EtrackerEventsModel::OBJ_CUSTOM_TEXT  => 'custom text',
-    EtrackerEventsModel::OBJ_TEXTCONTENT => 'textContent property',
-    EtrackerEventsModel::OBJ_INNERTEXT => 'innerText property',
-    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK => 'textContent property with href fallback',
+    EtrackerEventsModel::OBJ_MODULE_NAME            => 'Name of the module',
+    EtrackerEventsModel::OBJ_CUSTOM_TEXT            => 'custom text',
+    EtrackerEventsModel::OBJ_TEXTCONTENT            => 'textContent property',
+    EtrackerEventsModel::OBJ_INNERTEXT              => 'innerText property',
+    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK     => 'textContent property with href fallback',
     EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK => 'textContent property with hreflang fallback',
-    EtrackerEventsModel::OBJ_ALT         => 'alt attribute',
-    EtrackerEventsModel::OBJ_SRC         => 'src attribute',
-    EtrackerEventsModel::OBJ_HREF        => 'href attribute',
-    EtrackerEventsModel::OBJ_TITLE       => 'title attribute',
+    EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS     => 'textContent property without child elements',
+    EtrackerEventsModel::OBJ_ALT                    => 'alt attribute',
+    EtrackerEventsModel::OBJ_SRC                    => 'src attribute',
+    EtrackerEventsModel::OBJ_HREF                   => 'href attribute',
+    EtrackerEventsModel::OBJ_TITLE                  => 'title attribute',
 ];
 
