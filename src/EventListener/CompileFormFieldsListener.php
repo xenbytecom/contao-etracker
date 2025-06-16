@@ -42,9 +42,6 @@ class CompileFormFieldsListener
 
         // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist
         if ($trackingEnabled && $formTracking) {
-            $objTemplate = new FrontendTemplate('etracker_events');
-
-            $GLOBALS['TL_BODY'][] = $objTemplate->parse();
             $GLOBALS['TL_BODY'][] = FrontendTemplate::generateScriptTag('bundles/contaoetracker/formevents.js');
 
             $this->setFieldAttributes($fields);

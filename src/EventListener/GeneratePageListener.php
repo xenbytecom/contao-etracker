@@ -120,7 +120,7 @@ class GeneratePageListener
                     break;
                 default:
                     $selector = html_entity_decode($evt->selector ?? '');
-                    $object = 'evt.target.'.EtrackerEventsModel::getObjectAttribute((int) ($evt->object ?? 0)).'.trim()';
+                    $object = 'evt.target.' . EtrackerEventsModel::getObjectAttribute((int)($evt->object ?? 0)) . '.trim()';
                     break;
             }
 
@@ -130,7 +130,7 @@ class GeneratePageListener
 
             $debug = '';
             if ($this->isDebugMode($rootPage)) {
-                $debug = 'console.log('.$object.');';
+                $debug = 'console.log(' . $object . ');';
             }
             $script .= <<<JS
                     document.querySelectorAll('$selector').forEach(item => item.addEventListener("$event", (evt) => {
@@ -141,11 +141,8 @@ class GeneratePageListener
                     }));
                 JS;
         }
-        $objTemplate = new FrontendTemplate('etracker_events');
-        $objTemplate->et_event_script = $script;
-        $objTemplate->nonce = self::getNonce();
 
-        return $objTemplate->parse();
+        return \Contao\Template::generateInlineScript($script);
     }
 
     /**
@@ -171,7 +168,7 @@ class GeneratePageListener
         // 24 = 24 Monate        $script->setAttribute('data-cookie-upgrade-url',
         // htmlspecialchars($cookieUpgradeURL)); @see
         // https://www.etracker.com/tipp-der-woche-do-not-track/
-        if (true === (bool) $rootPage->etrackerDoNotTrack) {
+        if (true === (bool)$rootPage->etrackerDoNotTrack) {
             $script->setAttribute('data-respect-dnt', 'true');
         }
 
@@ -182,9 +179,9 @@ class GeneratePageListener
         // Mozilla Observatory complains protocol-relative URLs, if Subresource Integrity
         // (SRI) is not implemented
         $host = $rootPage->etrackerTrackingDomain ?: 'code.etracker.com';
-        $src = '//'.$host.'/code/e.js';
+        $src = '//' . $host . '/code/e.js';
         if ($rootPage->rootUseSSL && !str_starts_with($src, 'http')) {
-            $src = 'https:'.$src;
+            $src = 'https:' . $src;
         }
 
         $script->setAttribute('src', $src);
@@ -212,7 +209,7 @@ class GeneratePageListener
         }
 
         // Bereiche
-        if ('' !== ((string) $currentPage->etrackerAreas)) {
+        if ('' !== ((string)$currentPage->etrackerAreas)) {
             $objTemplate->areas = $currentPage->etrackerAreas;
         } else {
             $areas = $this->getParentAreas($currentPage);
@@ -223,13 +220,13 @@ class GeneratePageListener
 
         // Debug-Modus
         if ($this->isDebugMode($rootPage)) {
-            $objTemplate->debugmode .= 'var _etr = { debugMode: true };'.PHP_EOL;
+            $objTemplate->debugmode .= 'var _etr = { debugMode: true };' . PHP_EOL;
         }
 
         // Frontend-User-Information für Cross-Device-Tracking übergeben @see
         // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/optionale-parameter/
         if ($user instanceof FrontendUser && '1' === $rootPage->etrackerCDIFEUser) {
-            $objTemplate->cdi .= 'var et_cdi = "'.md5($user->getUserIdentifier()).'";'.PHP_EOL;
+            $objTemplate->cdi .= 'var et_cdi = "' . md5($user->getUserIdentifier()) . '";' . PHP_EOL;
         }
 
         // @see
@@ -262,9 +259,9 @@ class GeneratePageListener
             return false;
         }
 
-        $enabled = (bool) $rootPage->etrackerEnable;
-        $excludeBeUser = (bool) $rootPage->etrackerExcludeBEUser;
-        $excludeFeUser = (bool) $rootPage->etrackerExcludeFEUser;
+        $enabled = (bool)$rootPage->etrackerEnable;
+        $excludeBeUser = (bool)$rootPage->etrackerExcludeBEUser;
+        $excludeFeUser = (bool)$rootPage->etrackerExcludeFEUser;
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
         $user = System::getContainer()->get('security.helper')?->getUser();
@@ -300,10 +297,10 @@ class GeneratePageListener
     public function processEvents($evts, $session): array
     {
         $eventData = [
-            'category' => null,
-            'action' => null,
-            'object' => null,
-            'module' => false,
+            'category'    => null,
+            'action'      => null,
+            'object'      => null,
+            'module'      => false,
             'triggerName' => null,
         ];
 
@@ -312,7 +309,7 @@ class GeneratePageListener
             $eventData['action'] = $evt->action ?: '';
             $eventData['object'] = $evt->object_text;
 
-            $triggerName = $this->getTriggerNameForEvent((int) $evt->event);
+            $triggerName = $this->getTriggerNameForEvent((int)$evt->event);
             if (!$triggerName) {
                 continue;
             }
@@ -385,23 +382,21 @@ class GeneratePageListener
     private function generateEventScript(array $eventData, bool $trackingEnabled, $session): void
     {
         $nonce = self::getNonce();
-        $nonceAttribute = $nonce ? ' nonce="'.htmlspecialchars($nonce).'"' : '';
-        $script = '<script'.$nonceAttribute.'>';
 
         if ($trackingEnabled) {
-            $script .= "document.addEventListener('DOMContentLoaded', () => {
+            $script = "document.addEventListener('DOMContentLoaded', () => {
   _etrackerOnReady.push(function () {
     _etracker.sendEvent(new et_UserDefinedEvent('{$eventData['category']}', '{$eventData['object']}', '{$eventData['action']}'));
-  });
-});";
-        }
+  });";
 
-        if ($this->isDebugMode(self::getRootPage())) {
-            $script .= 'console.log("Event mit Aktion '.$eventData['action'].' ausgelöst");';
-        }
+            if ($this->isDebugMode(self::getRootPage())) {
+                $script .= 'console.log("Event mit Aktion ' . $eventData['action'] . ' ausgelöst");';
+            }
 
-        $script .= '</script>';
-        $GLOBALS['TL_BODY'][] = $script;
+            $script .= '});';
+
+            $GLOBALS['TL_BODY'][] = \Contao\Template::generateInlineScript($script);
+        }
         $session->remove($eventData['triggerName']);
     }
 
@@ -412,7 +407,7 @@ class GeneratePageListener
      */
     private function getPagename(PageModel $page, bool $readHeadBag = true): string
     {
-        $etPagename = trim((string) $page->etrackerPagename);
+        $etPagename = trim((string)$page->etrackerPagename);
         if ('' !== $etPagename) {
             return $etPagename;
         }
@@ -443,11 +438,11 @@ class GeneratePageListener
                 continue;
             }
 
-            if ('root' === $parent->type && '' === (string) $parent->etrackerAreaname) {
+            if ('root' === $parent->type && '' === (string)$parent->etrackerAreaname) {
                 continue;
             }
 
-            $areas[] = trim((string) $parent->etrackerAreaname) ?: $this->getPagename($parent, false);
+            $areas[] = trim((string)$parent->etrackerAreaname) ?: $this->getPagename($parent, false);
         }
 
         return array_reverse($areas);

@@ -28,20 +28,20 @@ class ParseTemplateListener
     {
         if (isset($template->count) && 'mod_search' === $template->getName()) {
             $template->etrackerEnable = GeneratePageListener::isTrackingEnabled();
-            $template->nonce = GeneratePageListener::getNonce();
-
             if ($template->etrackerEnable && $template->etrackerSearchCampaignEnable) {
-                $objTemplate = new FrontendTemplate('etracker_search_code');
-
                 if (0 === $template->count) {
-                    $objTemplate->etrackerSearchCampaign = $template->etrackerSearchCmpOnsiteNoresults;
+                    $campaign = $template->etrackerSearchCmpOnsiteNoresults;
                 } else {
-                    $objTemplate->etrackerSearchCampaign = $template->etrackerSearchCmpOnsiteResults;
+                    $campaign = $template->etrackerSearchCmpOnsiteResults;
                 }
-                $objTemplate->etrackerSearchMedOnsite = $template->etrackerSearchMedOnsite;
-                $objTemplate->keyword = $template->keyword;
 
-                $GLOBALS['TL_BODY'][] = $objTemplate->parse();
+                $script = 'var cc_attributes = new Object();';
+                $script .= 'cc_attributes["etcc_cu"] = "onsite";';
+                $script .= 'cc_attributes["etcc_med_onsite"] = "'.\addslashes($template->etrackerSearchMedOnsite).'";';
+                $script .= 'cc_attributes["etcc_cmp_onsite"] = "'.\addslashes($campaign).'";';
+                $script .= 'cc_attributes["etcc_st_onsite"] = "'.\addslashes($template->keyword).'";';
+
+                $GLOBALS['TL_BODY'][] = \Contao\Template::generateInlineScript($script);
             }
         }
     }
