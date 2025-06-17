@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * etracker integration for Contao CMS
  *
@@ -7,13 +9,11 @@
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
- * @license    LGPL-3.0-or-later
+ * @license    MIT
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
@@ -42,17 +42,17 @@ $GLOBALS['TL_LANG']['tl_etracker_event']['event']['options'] = [
     EtrackerEventsModel::EVT_USER_REGISTRATION => 'Benutzerregistrierung',
     EtrackerEventsModel::EVT_LOGOUT => 'Logout',
 ];
-$GLOBALS['TL_LANG']['tl_etracker_event']['object_text'] = ['Objektbezeichnung','Objekt zur Klassifizierung in etracker (benutzerdefinierter Text)'];
+$GLOBALS['TL_LANG']['tl_etracker_event']['object_text'] = ['Objektbezeichnung', 'Objekt zur Klassifizierung in etracker (benutzerdefinierter Text)'];
 $GLOBALS['TL_LANG']['tl_etracker_event']['object']['options'] = [
-    EtrackerEventsModel::OBJ_MODULE_NAME            => 'Name des Moduls',
-    EtrackerEventsModel::OBJ_CUSTOM_TEXT            => 'benutzerdefinierter Text',
-    EtrackerEventsModel::OBJ_TEXTCONTENT            => 'textContent-Eigenschaft',
-    EtrackerEventsModel::OBJ_INNERTEXT              => 'innerText-Eigenschaft',
-    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK     => 'textContent-Eigenschaft mit href-Fallback',
+    EtrackerEventsModel::OBJ_MODULE_NAME => 'Name des Moduls',
+    EtrackerEventsModel::OBJ_CUSTOM_TEXT => 'benutzerdefinierter Text',
+    EtrackerEventsModel::OBJ_TEXTCONTENT => 'textContent-Eigenschaft',
+    EtrackerEventsModel::OBJ_INNERTEXT => 'innerText-Eigenschaft',
+    EtrackerEventsModel::OBJ_TEXT_HREF_FALLBACK => 'textContent-Eigenschaft mit href-Fallback',
     EtrackerEventsModel::OBJ_TEXT_HREFLANG_FALLBACK => 'textContent-Eigenschaft mit hreflang-Fallback',
-    EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS     => 'textContent-Eigenschaft ohne Child-Nodes',
-    EtrackerEventsModel::OBJ_ALT                    => 'alt-Attribut',
-    EtrackerEventsModel::OBJ_SRC                    => 'src-Attribut',
-    EtrackerEventsModel::OBJ_HREF                   => 'href-Attribut',
-    EtrackerEventsModel::OBJ_TITLE                  => 'title-Attribut',
+    EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS => 'textContent-Eigenschaft ohne Child-Nodes',
+    EtrackerEventsModel::OBJ_ALT => 'alt-Attribut',
+    EtrackerEventsModel::OBJ_SRC => 'src-Attribut',
+    EtrackerEventsModel::OBJ_HREF => 'href-Attribut',
+    EtrackerEventsModel::OBJ_TITLE => 'title-Attribut',
 ];

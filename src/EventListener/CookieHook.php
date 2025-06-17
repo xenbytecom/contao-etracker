@@ -15,14 +15,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Xenbyte\ContaoEtracker;
+namespace Xenbyte\ContaoEtracker\EventListener;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Oveleon\ContaoCookiebar\Cookie;
 
-class ContaoEtrackerBundle extends Bundle
+#[AsHook('addCookieType')]
+class CookieHook
 {
-    public function getPath(): string
+    public function __invoke(string $type, Cookie $cookie): void
     {
-        return $this->path ?? \dirname(__DIR__);
+        //        die("klappt's");        var_dump($another);        $script =
+        // "_etracker.enableCookies('".Environment::get('host')."');";
     }
 }

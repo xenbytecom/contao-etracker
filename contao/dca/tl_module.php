@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * etracker integration for Contao CMS
  *
@@ -7,13 +9,11 @@
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
- * @license    LGPL-3.0-or-later
+ * @license    MIT
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
@@ -70,29 +70,31 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteNoresults'] = 
 ];
 
 // Palette for Login Module
-Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-    ->addLegend('etracker_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_login'], 'etracker_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('login', 'tl_module'); // Nur auf Module vom Typ 'login' anwenden
+PaletteManipulator::create()
+    ->addLegend('etracker_legend', 'expert_legend', PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['etracker_track_login'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('login', 'tl_module') // Nur auf Module vom Typ 'login' anwenden
+;
 
 // Felddefinitionen hinzufügen
 $GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_login'] = [
-    'exclude'   => true,
+    'exclude' => true,
     'inputType' => 'checkbox',
-    'eval'      => ['tl_class' => 'w50 m12'],
-    'sql'       => "char(1) NOT NULL default ''"
+    'eval' => ['tl_class' => 'w50 m12'],
+    'sql' => "char(1) NOT NULL default ''",
 ];
 
 // Palette for Registration Module
-Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-    ->addLegend('etracker_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_registration'], 'etracker_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('registration', 'tl_module'); // Nur auf Module vom Typ 'login' anwenden
+PaletteManipulator::create()
+    ->addLegend('etracker_legend', 'expert_legend', PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['etracker_track_registration'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('registration', 'tl_module') // Nur auf Module vom Typ 'login' anwenden
+;
 
 // Felddefinitionen hinzufügen
 $GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_registration'] = [
-    'exclude'   => true,
+    'exclude' => true,
     'inputType' => 'checkbox',
-    'eval'      => ['tl_class' => 'w50 m12'],
-    'sql'       => "char(1) NOT NULL default ''"
+    'eval' => ['tl_class' => 'w50 m12'],
+    'sql' => "char(1) NOT NULL default ''",
 ];

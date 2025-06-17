@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * etracker integration for Contao CMS
  *
@@ -7,13 +9,11 @@
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
- * @license    LGPL-3.0-or-later
+ * @license    MIT
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 use Contao\DataContainer;
 use Contao\DC_Table;
@@ -133,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'tl_class' => 'w50',
                 'placeholder' => 'z. B. User Login',
             ],
-            'sql' => "varchar(100) NOT NULL default ''"
+            'sql' => "varchar(100) NOT NULL default ''",
         ],
         'category' => [
             'exclude' => true,
@@ -179,14 +179,14 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
         'target_modules' => [
             'exclude' => true,
             'inputType' => 'checkbox',
-            'options_callback' => [EtrackerEventDcaHelper::class, 'getModuleOptions'
+            'options_callback' => [EtrackerEventDcaHelper::class, 'getModuleOptions',
             ],
             'eval' => [
                 'multiple' => true,
                 'mandatory' => false,
                 'tl_class' => 'clr',
             ],
-            'sql' => "blob NULL"
+            'sql' => 'blob NULL',
         ],
     ],
 
@@ -223,8 +223,8 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'icon' => 'edit.svg',
             ],
             'copy' => [
-                'href'  => 'act=copy',
-                'icon'  => 'copy.svg',
+                'href' => 'act=copy',
+                'icon' => 'copy.svg',
             ],
             'delete' => [
                 'href' => 'act=delete',
