@@ -130,7 +130,7 @@ class GeneratePageListener
      */
     public function generateEventTracking(PageModel $rootPage): string
     {
-        $eventIds = unserialize($rootPage->etrackerEvents, [
+        $eventIds = unserialize($rootPage->etrackerEvents ?: [], [
             'allowed_classes' => false,
         ]);
 
