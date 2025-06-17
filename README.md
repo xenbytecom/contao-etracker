@@ -32,8 +32,8 @@ Contao-Forum oder per E-Mail) ist willkommen.
 
 ## Voraussetzzungen
 
-* Contao 4.13 oder neuer (bis einschließlich Contao 5.3)
-* PHP 8.1 oder höher
+* Contao 5.3 oder neuer
+* PHP 8.1 oder neuer
 * [etracker-Konto](https://www.xenbyte.com/go-etracker) (kostenpflichtig)[^1]
 
 ## Installation
