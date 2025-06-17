@@ -350,7 +350,7 @@ class GeneratePageListener
             return;
         }
 
-        $eventIds = unserialize($rootPage->etrackerEvents ?? [], ['allowed_classes' => false]);
+        $eventIds = unserialize($rootPage->etrackerEvents ?? '', ['allowed_classes' => false]);
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
 
         foreach ($evts as $evt) {

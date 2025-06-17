@@ -125,7 +125,7 @@ jobs:
 
             -   name: Install the dependencies
                 run: |
-                    composer require contao/core-bundle "dev-5.x" -W
+                    composer require contao/core-bundle "5.x-dev" -W
                     composer install --no-interaction --no-progress
 
             -   name: Run the unit tests
