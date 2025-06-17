@@ -73,8 +73,11 @@ class GeneratePageListener
                 $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
 
                 // Event-Tracking
-                if (null !== $rootPage->etrackerEvents) {
-                    $GLOBALS['TL_BODY'][] = $this->generateEventTracking($rootPage);
+                if ('' !== ($rootPage->etrackerEvents ?? '')) {
+                    $eventTracking = $this->generateEventTracking($rootPage);
+                    if ('' !== $eventTracking) {
+                        $GLOBALS['TL_BODY'][] = $eventTracking;
+                    }
                 }
             } catch (\DOMException) {
             }
@@ -137,6 +140,10 @@ class GeneratePageListener
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
         $script = '';
         $event = 'click';
+
+        if (null === $evts) {
+            return $script;
+        }
 
         foreach ($evts as $evt) {
             $eventData = $this->getEventVariables($evt);
@@ -352,6 +359,9 @@ class GeneratePageListener
 
         $eventIds = unserialize($rootPage->etrackerEvents ?? '', ['allowed_classes' => false]);
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
+        if (null === $evts) {
+            return;
+        }
 
         foreach ($evts as $evt) {
             /** @var EtrackerEventsModel $evt */
@@ -427,7 +437,10 @@ class GeneratePageListener
     private function getParentAreas(PageModel $page): array
     {
         $areas = [];
-        $parentPages = PageModel::findParentsById($page->id) ?? [];
+        $parentPages = PageModel::findParentsById($page->id);
+        if (null === $parentPages) {
+            return $areas;
+        }
 
         foreach ($parentPages as $parent) {
             if ($parent->id === $page->id) {
