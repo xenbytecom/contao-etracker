@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 - Dropped support for Contao < 5.3
 
 ### Added
-- Support for Contao 5.4 and Contao 5.5
+- Support for Contao 5.5
 - Support for nested fieldsets in form tracking
 - Tracking for logins, failed logins, logouts and registrations
 - additional types of event object types
