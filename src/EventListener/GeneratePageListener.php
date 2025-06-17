@@ -80,8 +80,7 @@ class GeneratePageListener
             }
         }
 
-        // Logik für das Login-Event-Skript integrieren
-        $this->injectDetectedEventsScript($trackingEnabled); // Hinzugefügt
+        $this->injectDetectedEventsScript($trackingEnabled);
     }
 
     /**
@@ -130,7 +129,7 @@ class GeneratePageListener
      */
     public function generateEventTracking(PageModel $rootPage): string
     {
-        $eventIds = unserialize($rootPage->etrackerEvents ?: [], [
+        $eventIds = unserialize($rootPage->etrackerEvents, [
             'allowed_classes' => false,
         ]);
 
@@ -351,7 +350,7 @@ class GeneratePageListener
             return;
         }
 
-        $eventIds = unserialize($rootPage->etrackerEvents, ['allowed_classes' => false]);
+        $eventIds = unserialize($rootPage->etrackerEvents ?? [], ['allowed_classes' => false]);
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
 
         foreach ($evts as $evt) {

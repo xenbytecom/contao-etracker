@@ -101,7 +101,7 @@ class CompileFormFieldsListener
         // TODO: Check, if label is always set. If so, this method is unnecessary.
         return $field->label;
         //
-        //        if ($field->label) {            return $field->label ?: $field->name;
-        //    }         return $field->placeholder ?: $field->name;
+        //        if ($field->label) {            return $field->label ?: $field->name; }
+        //         return $field->placeholder ?: $field->name;
     }
 }
