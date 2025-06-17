@@ -13,6 +13,7 @@ parameters:
 
     universalObjectCratesClasses:
         - Contao\Model
+        - Contao\Module
         - Contao\Template
         - Contao\Form
         - Contao\Widget

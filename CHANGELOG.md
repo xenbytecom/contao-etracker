@@ -11,7 +11,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 - Dropped support for Contao < 5.3
 
 ### Added
-- Support for Contao 5.4
+- Support for Contao 5.4 and Contao 5.5
+- Support for nested fieldsets in form tracking
+- Tracking for logins, failed logins, logouts and registrations
+- additional types of event object types
+- custom text value for event object 
+
+### Changed
+- event object types of event templates can be changed
+- moved javascript content from etracker_search_code and etracker_events templates direct into the listener
+
+### Removed
+- etracker optimiser setting (not used by etracker anymore)
+- disabling of loading etracker integrated jQuery (etracker does not load jQuery anymore)
+
+### Fixed
+- errors due to missing variables in etracker_head_code template
 
 ## [0.5.5]
 

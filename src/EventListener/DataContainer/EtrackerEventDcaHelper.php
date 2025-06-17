@@ -17,7 +17,8 @@ declare(strict_types=1);
 
 namespace Xenbyte\ContaoEtracker\EventListener\DataContainer;
 
-use Contao\DataContainer;
+use Contao\DC_Table;
+use Contao\Model\Collection;
 use Contao\ModuleModel;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
@@ -25,15 +26,22 @@ class EtrackerEventDcaHelper
 {
     /**
      * Get module options based on the selected event type.
+     *
+     * @return array<int, string>
      */
-    public function getModuleOptions(DataContainer $dc): array
+    public function getModuleOptions(DC_Table $table): array
     {
         $options = [];
-        $currentEvent = $dc->activeRecord?->event; // Wert des 'event'-Feldes
+
+        /** @var array<string, mixed>|null $activeRecord */
+        $activeRecord = $table->getActiveRecord();
+        if (null === $activeRecord || !isset($activeRecord['event'])) {
+            return $options;
+        }
 
         $moduleType = null;
 
-        switch ($currentEvent) {
+        switch ($activeRecord['event']) {
             case EtrackerEventsModel::EVT_LOGIN_SUCCESS:
             case EtrackerEventsModel::EVT_LOGIN_FAILURE:
                 $moduleType = 'login';
@@ -44,24 +52,34 @@ class EtrackerEventDcaHelper
         }
 
         if ($moduleType) {
+            /** @var Collection<ModuleModel> $modules */
             $modules = ModuleModel::findBy('type', $moduleType);
-            if (null !== $modules) {
-                while ($modules->next()) {
-                    $options[$modules->id] = $modules->name.' [ID: '.$modules->id.']';
-                }
+
+            while ($modules->next()) {
+                /** @var ModuleModel $modules */
+                $options[$modules->id] = $modules->name.' [ID: '.$modules->id.']';
             }
         }
 
         return $options;
     }
 
-    public function getObjectOptions(DataContainer $dc): array
+    /**
+     * Get object options based on the selected event type.
+     *
+     * @return array<int, int>
+     */
+    public function getObjectOptions(DC_Table $table): array
     {
-        $currentEvent = $dc->activeRecord?->event; // Wert des 'event'-Feldes
-
         $options = [];
 
-        switch ($currentEvent) {
+        /** @var array<string, mixed>|null $activeRecord */
+        $activeRecord = $table->getActiveRecord();
+        if (null === $activeRecord || !isset($activeRecord['event'])) {
+            return $options;
+        }
+
+        switch ($activeRecord['event']) {
             case EtrackerEventsModel::EVT_DOWNLOAD:
             case EtrackerEventsModel::EVT_ACCORDION:
                 $options[] = EtrackerEventsModel::OBJ_TEXT_WIHOUT_CHILDS;
@@ -90,17 +108,5 @@ class EtrackerEventDcaHelper
         $options[] = EtrackerEventsModel::OBJ_CUSTOM_TEXT;
 
         return $options;
-    }
-
-    /**
-     * Generates a more descriptive label for the event in the list view.
-     */
-    public function listEventLabel(array $row, string $label, DataContainer $dc, array $labelsData): string
-    {
-        $eventOptions = $GLOBALS['TL_DCA']['tl_etracker_events']['fields']['event']['options'] ?? [];
-        $eventValue = $row['event'];
-        $eventLabel = $eventOptions[$eventValue] ?? $eventValue; // Fallback auf den Wert, falls Label nicht gefunden
-
-        return $row['title'].' <span style="color:#999;padding-left:3px;">['.$eventLabel.']</span>';
     }
 }

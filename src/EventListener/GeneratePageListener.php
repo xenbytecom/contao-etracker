@@ -37,7 +37,7 @@ use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 #[AsHook('generatePage')]
 class GeneratePageListener
 {
-    private readonly SessionInterface $session;
+    private SessionInterface|null $session = null;
 
     public function __construct(private readonly RequestStack $requestStack)
     {
@@ -142,7 +142,7 @@ class GeneratePageListener
         foreach ($evts as $evt) {
             $eventData = $this->getEventVariables($evt);
 
-            if (null === $eventData['selector']) {
+            if ('' === $eventData['selector']) {
                 continue;
             }
 
@@ -253,7 +253,7 @@ class GeneratePageListener
         // Segmente: Benutzersprache, Seitensprache, Benutzergruppe (geht aber nur eine),
         // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
         // [Dropdown], Segment 2: [Dropdown], ... Form conversion on form-target-page
-        if ($this->session->has('ET_FORM_CONVERSION_'.$currentPage->id)) {
+        if (null !== $this->session && $this->session->has('ET_FORM_CONVERSION_'.$currentPage->id)) {
             // @see
             // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
             $objTemplate->formConversion = $this->session->get('ET_FORM_CONVERSION_'.$currentPage->id);
@@ -321,7 +321,7 @@ class GeneratePageListener
 
     private function isTriggered(EtrackerEventsModel $evt, string $triggerName): bool
     {
-        if (!$this->session->has($triggerName)) {
+        if (null === $this->session || !$this->session->has($triggerName)) {
             return false;
         }
 
@@ -347,7 +347,7 @@ class GeneratePageListener
     private function injectDetectedEventsScript(bool $trackingEnabled): void
     {
         $rootPage = self::getRootPage();
-        if (!$rootPage instanceof PageModel) {
+        if (null === $this->session || !$rootPage instanceof PageModel) {
             return;
         }
 
@@ -374,6 +374,9 @@ class GeneratePageListener
         }
     }
 
+    /**
+     * @param array{category: string, object: string, action: string, triggerName: string} $eventData
+     */
     private function generateEventScript(array $eventData, bool $trackingEnabled): void
     {
         if ($trackingEnabled) {
@@ -390,7 +393,8 @@ class GeneratePageListener
 
             $GLOBALS['TL_BODY'][] = FrontendTemplate::generateInlineScript($script);
         }
-        $this->session->remove($eventData['triggerName']);
+
+        $this->session?->remove($eventData['triggerName']);
     }
 
     /**

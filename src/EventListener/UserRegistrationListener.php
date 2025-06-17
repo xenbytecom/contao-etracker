@@ -32,6 +32,9 @@ class UserRegistrationListener
     {
     }
 
+    /**
+     * @param array<string, mixed> $userData
+     */
     public function __invoke(int $userId, array $userData, Module $module): void
     {
         $request = $this->requestStack->getCurrentRequest();

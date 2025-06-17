@@ -20,13 +20,13 @@ namespace Xenbyte\ContaoEtracker\Model;
 use Contao\Model;
 
 /**
- * @property string $event
+ * @property int    $event
  * @property string $selector
  * @property string $handler
  * @property string $category
  * @property string $action
  * @property string $type
- * @property string $object
+ * @property int    $object
  * @property string $object_text
  * @property string $target_modules
  */

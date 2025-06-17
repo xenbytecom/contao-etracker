@@ -28,13 +28,11 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
 use Xenbyte\ContaoEtracker\EventListener\GeneratePageListener;
-use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
 class GeneratePageListenerTest extends ContaoTestCase
 {
@@ -77,12 +75,6 @@ class GeneratePageListenerTest extends ContaoTestCase
         $listener = new GeneratePageListener($requestStack);
 
         $this->assertInstanceOf(GeneratePageListener::class, $listener);
-    }
-
-    public function testConstructorWithInvalidRequestStack(): void
-    {
-        $this->expectException(\TypeError::class);
-        new GeneratePageListener(null);
     }
 
     public function testDisabledTracking(): void
