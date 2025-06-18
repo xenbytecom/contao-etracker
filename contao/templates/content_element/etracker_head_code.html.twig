@@ -2,7 +2,7 @@
 <!-- Copyright (c) 2000-2025 etracker GmbH. All rights reserved. No reproduction, publication or modification allowed without permission. -->
 <!-- etracker code 6.0 -->
 <script type="text/javascript" {% if nonce is defined and nonce is not null %}nonce="{{ nonce|raw }}"{% endif %}>
-    var _etrackerOnReady = [];
+    var _etrackerOnReady = typeof _etrackerOnReady === 'undefined' ? [] : _etrackerOnReady;
     {% if etrackerTrackingDomain|default('') != '' %}var et_proxy_redirect = "https:\/\/{{ etrackerTrackingDomain }}";{% endif %}
     {% if pagename is not null %}var et_pagename = "{{ pagename }}";{% endif %}
     {% if areas|default(null) is not null %}var et_areas = "{{ areas }}";{% endif %}
