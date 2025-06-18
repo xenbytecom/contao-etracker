@@ -20,7 +20,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Form;
 use Contao\FormFieldModel;
-use Contao\FrontendTemplate;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 #[AsHook('compileFormFields')]
 class CompileFormFieldsListener
