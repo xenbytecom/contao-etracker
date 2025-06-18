@@ -136,7 +136,7 @@ class GeneratePageListener
             'allowed_classes' => false,
         ]);
 
-        /** @var array<EtrackerEventsModel> $evts */
+        /** @var array<EtrackerEventsModel>|null $evts */
         $evts = EtrackerEventsModel::findMultipleByIds($eventIds);
         $script = '';
         $event = 'click';
