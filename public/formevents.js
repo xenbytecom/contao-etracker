@@ -1,11 +1,11 @@
 /* global etForm */
 document.addEventListener('DOMContentLoaded', () => {
   _etrackerOnReady.push(function () {
-    // Copy temporary et_form_name element to form
+    // Copy temporary et_form_name element to form and remove the field
     document.querySelectorAll('input[type="hidden"][name="et_form_name"]').forEach(fname => {
       const form = fname.form;
       form.setAttribute('data-et-form', fname.value);
-
+      fname.remove();
     });
 
     const visibleForms = new Set();

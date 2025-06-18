@@ -25,6 +25,11 @@ use Contao\FrontendTemplate;
 #[AsHook('compileFormFields')]
 class CompileFormFieldsListener
 {
+    public function __construct(#[Autowire('%contao.web_dir%')] private readonly string $projectDir)
+    {
+    }
+
+
     /**
      * @param array<int, FormFieldModel> $fields
      *
@@ -42,11 +47,12 @@ class CompileFormFieldsListener
 
         // nur Script-Block erweitern, wenn Formular-Tracking aktiv ist
         if ($trackingEnabled && $formTracking) {
-            $GLOBALS['TL_BODY'][] = FrontendTemplate::generateScriptTag('bundles/contaoetracker/formevents.js');
+            $jsTimestamp = filemtime($this->projectDir.'/bundles/contaoetracker/formevents.js');
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/contaoetracker/formevents.js|'.$jsTimestamp;
 
             $this->setFieldAttributes($fields);
 
-            // Formular-Name als temporäres Hidden-Feld hinzufügen
+            // Formular-Name als temporäres Hidden-Feld hinzufügen, weil kein data-Attribut hinzugefügt werden kann
             $fname = new FormFieldModel();
             $fname->type = 'hidden';
             $fname->name = 'et_form_name';
