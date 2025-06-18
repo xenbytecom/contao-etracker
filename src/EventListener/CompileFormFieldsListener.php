@@ -29,7 +29,6 @@ class CompileFormFieldsListener
     {
     }
 
-
     /**
      * @param array<int, FormFieldModel> $fields
      *
@@ -52,7 +51,8 @@ class CompileFormFieldsListener
 
             $this->setFieldAttributes($fields);
 
-            // Formular-Name als temporäres Hidden-Feld hinzufügen, weil kein data-Attribut hinzugefügt werden kann
+            // Formular-Name als temporäres Hidden-Feld hinzufügen, weil kein data-Attribut
+            // hinzugefügt werden kann
             $fname = new FormFieldModel();
             $fname->type = 'hidden';
             $fname->name = 'et_form_name';
