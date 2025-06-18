@@ -97,7 +97,7 @@ class GeneratePageListener
         ];
 
         $eventData['selector'] = match ($evt->event) {
-            EtrackerEventsModel::EVT_LOGIN_SUCCESS, EtrackerEventsModel::EVT_LOGIN_FAILURE, EtrackerEventsModel::EVT_LOGOUT, EtrackerEventsModel::EVT_USER_REGISTRATION => null,
+            EtrackerEventsModel::EVT_LOGIN_SUCCESS, EtrackerEventsModel::EVT_LOGIN_FAILURE, EtrackerEventsModel::EVT_LOGOUT, EtrackerEventsModel::EVT_USER_REGISTRATION => '',
             EtrackerEventsModel::EVT_MAIL => 'a[href^="mailto:"]',
             EtrackerEventsModel::EVT_PHONE => 'a[href^="tel:"]',
             EtrackerEventsModel::EVT_GALLERY => 'a[data-lightbox]',
@@ -147,14 +147,13 @@ class GeneratePageListener
 
         foreach ($evts as $evt) {
             $eventData = $this->getEventVariables($evt);
-
             if ('' === $eventData['selector']) {
                 continue;
             }
 
             $debug = '';
             if ($this->isDebugMode($rootPage)) {
-                $debug = 'console.log('.$eventData['object'].');';
+                $debug = 'console.log(\''.$eventData['object'].'\');';
             }
             $script .= <<<JS
                     document.querySelectorAll('{$eventData['selector']}').forEach(item => item.addEventListener("$event", (evt) => {
