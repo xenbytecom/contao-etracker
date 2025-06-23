@@ -178,7 +178,6 @@ class GeneratePageListener
         $document = new \DOMDocument();
         $script = $document->createElement('script');
         $script->setAttribute('type', 'text/javascript');
-        $script->setAttribute('charset', 'UTF-8');
         $script->setAttribute('id', '_etLoader');
 
         // @see
