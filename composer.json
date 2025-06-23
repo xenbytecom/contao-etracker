@@ -60,14 +60,14 @@
     },
     "extra": {
         "bamarni-bin": {
-            "bin-links": false,
-            "target-directory": "tools"
+            "bin-links": false
         },
         "contao-manager-plugin": "Xenbyte\\ContaoEtracker\\ContaoManager\\Plugin"
     },
     "scripts": {
-        "ecs": "@php tools/ecs/vendor/bin/ecs check --config ecs.php --fix --ansi",
-        "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze --ansi --no-progress",
+        "ecs": "@php vendor-bin/ecs/vendor/bin/ecs check --config ecs.php --fix --ansi",
+        "phpstan": "@php vendor-bin/phpstan/vendor/bin/phpstan analyze --ansi --no-progress",
+        "rector": "@php vendor-bin/rector/vendor/bin/rector src",
         "unit-tests": "@php vendor/bin/phpunit --colors=always"
     }
 }
