@@ -6,7 +6,7 @@ services:
 
     Xenbyte\ContaoEtracker\:
         resource: ../src/
-        exclude: ../src/{ContaoManager,DependencyInjection}
+        exclude: ../src/{ContaoManager}
 
     Xenbyte\ContaoEtracker\EventListener\DataContainer\EtrackerEventDcaHelper:
         public: true
