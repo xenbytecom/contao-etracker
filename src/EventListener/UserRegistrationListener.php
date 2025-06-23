@@ -19,6 +19,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Module;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -39,7 +40,7 @@ class UserRegistrationListener
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null === $request || false === ((bool) $module->etracker_track_registration)) {
+        if (!$request instanceof Request || false === ((bool) $module->etracker_track_registration)) {
             return;
         }
 

@@ -29,7 +29,7 @@ class PageFieldsOnloadCallback
 {
     public function __invoke(DataContainer|null $dc = null): void
     {
-        if (null !== $dc) {
+        if ($dc instanceof DataContainer) {
             $page = PageModel::findById($dc->id);
             $rootPage = $this->getRootPage((int) $dc->id);
             $enabled = false;

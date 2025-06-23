@@ -19,6 +19,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\FrontendTemplate;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 #[AsHook('parseFrontendTemplate')]
@@ -33,7 +34,7 @@ class ParseLoginTemplateListener
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null !== $request && 'mod_login' === $templateName && true === ((bool) $template->etracker_track_login) && GeneratePageListener::isTrackingEnabled()) {
+        if ($request instanceof Request && 'mod_login' === $templateName && (bool) $template->etracker_track_login && GeneratePageListener::isTrackingEnabled()) {
             $session = $request->getSession();
             $session->set('etracker_login_module', $template->id);
         }

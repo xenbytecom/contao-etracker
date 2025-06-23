@@ -37,11 +37,7 @@ class Version100 extends AbstractMigration
         $schemaManager = $this->connection->createSchemaManager();
 
         // If the database table itself does not exist we should do nothing
-        if (!$schemaManager->tablesExist(['tl_etracker_events'])) {
-            return false;
-        }
-
-        return true;
+        return $schemaManager->tablesExist(['tl_etracker_events']);
     }
 
     public function run(): MigrationResult

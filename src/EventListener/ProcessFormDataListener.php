@@ -20,6 +20,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\File;
 use Contao\Form;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -31,7 +32,7 @@ class ProcessFormDataListener
     public function __construct(private readonly RequestStack $requestStack)
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request) {
+        if (!$request instanceof Request) {
             return;
         }
 
@@ -46,11 +47,7 @@ class ProcessFormDataListener
      */
     public function __invoke(array $submittedData, array $formData, array|null $files, array $labels, Form $form): void
     {
-        if (($form->etrackerFormName ?? '') !== '') {
-            $formName = $form->etrackerFormName;
-        } else {
-            $formName = $form->title;
-        }
+        $formName = ($form->etrackerFormName ?? '') !== '' ? $form->etrackerFormName : $form->title;
 
         // Stores form name for conversion after redirect
         if (0 === $form->jumpTo) {

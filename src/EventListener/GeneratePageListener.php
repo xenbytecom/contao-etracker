@@ -30,6 +30,7 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
@@ -42,7 +43,7 @@ class GeneratePageListener
     public function __construct(private readonly RequestStack $requestStack)
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (null === $request) {
+        if (!$request instanceof Request) {
             return;
         }
 
@@ -115,6 +116,7 @@ class GeneratePageListener
                 } else {
                     $eventData['object'] = 'Unknown Module #'.$moduleId;
                 }
+
                 break;
             case EtrackerEventsModel::OBJ_CUSTOM_TEXT:
                 $eventData['object'] = addslashes($evt->object_text);
@@ -153,10 +155,11 @@ class GeneratePageListener
 
             $debug = '';
             if ($this->isDebugMode($rootPage)) {
-                $debug = 'console.log(\''.$eventData['object'].'\');';
+                $debug = "console.log('".$eventData['object']."');";
             }
+
             $script .= <<<JS
-                    document.querySelectorAll('{$eventData['selector']}').forEach(item => item.addEventListener("$event", (evt) => {
+                    document.querySelectorAll('{$eventData['selector']}').forEach(item => item.addEventListener("{$event}", (evt) => {
                         {$debug}
                         if (_etracker !== undefined){
                             _etracker.sendEvent(new et_UserDefinedEvent('{$eventData['object']}', '$evt->category', '$evt->action', '$evt->type'));
@@ -190,7 +193,7 @@ class GeneratePageListener
         // 24 = 24 Monate        $script->setAttribute('data-cookie-upgrade-url',
         // htmlspecialchars($cookieUpgradeURL)); @see
         // https://www.etracker.com/tipp-der-woche-do-not-track/
-        if (true === (bool) $rootPage->etrackerDoNotTrack) {
+        if ((bool) $rootPage->etrackerDoNotTrack) {
             $script->setAttribute('data-respect-dnt', 'true');
         }
 
@@ -208,10 +211,12 @@ class GeneratePageListener
 
         $script->setAttribute('src', $src);
         $script->setAttribute('async', '');
+
         $nonce = self::getNonce();
         if (null !== $nonce) {
             $script->setAttribute('nonce', $nonce);
         }
+
         $document->append($script);
         $document->normalize();
 
@@ -235,7 +240,7 @@ class GeneratePageListener
             $objTemplate->areas = $currentPage->etrackerAreas;
         } else {
             $areas = $this->getParentAreas($currentPage);
-            if (\count($areas) > 0) {
+            if ([] !== $areas) {
                 $objTemplate->areas .= implode('/', $areas);
             }
         }
@@ -257,7 +262,7 @@ class GeneratePageListener
         // Segmente: Benutzersprache, Seitensprache, Benutzergruppe (geht aber nur eine),
         // city, state, country, Login-Status konfigurationsmöglichkeit: Segment 1:
         // [Dropdown], Segment 2: [Dropdown], ... Form conversion on form-target-page
-        if (null !== $this->session && $this->session->has('ET_FORM_CONVERSION_'.$currentPage->id)) {
+        if ($this->session instanceof SessionInterface && $this->session->has('ET_FORM_CONVERSION_'.$currentPage->id)) {
             // @see
             // https://www.etracker.com/en/docs/integration-setup-2/tracking-code-sdks/tracking-code-integration/event-tracker/#measure-form-interactions
             $objTemplate->formConversion = $this->session->get('ET_FORM_CONVERSION_'.$currentPage->id);
@@ -272,7 +277,7 @@ class GeneratePageListener
      */
     public static function isTrackingEnabled(PageModel|null $rootPage = null): bool
     {
-        if (null === $rootPage) {
+        if (!$rootPage instanceof PageModel) {
             $rootPage = self::getRootPage();
         }
 
@@ -325,7 +330,7 @@ class GeneratePageListener
 
     private function isTriggered(EtrackerEventsModel $evt, string $triggerName): bool
     {
-        if (null === $this->session || !$this->session->has($triggerName)) {
+        if (!$this->session instanceof SessionInterface || !$this->session->has($triggerName)) {
             return false;
         }
 
@@ -341,17 +346,14 @@ class GeneratePageListener
 
         // Check if the event is triggered for a module which is set as target for this event
         $targetModules = StringUtil::deserialize($evt->target_modules, true);
-        if (!\in_array($moduleId, $targetModules, true)) {
-            return false;
-        }
 
-        return true;
+        return \in_array($moduleId, $targetModules, true);
     }
 
     private function injectDetectedEventsScript(bool $trackingEnabled): void
     {
         $rootPage = self::getRootPage();
-        if (null === $this->session || !$rootPage instanceof PageModel) {
+        if (!$this->session instanceof SessionInterface || !$rootPage instanceof PageModel) {
             return;
         }
 

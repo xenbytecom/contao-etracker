@@ -56,11 +56,8 @@ class CompileFormFieldsListener
             $fname = new FormFieldModel();
             $fname->type = 'hidden';
             $fname->name = 'et_form_name';
-            if (($form->etrackerFormName ?? '') !== '') {
-                $fname->value = $form->etrackerFormName;
-            } else {
-                $fname->value = $form->title;
-            }
+            $fname->value = ($form->etrackerFormName ?? '') !== '' ? $form->etrackerFormName : $form->title;
+
             $fields[] = $fname;
         }
 
@@ -76,7 +73,15 @@ class CompileFormFieldsListener
         $previousSection = [];
 
         foreach ($fields as $field) {
-            if (1 === (int) $field->etrackerIgnoreField || true === $field->invisible || 'hidden' === $field->type) {
+            if (1 === (int) $field->etrackerIgnoreField) {
+                continue;
+            }
+
+            if (true === $field->invisible) {
+                continue;
+            }
+
+            if ('hidden' === $field->type) {
                 continue;
             }
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Rector\Set\ValueObject\LevelSetList;
-use Rector\Config\RectorConfig;
 use Contao\Rector\Set\ContaoSetList;
+use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/src',
+        __DIR__.'/src',
     ])
     // uncomment to reach your current PHP version
     ->withPhpSets()
@@ -27,5 +27,6 @@ return RectorConfig::configure()
 
         ContaoSetList::CONTAO_50,
         ContaoSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        ContaoSetList::FQCN
-    ]);
+        ContaoSetList::FQCN,
+    ])
+;
