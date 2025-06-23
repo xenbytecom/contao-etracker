@@ -29,6 +29,8 @@ Contao-Forum oder per E-Mail) ist willkommen.
 * deaktivierung Cookie-less tracking
 * eigene Dimensionen: https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/eigene-segmente/
 * evtl. Anbindung and Cookiebar
+* Registrierungsformular für Formular-Tracking berücksichtigen
+* Einstellung, ob der intersection observer für die Feld-Sichtbarkeit verwendet werden soll
 
 ## Voraussetzzungen
 
@@ -100,6 +102,9 @@ erforderlich. Für diese lässt sich bei jedem Formularfeld eine "Sektion" festl
 verwendet. Dies ist beispielsweise bei Formularen mit mehreren Bereichen möglich - eine automatische Erkennung über die 
 Fieldsets ist (zumindest derzeit) nicht möglich. Für jedes Feld lässt sich auch eine für etracker abweichende Bezeichnung 
 nutzen bzw. ein kompletter Ausschluss des Feldes festlegen.
+
+*Hinweis:* Für eine möglichst genaue Messung der Formular-Felder wird für jedes Feld ein Event ausgelöst, sobald
+es sichtbar wird. Bei Formularen mit vielen Feldern kann dies u. U. zu einer hohen Anzahl an "Hits" führen.
 
 ### Ereignis-Tracking
 
