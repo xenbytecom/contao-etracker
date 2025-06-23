@@ -1,6 +1,5 @@
 /* global etForm */
 document.addEventListener('DOMContentLoaded', () => {
-  var _etrackerOnReady = typeof _etrackerOnReady === 'undefined' ? [] : _etrackerOnReady;
   _etrackerOnReady.push(function () {
     // Copy temporary et_form_name element to form and remove the field
     document.querySelectorAll('input[type="hidden"][name="et_form_name"]').forEach(fname => {
@@ -99,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Wähle alle Felder aus, die ein data-name Attribut haben und beobachte sie
     const formFields = document.querySelectorAll('[data-et-name]');
     formFields.forEach(field => fieldObserver.observe(field));
 
