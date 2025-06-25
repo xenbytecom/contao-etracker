@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ### Changed
 - event object types of event templates can be changed
 - moved javascript content from etracker_search_code and etracker_events templates direct into the listener
+- bundles form events for visible fields to reduce the number of hits
 
 ### Removed
 - etracker optimiser setting (not used by etracker anymore)

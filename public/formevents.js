@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const changedFields = new Set();
     const errorFields = new Set();
 
+    let pendingVisibleFields = {};
+    let debounceTimer;
+    const DEBOUNCE_DELAY = 150; // ms
+
     // Form visible
     function handleFormVisibilityChange(entries, observer) {
       entries.forEach(entry => {
@@ -27,25 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Form field visible
     function handleFieldVisibilityChange(entries, observer) {
+      let newFieldsFound = false;
       entries.forEach(entry => {
         const field = entry.target;
         const fieldId = field.getAttribute('id');
 
         if (entry.intersectionRatio === 1 && !visibleFields.has(fieldId)) {
+          newFieldsFound = true;
           const formName = field.form.getAttribute('data-et-form');
           const formSection = field.getAttribute('data-et-section');
           const fieldName = field.getAttribute('data-et-name');
           visibleFields.add(fieldId);
 
-          etForm.sendEvent('formFieldsView', formName,
-            {
-              'sectionName': formSection,
-              'sectionFields':
-                [
-                  {'name': fieldName, 'type': field.type}
-                ]
-            }
-          );
+          // --- Optimierung: Feld zur Bündelung hinzufügen statt sofort zu senden ---
+          if (!pendingVisibleFields[formName]) {
+            pendingVisibleFields[formName] = {};
+          }
+          if (!pendingVisibleFields[formName][formSection]) {
+            pendingVisibleFields[formName][formSection] = [];
+          }
+          pendingVisibleFields[formName][formSection].push({'name': fieldName, 'type': field.type});
 
           field.addEventListener('change', (evt) => {
             if (!changedFields.has(fieldId)) {
@@ -70,6 +75,26 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
       });
+
+      if (newFieldsFound) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          // Iteriere durch die gesammelten Felder und sende sie gebündelt
+          for (const formName in pendingVisibleFields) {
+            for (const sectionName in pendingVisibleFields[formName]) {
+              const sectionFields = pendingVisibleFields[formName][sectionName];
+              if (sectionFields.length > 0) {
+                etForm.sendEvent('formFieldsView', formName, {
+                  'sectionName': sectionName,
+                  'sectionFields': sectionFields,
+                });
+              }
+            }
+          }
+          // Setze das Sammelobjekt für den nächsten Stapel zurück
+          pendingVisibleFields = {};
+        }, DEBOUNCE_DELAY);
+      }
     }
 
     // Erstelle einen IntersectionObserver
