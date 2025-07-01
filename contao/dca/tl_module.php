@@ -17,17 +17,6 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
-// Palettes for Search Module
-$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'etrackerSearchCampaignEnable';
-$GLOBALS['TL_DCA']['tl_module']['subpalettes']['etrackerSearchCampaignEnable'] = 'etrackerSearchMedOnsite,etrackerSearchCmpOnsiteResults,etrackerSearchCmpOnsiteNoresults';
-
-PaletteManipulator::create()
-    ->addLegend('etracker_legend', 'config_legend')
-    ->addField(['etrackerSearchCampaignEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('search', 'tl_module')
-;
-
-// Fields for Search Module
 $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCampaignEnable'] = [
     'inputType' => 'checkbox',
     'eval' => [
@@ -69,32 +58,40 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['etrackerSearchCmpOnsiteNoresults'] = 
     'sql' => 'varchar(50) NULL',
 ];
 
-// Palette for Login Module
-PaletteManipulator::create()
-    ->addLegend('etracker_legend', 'expert_legend', PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_login'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
-    ->applyToPalette('login', 'tl_module') // Nur auf Module vom Typ 'login' anwenden
-;
-
-// Felddefinitionen hinzufügen
-$GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_login'] = [
+$GLOBALS['TL_DCA']['tl_module']['fields']['etrackerTrackRegistration'] = [
     'exclude' => true,
     'inputType' => 'checkbox',
     'eval' => ['tl_class' => 'w50 m12'],
     'sql' => "char(1) NOT NULL default ''",
 ];
+
+$GLOBALS['TL_DCA']['tl_module']['fields']['etrackerTrackLogin'] = [
+    'exclude' => true,
+    'inputType' => 'checkbox',
+    'eval' => ['tl_class' => 'w50 m12'],
+    'sql' => "char(1) NOT NULL default ''",
+];
+
+// Palette for Login Module
+PaletteManipulator::create()
+    ->addLegend('etracker_legend', 'expert_legend', PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['etrackerTrackLogin'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('login', 'tl_module') // Nur auf Module vom Typ 'login' anwenden
+;
 
 // Palette for Registration Module
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'expert_legend', PaletteManipulator::POSITION_BEFORE, true)
-    ->addField(['etracker_track_registration'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->addField(['etrackerTrackRegistration'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('registration', 'tl_module') // Nur auf Module vom Typ 'login' anwenden
 ;
 
-// Felddefinitionen hinzufügen
-$GLOBALS['TL_DCA']['tl_module']['fields']['etracker_track_registration'] = [
-    'exclude' => true,
-    'inputType' => 'checkbox',
-    'eval' => ['tl_class' => 'w50 m12'],
-    'sql' => "char(1) NOT NULL default ''",
-];
+// Palettes for Search Module
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'etrackerSearchCampaignEnable';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['etrackerSearchCampaignEnable'] = 'etrackerSearchMedOnsite,etrackerSearchCmpOnsiteResults,etrackerSearchCmpOnsiteNoresults';
+
+PaletteManipulator::create()
+    ->addLegend('etracker_legend', 'config_legend')
+    ->addField(['etrackerSearchCampaignEnable'], 'etracker_legend', PaletteManipulator::POSITION_APPEND)
+    ->applyToPalette('search', 'tl_module')
+;

@@ -34,7 +34,7 @@ class ParseLoginTemplateListener
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if ($request instanceof Request && 'mod_login' === $templateName && (bool) $template->etracker_track_login && GeneratePageListener::isTrackingEnabled()) {
+        if ($request instanceof Request && 'mod_login' === $templateName && (bool) $template->etrackerTrackLogin && GeneratePageListener::isTrackingEnabled()) {
             $session = $request->getSession();
             $session->set('etracker_login_module', $template->id);
         }

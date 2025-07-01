@@ -187,6 +187,7 @@ class GeneratePageListener
         // https://www.etracker.com/docs/faq/eu-dsgvo/cookie-less-cookies/wie-setze-ich-etracker-ohne-cookies-ein/
         // @see
         // https://www.etracker.com/docs/faq/eu-dsgvo/cookie-less-cookies/wie-aktiviere-ich-cookies/
+        // todo Prüfen, ob Contao Cookiebar genutz wird und der etracker-Cookie erlaubt ist
         $script->setAttribute('data-block-cookies', 'true');
 
         //        $script->setAttribute('data-cookie-lifetime', '24'); // standard:

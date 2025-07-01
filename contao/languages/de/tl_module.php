@@ -22,5 +22,5 @@ $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCampaignEnable'] = ['etracker ak
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchMedOnsite'] = ['Onsite-Medium', 'Bezeichnung für Onsite Medium wie in etracker konfiguriert'];
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCmpOnsiteResults'] = ['Onsite-Kampagne (mit Ergebnis)', 'Kampagnenname für Suche mit Ergebnis'];
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCmpOnsiteNoresults'] = ['Onsite-Kampagne (ohne Ergebnis)', 'Kampagnename für Suche ohne Ergebnis'];
-$GLOBALS['TL_LANG']['tl_module']['etracker_track_login'] = ['Logins tracken', 'wenn aktiviert, werden erfolgreiche und fehlerhafte Login-Ereignisse an etracker gesendet.'];
-$GLOBALS['TL_LANG']['tl_module']['etracker_track_registration'] = ['Registrierungen tracken', 'wenn aktiviert, werden Benutzer-Registrierungen an etracker gesendet.'];
+$GLOBALS['TL_LANG']['tl_module']['etrackerTrackLogin'] = ['Logins tracken', 'wenn aktiviert, werden erfolgreiche und fehlerhafte Login-Ereignisse getrackt'];
+$GLOBALS['TL_LANG']['tl_module']['etrackerTrackRegistration'] = ['Registrierungen tracken', 'wenn aktiviert, werden Events von Benutzer-Registrierungen getrackt'];

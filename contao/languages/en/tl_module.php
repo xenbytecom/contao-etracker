@@ -22,3 +22,5 @@ $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCampaignEnable'] = ['enable etra
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchMedOnsite'] = ['Onsite medium', 'Description for Onsite Medium as configured in etracker'];
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCmpOnsiteResults'] = ['Onsite campaign (with result)', 'Campaign name for search with result'];
 $GLOBALS['TL_LANG']['tl_module']['etrackerSearchCmpOnsiteNoresults'] = ['Onsite campaign (without result)', 'Campaign name for search without result'];
+$GLOBALS['TL_LANG']['tl_module']['etrackerTrackLogin'] = ['Track logins', 'if enabled, successful and failed login events are tracked'];
+$GLOBALS['TL_LANG']['tl_module']['etrackerTrackRegistration'] = ['Track registrations', 'if enabled, user registrations events are tracked'];

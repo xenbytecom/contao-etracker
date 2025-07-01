@@ -40,7 +40,7 @@ class UserRegistrationListener
     {
         $request = $this->requestStack->getCurrentRequest();
 
-        if (!$request instanceof Request || false === ((bool) $module->etracker_track_registration)) {
+        if (!$request instanceof Request || false === ((bool) $module->etrackerTrackRegistration)) {
             return;
         }
 
