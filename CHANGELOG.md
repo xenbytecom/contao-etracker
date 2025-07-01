@@ -8,14 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ## [1.0.0]
 
 ### Breaking Changes
-- Dropped support for Contao < 5.3
+- dropped support for Contao < 5.3
 
 ### Added
-- Support for Contao 5.5
-- Support for nested fieldsets in form tracking
+- support for Contao 5.5
+- support for nested fieldsets for section name in form tracking
 - Tracking for logins, failed logins, logouts and registrations
 - additional types of event object types
 - custom text value for event object 
+- disable etracker for unpublished pages by default (can be changed in root page settings)
 
 ### Changed
 - event object types of event templates can be changed

@@ -179,6 +179,17 @@ $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerCDIFEUser'] = [
         'default' => false,
     ],
 ];
+$GLOBALS['TL_DCA']['tl_page']['fields']['etrackerOnlyPublished'] = [
+    'exclude' => true,
+    'inputType' => 'checkbox',
+    'eval' => [
+        'tl_class' => 'w50 cbx',
+    ],
+    'sql' => [
+        'type' => 'boolean',
+        'default' => true,
+    ],
+];
 $GLOBALS['TL_DCA']['tl_page']['fields']['etrackerEvents'] = [
     'exclude' => true,
     'inputType' => 'checkbox',

@@ -32,6 +32,7 @@ $GLOBALS['TL_LANG']['tl_page']['etrackerDoNotTrack'] = ['Do Not Track (DNT) ber�
 $GLOBALS['TL_LANG']['tl_page']['etrackerExcludeFEUser'] = ['Frontend-Benutzer ausschließen', 'bei Aktivierung wird etracker nicht bei eingeloggten Mitgliedern im Frontend verwendet (auch kein debug mode)'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerExcludeBEUser'] = ['Backend-Benutzer ausschließen', 'bei Aktivierung wird etracker nicht bei eingeloggten Benutzern im Backend verwendet (auch kein debug mode)'];
 $GLOBALS['TL_LANG']['tl_page']['etrackerEvents'] = ['etracker Event-Tracking', 'Auswahl, welche angelegten Ereignisse getrackt werden sollen'];
+$GLOBALS['TL_LANG']['tl_page']['etrackerOnlyPublished'] = ['Nur veröffentlichte Seiten', 'nur veröffentlichte Seiten werden getrackt'];
 
 // options
 $GLOBALS['TL_LANG']['tl_page']['etrackerDebug']['options']['enabled'] = 'aktiviert';

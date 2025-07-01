@@ -56,7 +56,7 @@ class GeneratePageListener
         $rootPage = PageModel::findById($pageModel->rootId);
         $trackingEnabled = self::isTrackingEnabled($rootPage);
 
-        if ($trackingEnabled) {
+        if ($trackingEnabled && ($pageModel->published || !$rootPage->etrackerOnlyPublished)) {
             $objTemplate = new FrontendTemplate('etracker_head_code');
 
             // Seitenname @see
