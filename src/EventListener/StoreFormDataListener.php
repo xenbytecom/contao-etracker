@@ -23,6 +23,11 @@ use Contao\Form;
 #[AsHook('storeFormData')]
 class StoreFormDataListener
 {
+    /**
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
     public function __invoke(array $data, Form $form): array
     {
         // et_form_name als hidden Feld wieder entfernen
