@@ -3,7 +3,7 @@
 /*
  * etracker integration for Contao CMS
  *
- * Copyright (c) 2025 Xenbyte, Stefan Brauner
+ * Copyright (c) 2026 Xenbyte, Stefan Brauner
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker

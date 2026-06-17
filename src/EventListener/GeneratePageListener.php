@@ -3,7 +3,7 @@
 /*
  * etracker integration for Contao CMS
  *
- * Copyright (c) 2025 Xenbyte, Stefan Brauner
+ * Copyright (c) 2026 Xenbyte, Stefan Brauner
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
@@ -231,7 +231,7 @@ class GeneratePageListener
      */
     public function getParameters(FrontendTemplate $objTemplate, PageModel $rootPage, PageModel $currentPage): void
     {
-        $user = System::getContainer()->get('security.helper')?->getUser();
+        $user = System::getContainer()->get('security.helper')->getUser();
 
         $nonce = self::getNonce();
         if (null !== $nonce) {
@@ -293,7 +293,7 @@ class GeneratePageListener
         $excludeFeUser = (bool) $rootPage->etrackerExcludeFEUser;
 
         // Ausgabe nur, wenn aktiv und für den Nutzer zugelassen ist
-        $user = System::getContainer()->get('security.helper')?->getUser();
+        $user = System::getContainer()->get('security.helper')->getUser();
         $beHide = $excludeBeUser && null !== BackendUser::getInstance()->id;
         $feHide = $excludeFeUser && $user instanceof FrontendUser;
 
@@ -309,7 +309,7 @@ class GeneratePageListener
             return null;
         }
 
-        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
         if ($responseContext instanceof ResponseContext && $responseContext->has(CspHandler::class)) {
             /** @var CspHandler $cspHandler */
             $cspHandler = $responseContext->get(CspHandler::class);
@@ -421,7 +421,7 @@ class GeneratePageListener
             return $etPagename;
         }
 
-        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')?->getResponseContext();
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
         if ($readHeadBag && null !== $responseContext && $responseContext?->has(HtmlHeadBag::class)) {
             /** @var HtmlHeadBag $htmlHeadBag */
             $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);

@@ -22,7 +22,6 @@ use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\Frontend;
-use Contao\PageModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,15 +37,13 @@ class EtrackerOptoutController extends AbstractContentElementController
         }
 
         $rootPage = Frontend::getRootPageFromUrl(); // @ TODO testen
-        if ($rootPage instanceof PageModel) {
-            $tld = (string) $rootPage->etrackerDomain;
-            if ('' === $tld) {
-                $tld = $request->getHost();
-            }
-
-            $template->etracker_tld = $tld;
-            $template->etrackerOptOutType = $model->etrackerOptOutType;
+        $tld = (string) $rootPage->etrackerDomain;
+        if ('' === $tld) {
+            $tld = $request->getHost();
         }
+
+        $template->etracker_tld = $tld;
+        $template->etrackerOptOutType = $model->etrackerOptOutType;
 
         return $template->getResponse();
     }

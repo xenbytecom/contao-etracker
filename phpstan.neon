@@ -7,6 +7,11 @@ includes:
 parameters:
     level: 6
 
+    # Contao-Magic-Properties (z. B. $user->id) sind im PHPDoc als non-nullable
+    # typisiert, koennen zur Laufzeit aber null sein. Daher PHPDoc-Typen nicht als
+    # gesichert behandeln, damit legitime Null-Checks nicht als "always true" gelten.
+    treatPhpDocTypesAsCertain: false
+
     paths:
         - %currentWorkingDirectory%/src
         - %currentWorkingDirectory%/tests

@@ -71,10 +71,10 @@ class GeneratePageListenerTest extends ContaoTestCase
 
     public function testConstructorWithValidRequestStack(): void
     {
-        $requestStack = $this->createMock(RequestStack::class);
-        $listener = new GeneratePageListener($requestStack);
+        $this->expectNotToPerformAssertions();
 
-        $this->assertInstanceOf(GeneratePageListener::class, $listener);
+        $requestStack = $this->createMock(RequestStack::class);
+        new GeneratePageListener($requestStack);
     }
 
     public function testDisabledTracking(): void

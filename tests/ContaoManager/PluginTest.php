@@ -33,7 +33,6 @@ class PluginTest extends TestCase
         /** @var BundleConfig $config */
         $config = (new Plugin())->getBundles($parser)[0];
 
-        $this->assertInstanceOf(BundleConfig::class, $config);
         $this->assertSame(ContaoEtrackerBundle::class, $config->getName());
         $this->assertSame([ContaoCoreBundle::class], $config->getLoadAfter());
     }
