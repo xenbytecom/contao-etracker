@@ -12,7 +12,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1 # Run with the lowest supported to avoid incompatible fixes
+                    php-version: 8.2 # Run with the lowest supported to avoid incompatible fixes
                     extensions: dom
                     coverage: none
                 env:
@@ -36,7 +36,7 @@ jobs:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: 8.1
+                    php-version: 8.2
                     extensions: dom
                     coverage: none
 
@@ -81,7 +81,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ 8.1, 8.2, 8.3, 8.4 ]
+                php: [ 8.2, 8.3, 8.4 ]
         steps:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -103,13 +103,13 @@ jobs:
             -   name: Run the unit tests
                 run: vendor/bin/phpunit --colors=always
 
-    phpunit_c56:
-        name: PHP ${{ matrix.php }} Contao 5.6
+    phpunit_c57:
+        name: PHP ${{ matrix.php }} Contao 5.7
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                php: [ 8.2, 8.3, 8.4 ]
+                php: [ 8.3, 8.4 ]
         steps:
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -125,35 +125,7 @@ jobs:
 
             -   name: Install the dependencies
                 run: |
-                    composer require contao/core-bundle "5.x-dev" -W
-                    composer install --no-interaction --no-progress
-
-            -   name: Run the unit tests
-                run: vendor/bin/phpunit --colors=always
-
-    phpunit_c55:
-        name: PHP ${{ matrix.php }} Contao 5.5
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                php: [ 8.2, 8.3, 8.4 ]
-        steps:
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
-                with:
-                    php-version: ${{ matrix.php }}
-                    extensions: dom, fileinfo, filter, gd, hash, intl, json, mbstring, mysqli, pcre, pdo_mysql, zlib
-                    coverage: xdebug
-                env:
-                    COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-            -   name: Checkout
-                uses: actions/checkout@v4
-
-            -   name: Install the dependencies
-                run: |
-                    composer require contao/core-bundle "5.4.*"
+                    composer require contao/core-bundle "5.7.*"
                     composer install --no-interaction --no-progress
 
             -   name: Run the unit tests
