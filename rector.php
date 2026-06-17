@@ -14,7 +14,7 @@ return RectorConfig::configure()
     // uncomment to reach your current PHP version
     ->withPhpSets()
     ->withSets([
-        LevelSetList::UP_TO_PHP_81,
+        LevelSetList::UP_TO_PHP_82,
 
         // https://getrector.com/blog/5-common-mistakes-in-rector-config-and-how-to-avoid-them
         SetList::DEAD_CODE,
@@ -25,7 +25,7 @@ return RectorConfig::configure()
         SetList::EARLY_RETURN,
         SetList::INSTANCEOF,
 
-        ContaoSetList::CONTAO_50,
+        ContaoSetList::CONTAO_53,
         ContaoSetList::ANNOTATIONS_TO_ATTRIBUTES,
         ContaoSetList::FQCN,
     ])
