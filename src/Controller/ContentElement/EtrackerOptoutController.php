@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * etracker integration for Contao CMS
  *
- * Copyright (c) 2025 Xenbyte, Stefan Brauner
+ * Copyright (c) 2026 Xenbyte, Stefan Brauner
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
@@ -21,6 +21,7 @@ use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Twig\FragmentTemplate;
+use Contao\Frontend;
 use Contao\PageModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +37,9 @@ class EtrackerOptoutController extends AbstractContentElementController
             $GLOBALS['TL_BODY'][] = '<script src="bundles/contaoetracker/optout.js"></script>';
         }
 
-        $rootpage = PageModel::findById($GLOBALS['objPage']->rootId);
-        if ($rootpage instanceof PageModel) {
-            $tld = (string) $rootpage->etrackerDomain;
+        $rootPage = Frontend::getRootPageFromUrl(); // @ TODO testen
+        if ($rootPage instanceof PageModel) {
+            $tld = (string) $rootPage->etrackerDomain;
             if ('' === $tld) {
                 $tld = $request->getHost();
             }

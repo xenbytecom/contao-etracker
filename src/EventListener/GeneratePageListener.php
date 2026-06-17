@@ -19,9 +19,11 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Exception\NoRootPageFoundException;
 use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\CoreBundle\Routing\ResponseContext\ResponseContext;
+use Contao\Frontend;
 use Contao\FrontendTemplate;
 use Contao\FrontendUser;
 use Contao\LayoutModel;
@@ -460,7 +462,13 @@ class GeneratePageListener
 
     private static function getRootPage(): PageModel|null
     {
-        return PageModel::findById($GLOBALS['objPage']->rootId);
+        try {
+            $page = Frontend::getRootPageFromUrl();
+        } catch (NoRootPageFoundException) {
+            $page = null;
+        }
+
+        return $page;
     }
 
     private function isDebugMode(PageModel $rootPage): bool

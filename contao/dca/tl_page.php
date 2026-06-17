@@ -5,7 +5,7 @@ declare(strict_types=1);
 /*
  * etracker integration for Contao CMS
  *
- * Copyright (c) 2025 Xenbyte, Stefan Brauner
+ * Copyright (c) 2026 Xenbyte, Stefan Brauner
  *
  * @author     Stefan Brauner <https://www.xenbyte.com>
  * @link       https://github.com/xenbytecom/contao-etracker
@@ -19,7 +19,7 @@ use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 // Palettes
 $GLOBALS['TL_DCA']['tl_page']['palettes']['__selector__'][] = 'etrackerEnable';
-$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerAreaname,etrackerDoNotTrack,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser,etrackerEvents';
+$GLOBALS['TL_DCA']['tl_page']['subpalettes']['etrackerEnable'] = 'etrackerAccountKey,etrackerDomain,etrackerTrackingDomain,etrackerDebug,etrackerAreaname,etrackerDoNotTrack,etrackerExcludeFEUser,etrackerExcludeBEUser,etrackerCDIFEUser,etrackerOnlyPublished,etrackerEvents';
 
 PaletteManipulator::create()
     ->addLegend('etracker_legend', 'meta_legend')

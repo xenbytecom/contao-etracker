@@ -20,6 +20,8 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\File;
 use Contao\Form;
+use Contao\PageModel;
+use Contao\System;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -49,11 +51,18 @@ class ProcessFormDataListener
     {
         $formName = ($form->etrackerFormName ?? '') !== '' ? $form->etrackerFormName : $form->title;
 
-        // Stores form name for conversion after redirect
-        if (0 === $form->jumpTo) {
-            $this->session->set('ET_FORM_CONVERSION'.$GLOBALS['objPage']->id, $formName);
-        } else {
-            $this->session->set('ET_FORM_CONVERSION'.$form->jumpTo, $formName);
+        if ($objRequest = System::getContainer()->get('request_stack')->getCurrentRequest()) {
+            $objPage = $objRequest->attributes->get('pageModel');
+
+            if ($objPage instanceof PageModel) {
+                $objPage->loadDetails();
+                // Stores form name for conversion after redirect
+                if (0 === $form->jumpTo) {
+                    $this->session->set('ET_FORM_CONVERSION'.$objPage->id, $formName);
+                } else {
+                    $this->session->set('ET_FORM_CONVERSION'.$form->jumpTo, $formName);
+                }
+            }
         }
     }
 }
