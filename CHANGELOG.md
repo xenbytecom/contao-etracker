@@ -9,9 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 
 ### Breaking Changes
 - dropped support for Contao < 5.3
+- dropped support for PHP < 8.2
 
 ### Added
-- support for Contao 5.5
+- official for Contao 5.5 and newer
 - support for nested fieldsets for section name in form tracking
 - Tracking for logins, failed logins, logouts and registrations
 - additional types of event object types
