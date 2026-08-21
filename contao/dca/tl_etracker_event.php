@@ -60,7 +60,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'tl_class' => 'w50',
             ],
             'sql' => [
-                'type' => 'text',
+                'type' => 'string',
                 'length' => 255,
                 'default' => '',
             ],
@@ -102,7 +102,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'maxlength' => 255,
             ],
             'sql' => [
-                'type' => 'text',
+                'type' => 'string',
                 'length' => 255,
                 'notnull' => false,
             ],
@@ -144,7 +144,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'maxlength' => 100,
             ],
             'sql' => [
-                'type' => 'text',
+                'type' => 'string',
                 'length' => 100,
                 'notnull' => true,
                 'default' => '',
@@ -158,7 +158,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'maxlength' => 100,
             ],
             'sql' => [
-                'type' => 'text',
+                'type' => 'string',
                 'length' => 100,
                 'notnull' => false,
             ],
@@ -171,7 +171,7 @@ $GLOBALS['TL_DCA']['tl_etracker_event'] = [
                 'maxlength' => 100,
             ],
             'sql' => [
-                'type' => 'text',
+                'type' => 'string',
                 'length' => 100,
                 'notnull' => false,
             ],
