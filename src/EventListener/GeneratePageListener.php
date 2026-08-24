@@ -435,7 +435,7 @@ class GeneratePageListener
         }
 
         $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
-        if ($readHeadBag && null !== $responseContext && $responseContext?->has(HtmlHeadBag::class)) {
+        if ($readHeadBag && null !== $responseContext && $responseContext->has(HtmlHeadBag::class)) {
             /** @var HtmlHeadBag $htmlHeadBag */
             $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
 
