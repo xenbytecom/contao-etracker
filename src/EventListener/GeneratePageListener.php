@@ -65,43 +65,6 @@ class GeneratePageListener
         $this->addTracking($event->getPage());
     }
 
-    private function addTracking(PageModel $pageModel): void
-    {
-        /** @var PageModel $rootPage */
-        $rootPage = PageModel::findById($pageModel->rootId);
-        $trackingEnabled = self::isTrackingEnabled($rootPage);
-
-        if ($trackingEnabled && ($pageModel->published || !$rootPage->etrackerOnlyPublished)) {
-            $objTemplate = new FrontendTemplate('etracker_head_code');
-
-            // Seitenname @see
-            // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
-            $pagename = $this->getPagename($pageModel);
-            if ('' !== $pagename) {
-                $objTemplate->pagename = trim($pagename);
-            }
-
-            $objTemplate->etrackerTrackingDomain = $rootPage->etrackerTrackingDomain;
-
-            try {
-                $objTemplate->et_script = $this->getScriptCode($rootPage);
-                $this->getParameters($objTemplate, $rootPage, $pageModel);
-                $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
-
-                // Event-Tracking
-                if ('' !== ($rootPage->etrackerEvents ?? '')) {
-                    $eventTracking = $this->generateEventTracking($rootPage);
-                    if ('' !== $eventTracking) {
-                        $GLOBALS['TL_BODY'][] = $eventTracking;
-                    }
-                }
-            } catch (\DOMException) {
-            }
-        }
-
-        $this->injectDetectedEventsScript($trackingEnabled);
-    }
-
     /**
      * @return array{category: string, action: string, object: string, selector: string}
      */
@@ -342,6 +305,43 @@ class GeneratePageListener
             EtrackerEventsModel::EVT_USER_REGISTRATION => 'etracker_event_registration',
             default => null,
         };
+    }
+
+    private function addTracking(PageModel $pageModel): void
+    {
+        /** @var PageModel $rootPage */
+        $rootPage = PageModel::findById($pageModel->rootId);
+        $trackingEnabled = self::isTrackingEnabled($rootPage);
+
+        if ($trackingEnabled && ($pageModel->published || !$rootPage->etrackerOnlyPublished)) {
+            $objTemplate = new FrontendTemplate('etracker_head_code');
+
+            // Seitenname @see
+            // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
+            $pagename = $this->getPagename($pageModel);
+            if ('' !== $pagename) {
+                $objTemplate->pagename = trim($pagename);
+            }
+
+            $objTemplate->etrackerTrackingDomain = $rootPage->etrackerTrackingDomain;
+
+            try {
+                $objTemplate->et_script = $this->getScriptCode($rootPage);
+                $this->getParameters($objTemplate, $rootPage, $pageModel);
+                $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+
+                // Event-Tracking
+                if ('' !== ($rootPage->etrackerEvents ?? '')) {
+                    $eventTracking = $this->generateEventTracking($rootPage);
+                    if ('' !== $eventTracking) {
+                        $GLOBALS['TL_BODY'][] = $eventTracking;
+                    }
+                }
+            } catch (\DOMException) {
+            }
+        }
+
+        $this->injectDetectedEventsScript($trackingEnabled);
     }
 
     private function isTriggered(EtrackerEventsModel $evt, string $triggerName): bool
