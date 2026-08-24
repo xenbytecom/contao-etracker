@@ -25,3 +25,9 @@ parameters:
 
     excludePaths:
         - %currentWorkingDirectory%/src/Resources/*
+
+    ignoreErrors:
+        # Skip the class not found error for tests run against Contao 5.3
+        - identifier: class.notFound
+          message: '#Contao\\CoreBundle\\Event\\LayoutEvent#'
+          reportUnmatched: false

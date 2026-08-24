@@ -19,6 +19,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Event\LayoutEvent;
 use Contao\CoreBundle\Exception\NoRootPageFoundException;
 use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
@@ -32,12 +33,12 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
-#[AsHook('generatePage')]
 class GeneratePageListener
 {
     private SessionInterface|null $session = null;
@@ -52,41 +53,16 @@ class GeneratePageListener
         $this->session = $request->getSession();
     }
 
+    #[AsHook('generatePage')]
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        /** @var PageModel $rootPage */
-        $rootPage = PageModel::findById($pageModel->rootId);
-        $trackingEnabled = self::isTrackingEnabled($rootPage);
+        $this->addTracking($pageModel);
+    }
 
-        if ($trackingEnabled && ($pageModel->published || !$rootPage->etrackerOnlyPublished)) {
-            $objTemplate = new FrontendTemplate('etracker_head_code');
-
-            // Seitenname @see
-            // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
-            $pagename = $this->getPagename($pageModel);
-            if ('' !== $pagename) {
-                $objTemplate->pagename = trim($pagename);
-            }
-
-            $objTemplate->etrackerTrackingDomain = $rootPage->etrackerTrackingDomain;
-
-            try {
-                $objTemplate->et_script = $this->getScriptCode($rootPage);
-                $this->getParameters($objTemplate, $rootPage, $pageModel);
-                $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
-
-                // Event-Tracking
-                if ('' !== ($rootPage->etrackerEvents ?? '')) {
-                    $eventTracking = $this->generateEventTracking($rootPage);
-                    if ('' !== $eventTracking) {
-                        $GLOBALS['TL_BODY'][] = $eventTracking;
-                    }
-                }
-            } catch (\DOMException) {
-            }
-        }
-
-        $this->injectDetectedEventsScript($trackingEnabled);
+    #[AsEventListener]
+    public function onLayoutEvent(LayoutEvent $event): void
+    {
+        $this->addTracking($event->getPage());
     }
 
     /**
@@ -331,6 +307,43 @@ class GeneratePageListener
         };
     }
 
+    private function addTracking(PageModel $pageModel): void
+    {
+        /** @var PageModel $rootPage */
+        $rootPage = PageModel::findById($pageModel->rootId);
+        $trackingEnabled = self::isTrackingEnabled($rootPage);
+
+        if ($trackingEnabled && ($pageModel->published || !$rootPage->etrackerOnlyPublished)) {
+            $objTemplate = new FrontendTemplate('etracker_head_code');
+
+            // Seitenname @see
+            // https://www.etracker.com/docs/integration-setup/tracking-code-sdks/tracking-code-integration/parameter-setzen/
+            $pagename = $this->getPagename($pageModel);
+            if ('' !== $pagename) {
+                $objTemplate->pagename = trim($pagename);
+            }
+
+            $objTemplate->etrackerTrackingDomain = $rootPage->etrackerTrackingDomain;
+
+            try {
+                $objTemplate->et_script = $this->getScriptCode($rootPage);
+                $this->getParameters($objTemplate, $rootPage, $pageModel);
+                $GLOBALS['TL_HEAD'][] = $objTemplate->parse();
+
+                // Event-Tracking
+                if ('' !== ($rootPage->etrackerEvents ?? '')) {
+                    $eventTracking = $this->generateEventTracking($rootPage);
+                    if ('' !== $eventTracking) {
+                        $GLOBALS['TL_BODY'][] = $eventTracking;
+                    }
+                }
+            } catch (\DOMException) {
+            }
+        }
+
+        $this->injectDetectedEventsScript($trackingEnabled);
+    }
+
     private function isTriggered(EtrackerEventsModel $evt, string $triggerName): bool
     {
         if (!$this->session instanceof SessionInterface || !$this->session->has($triggerName)) {
@@ -422,7 +435,7 @@ class GeneratePageListener
         }
 
         $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
-        if ($readHeadBag && null !== $responseContext && $responseContext?->has(HtmlHeadBag::class)) {
+        if ($readHeadBag && null !== $responseContext && $responseContext->has(HtmlHeadBag::class)) {
             /** @var HtmlHeadBag $htmlHeadBag */
             $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
 
