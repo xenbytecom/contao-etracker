@@ -304,7 +304,7 @@ class GeneratePageListener
     {
         // Only generate nonce if CSP is enabled via settings
         /** @var bool|null $cspEnabled */
-        $cspEnabled = self::getRootPage()->enableCsp;
+        $cspEnabled = self::getRootPage()?->enableCsp;
         if (false === $cspEnabled) {
             return null;
         }
