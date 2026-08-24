@@ -19,6 +19,7 @@ namespace Xenbyte\ContaoEtracker\EventListener;
 
 use Contao\BackendUser;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\CoreBundle\Event\LayoutEvent;
 use Contao\CoreBundle\Exception\NoRootPageFoundException;
 use Contao\CoreBundle\Routing\ResponseContext\Csp\CspHandler;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
@@ -32,12 +33,12 @@ use Contao\PageModel;
 use Contao\PageRegular;
 use Contao\StringUtil;
 use Contao\System;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Xenbyte\ContaoEtracker\Model\EtrackerEventsModel;
 
-#[AsHook('generatePage')]
 class GeneratePageListener
 {
     private SessionInterface|null $session = null;
@@ -52,7 +53,19 @@ class GeneratePageListener
         $this->session = $request->getSession();
     }
 
+    #[AsHook('generatePage')]
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
+    {
+        $this->addTracking($pageModel);
+    }
+
+    #[AsEventListener]
+    public function onLayoutEvent(LayoutEvent $event): void
+    {
+        $this->addTracking($event->getPage());
+    }
+
+    private function addTracking(PageModel $pageModel): void
     {
         /** @var PageModel $rootPage */
         $rootPage = PageModel::findById($pageModel->rootId);
