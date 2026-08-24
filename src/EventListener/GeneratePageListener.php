@@ -54,6 +54,17 @@ class GeneratePageListener
 
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
+        $this->injectInto($pageModel);
+    }
+
+    /**
+     * Schreibt den Tracking-Code nach TL_HEAD bzw. TL_BODY.
+     *
+     * Aufgerufen aus dem generatePage-Hook (default-Layouts) und aus dem
+     * LayoutListener (moderne Layouts).
+     */
+    public function injectInto(PageModel $pageModel): void
+    {
         /** @var PageModel $rootPage */
         $rootPage = PageModel::findById($pageModel->rootId);
         $trackingEnabled = self::isTrackingEnabled($rootPage);

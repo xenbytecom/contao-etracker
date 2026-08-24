@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
+## [1.0.1]
+
+### Changed
+- moved the tracking code output from the generatePage hook into the public method GeneratePageListener::injectInto()
+
+### Fixed
+- missing tracking code in modern Twig layouts
+- error in getNonce() when the root page could not be determined from the URL
+
 ## [1.0.0]
 
 ### Breaking Changes
