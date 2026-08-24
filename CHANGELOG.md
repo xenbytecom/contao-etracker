@@ -5,15 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spec/v2.0.0.html).
 
-## [1.0.1]
-
-### Changed
-- moved the tracking code output from the generatePage hook into the public method GeneratePageListener::injectInto()
+## [1.1.0]
 
 ### Fixed
-- missing tracking code in modern Twig layouts
+- missing tracking code in modern Twig layouts (thanks to @zoglo)
 - error in getNonce() when the root page could not be determined from the URL
 - MySQL compatibility: changed field type from text to varchar, as TEXT columns cannot have DEFAULT values (thanks to @zoglo)
+
+### Breaking Changes
+- dropped support for Contao 5.4, 5.5 and 5.6
 
 ## [1.0.0]
 
