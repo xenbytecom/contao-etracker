@@ -280,7 +280,7 @@ class GeneratePageListener
     {
         // Only generate nonce if CSP is enabled via settings
         /** @var bool|null $cspEnabled */
-        $cspEnabled = self::getRootPage()->enableCsp;
+        $cspEnabled = self::getRootPage()?->enableCsp;
         if (false === $cspEnabled) {
             return null;
         }
@@ -435,7 +435,7 @@ class GeneratePageListener
         }
 
         $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
-        if ($readHeadBag && null !== $responseContext && $responseContext->has(HtmlHeadBag::class)) {
+        if ($readHeadBag && $responseContext instanceof ResponseContext && $responseContext->has(HtmlHeadBag::class)) {
             /** @var HtmlHeadBag $htmlHeadBag */
             $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
 
