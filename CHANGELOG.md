@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/lang/de/spe
 ### Fixed
 - missing tracking code in modern Twig layouts
 - error in getNonce() when the root page could not be determined from the URL
+- MySQL compatibility: changed field type from text to varchar, as TEXT columns cannot have DEFAULT values (thanks to @zoglo)
 
 ## [1.0.0]
 
