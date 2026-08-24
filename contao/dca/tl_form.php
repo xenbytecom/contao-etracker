@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_form']['fields']['etrackerFormName'] = [
     'inputType' => 'text',
     'eval' => ['tl_class' => 'w50', 'maxlength' => 50],
     'sql' => [
-        'type' => 'text',
+        'type' => 'string',
         'length' => 50,
         'default' => '',
     ],
